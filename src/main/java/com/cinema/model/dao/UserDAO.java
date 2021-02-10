@@ -1,9 +1,9 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.IncorrectRoleException;
-import com.cinema.model.entity.Role;
-import com.cinema.model.entity.User;
-import com.cinema.model.entity.UserNotFoundException;
+import com.cinema.model.entity.user.IncorrectRoleException;
+import com.cinema.model.entity.user.Role;
+import com.cinema.model.entity.user.User;
+import com.cinema.model.entity.user.UserNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
