@@ -1,9 +1,6 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.user.IncorrectRoleException;
-import com.cinema.model.entity.user.Role;
-import com.cinema.model.entity.user.User;
-import com.cinema.model.entity.user.UserNotFoundException;
+import com.cinema.model.entity.user.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +31,7 @@ public class UserDAO {
                 throw new IncorrectRoleException();
             }
             pStatement.setInt(3, roleId);
-            pStatement.setString(4, user.getEmail());
+            pStatement.setString(4, user.getDetails().getEmail());
             pStatement.executeUpdate();
             connection.commit();
         } catch (SQLException | IncorrectRoleException e) {
@@ -44,7 +41,7 @@ public class UserDAO {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                deleteUserDetails(user.getPhone());
+                deleteUserDetails(user.getDetails().getPhone());
             }
             e.printStackTrace();
         } finally {
@@ -60,12 +57,13 @@ public class UserDAO {
             connection = getInstance().getConnection();
             connection.setAutoCommit(false);
             pStatement = connection.prepareStatement(INSERT_USER_DETAILS);
-            pStatement.setString(1, user.getFirstNameEN());
-            pStatement.setString(2, user.getFirstNameUA());
-            pStatement.setString(3, user.getLastNameEN());
-            pStatement.setString(4, user.getLastNameUA());
-            pStatement.setString(5, user.getEmail());
-            pStatement.setString(6, user.getPhone());
+            UserDetails details = user.getDetails();
+            pStatement.setString(1, details.getFirstNameEN());
+            pStatement.setString(2, details.getFirstNameUA());
+            pStatement.setString(3, details.getLastNameEN());
+            pStatement.setString(4, details.getLastNameUA());
+            pStatement.setString(5, details.getEmail());
+            pStatement.setString(6, details.getPhone());
             pStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -151,12 +149,13 @@ public class UserDAO {
             pStatement.setInt(1, detailsId);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                user.setFirstNameEN(resultSet.getString("first_name_en"));
-                user.setFirstNameUA(resultSet.getString("first_name_ua"));
-                user.setLastNameEN(resultSet.getString("last_name_en"));
-                user.setLastNameUA(resultSet.getString("last_name_ua"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPhone(resultSet.getString("phone"));
+                UserDetails details = user.getDetails();
+                details.setFirstNameEN(resultSet.getString("first_name_en"));
+                details.setFirstNameUA(resultSet.getString("first_name_ua"));
+                details.setLastNameEN(resultSet.getString("last_name_en"));
+                details.setLastNameUA(resultSet.getString("last_name_ua"));
+                details.setEmail(resultSet.getString("email"));
+                details.setPhone(resultSet.getString("phone"));
             } else {
                 throw new UserNotFoundException();
             }
