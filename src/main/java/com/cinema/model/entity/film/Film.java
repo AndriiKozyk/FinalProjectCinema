@@ -2,6 +2,7 @@ package com.cinema.model.entity.film;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.Blob;
 
 public class Film {
 
@@ -10,8 +11,7 @@ public class Film {
     private String nameUA;
     private int duration;
     private BigDecimal price;
-    private String genreEN;
-    private String genreUA;
+    private Genre genre;
     private File poster;
 
     public int getId() {
@@ -54,20 +54,12 @@ public class Film {
         this.price = price;
     }
 
-    public String getGenreEN() {
-        return genreEN;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setGenreEN(String genreEN) {
-        this.genreEN = genreEN;
-    }
-
-    public String getGenreUA() {
-        return genreUA;
-    }
-
-    public void setGenreUA(String genreUA) {
-        this.genreUA = genreUA;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public File getPoster() {
@@ -78,4 +70,16 @@ public class Film {
         this.poster = poster;
     }
 
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", nameEN='" + nameEN + '\'' +
+                ", nameUA='" + nameUA + '\'' +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", genre=" + genre +
+                ", poster=" + poster +
+                '}';
+    }
 }

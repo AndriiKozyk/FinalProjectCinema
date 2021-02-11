@@ -20,4 +20,16 @@ public final class SQL {
 
     public static final String SELECT_USER_DETAILS = "select * from account_details where id = ?;";
 
+    public static final String INSERT_FILM = "insert into " +
+            "film (name_en, name_ua, duration, price, genre_id, poster) " +
+            "values (?, ?, ?, ?, ?, ?)";
+
+    public static final String SELECT_FILM_BY_ID = "select * from film where id = ?;";
+
+    public static final String SELECT_GENRE = "select * from genre where id = ?;";
+
+    public static final String SELECT_FILMS = "select * from film order by ? limit ?, ?;";
+
+    public static final String SELECT_FILMS_BY_GENRE = "select * from film where genre_id = ? order by ? limit ?, ?;";
+
 }
