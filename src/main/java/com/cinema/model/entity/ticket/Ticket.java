@@ -7,6 +7,5 @@ import com.cinema.model.entity.user.User;
 public class Ticket {
 
     private User user;
-    private SessionHasPlace hasPlace;
 
 }

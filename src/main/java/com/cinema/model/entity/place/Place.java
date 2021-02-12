@@ -7,6 +7,8 @@ public class Place {
     private int row;
     private Type type;
 
+    private boolean available;
+
     public int getId() {
         return id;
     }
@@ -37,5 +39,13 @@ public class Place {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

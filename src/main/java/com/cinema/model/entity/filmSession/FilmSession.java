@@ -1,9 +1,11 @@
 package com.cinema.model.entity.filmSession;
 
 import com.cinema.model.entity.film.Film;
+import com.cinema.model.entity.place.Place;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
+
 
 public class FilmSession {
 
@@ -13,6 +15,8 @@ public class FilmSession {
     private BigDecimal maxPrice;
     private Film film;
     private Status status;
+
+    private List<Place> placeList;
 
     public int getId() {
         return id;
@@ -62,4 +66,11 @@ public class FilmSession {
         this.status = status;
     }
 
+    public List<Place> getPlaceList() {
+        return placeList;
+    }
+
+    public void setPlaceList(List<Place> placeList) {
+        this.placeList = placeList;
+    }
 }

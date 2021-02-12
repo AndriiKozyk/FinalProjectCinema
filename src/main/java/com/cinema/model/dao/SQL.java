@@ -35,4 +35,11 @@ public final class SQL {
     public static final String INSERT_SESSION = "insert into session (date, time, min_price, max_price, film_id, status_id) " +
             "values (?, ?, ?, ?, ?, ?);";
 
+    public static final String INSERT_SESSION_HAS_PLACE = "insert into session_has_place (session_id, place_id) " +
+            "values (?, ?);";
+
+    public static final String SET_PLACE_UNAVAILABLE = "update session_has_place set available = 0 where id = ?;";
+
+    public static final String SELECT_SESSION_HAS_PLACE = "select * from session_has_place where id = ?;";
+
 }
