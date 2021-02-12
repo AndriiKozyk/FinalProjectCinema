@@ -29,4 +29,8 @@ public final class SQL {
     public static final String INSERT_SESSION = "insert into session (date, time, min_price, max_price, film_id, status_id) " +
             "values (?, ?, ?, ?, ?, ?);";
 
+    public static final String SELECT_FILM_SESSION_BY_ID = "select * from session where id = ?;";
+
+    public static final String SELECT_STATUS_BY_ID = "select * from status where id = ?;";
+
 }

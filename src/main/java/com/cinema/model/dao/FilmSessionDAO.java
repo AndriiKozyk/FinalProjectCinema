@@ -3,6 +3,7 @@ package com.cinema.model.dao;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
 import com.cinema.model.entity.filmSession.FilmSession;
+import com.cinema.model.entity.filmSession.SessionNotFoundException;
 import com.cinema.model.entity.filmSession.Status;
 
 import java.io.File;
@@ -23,15 +24,8 @@ public class FilmSessionDAO {
         try {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(INSERT_SESSION);
-            java.util.Date dateTime = filmSession.getDate();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                dateTime = dateFormat.parse("2021-02-15 04:00:00");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            pStatement.setDate(1, new Date(dateTime.getTime()));
-            pStatement.setTime(2, new Time(dateTime.getTime()));
+            pStatement.setDate(1, new Date(filmSession.getDate().getTime()));
+            pStatement.setTime(2, new Time(filmSession.getTime().getTime()));
             pStatement.setBigDecimal(3, filmSession.getMinPrice());
             pStatement.setBigDecimal(4, filmSession.getMaxPrice());
             pStatement.setInt(5, filmSession.getFilm().getId());
@@ -45,6 +39,40 @@ public class FilmSessionDAO {
         }
     }
 
+    public FilmSession getFilmSession(int id) {
+        FilmSession filmSession = new FilmSession();
+
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_FILM_SESSION_BY_ID);
+            pStatement.setInt(1, id);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                filmSession.setDate(resultSet.getDate("date"));
+                filmSession.setTime(resultSet.getTime("time"));
+                filmSession.setMaxPrice(resultSet.getBigDecimal("min_price"));
+                filmSession.setMinPrice(resultSet.getBigDecimal("max_price"));
+                Film film = new FilmDAO().selectFilm(resultSet.getInt("film_id"));
+                filmSession.setFilm(film);
+                Status status = new StatusDAO().getStatus(resultSet.getInt("status_id"));
+                filmSession.setStatus(status);
+            } else {
+                throw new SessionNotFoundException();
+            }
+        } catch (SQLException | SessionNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+
+        return filmSession;
+    }
+
     private void close(AutoCloseable closeable) {
         if (closeable != null) {
             try {
@@ -55,7 +83,7 @@ public class FilmSessionDAO {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         FilmSession session = new FilmSession();
 
         java.util.Date dateTime = new java.util.Date();
@@ -85,6 +113,11 @@ public class FilmSessionDAO {
         status.setId(1);
         session.setStatus(status);
         new FilmSessionDAO().insertFilmSession(session);
+    }
+
+    public static void main(String[] args) {
+        FilmSession filmSession = new FilmSessionDAO().getFilmSession(1);
+        System.out.println(filmSession);
     }
 
 }

@@ -11,6 +11,7 @@ public class FilmSession {
 
     private int id;
     private Date date;
+    private Date time;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
     private Film film;
@@ -32,6 +33,14 @@ public class FilmSession {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public BigDecimal getMinPrice() {
@@ -72,5 +81,19 @@ public class FilmSession {
 
     public void setPlaceList(List<Place> placeList) {
         this.placeList = placeList;
+    }
+
+    @Override
+    public String toString() {
+        return "FilmSession{" +
+                "id=" + id +
+                ", date=" + date +
+                ", time=" + time +
+                ", minPrice=" + minPrice +
+                ", maxPrice=" + maxPrice +
+                ", film=" + film +
+                ", status=" + status +
+                ", placeList=" + placeList +
+                '}';
     }
 }

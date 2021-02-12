@@ -70,15 +70,15 @@ public class FilmDAO {
                 genre.setId(resultSet.getInt("genre_id"));
                 updateGenre(genre);
                 film.setGenre(genre);
-                Blob blob = resultSet.getBlob("poster");
-                BufferedImage img = ImageIO.read(blob.getBinaryStream());
-                File file = new File("poster.jpg");
-                ImageIO.write(img, "jpg", file);
-                film.setPoster(file);
+//                Blob blob = resultSet.getBlob("poster");
+//                BufferedImage img = ImageIO.read(blob.getBinaryStream());
+//                File file = new File("poster.jpg");
+//                ImageIO.write(img, "jpg", file);
+//                film.setPoster(file);
             } else {
                 throw new FilmNotFoundException();
             }
-        } catch (SQLException | FilmNotFoundException | IOException e) {
+        } catch (SQLException | FilmNotFoundException /*| IOException*/ e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
