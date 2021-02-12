@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.cinema.model.DBManager.*;
+import static com.cinema.model.Database.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class UserDAO {

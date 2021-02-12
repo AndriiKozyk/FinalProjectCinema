@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.sql.*;
 import java.util.*;
 
-import static com.cinema.model.DBManager.*;
+import static com.cinema.model.Database.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class FilmDAO {

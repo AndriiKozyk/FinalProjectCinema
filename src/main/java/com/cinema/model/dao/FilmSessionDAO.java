@@ -11,9 +11,8 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 
-import static com.cinema.model.DBManager.*;
+import static com.cinema.model.Database.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class FilmSessionDAO {
@@ -59,10 +58,7 @@ public class FilmSessionDAO {
     public static void main(String[] args) {
         FilmSession session = new FilmSession();
 
-
-
         java.util.Date dateTime = new java.util.Date();
-        Date date = new Date(dateTime.getTime());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             dateTime = dateFormat.parse("2021-02-15 04:00:00");
