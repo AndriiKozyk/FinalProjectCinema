@@ -3,7 +3,7 @@ package com.cinema.model.entity.filmSession;
 import com.cinema.model.entity.film.Film;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class FilmSession {
 

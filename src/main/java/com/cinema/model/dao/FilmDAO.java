@@ -72,7 +72,7 @@ public class FilmDAO {
                 film.setGenre(genre);
                 Blob blob = resultSet.getBlob("poster");
                 BufferedImage img = ImageIO.read(blob.getBinaryStream());
-                File file = new File("poster.img");
+                File file = new File("poster.jpg");
                 ImageIO.write(img, "jpg", file);
                 film.setPoster(file);
             } else {

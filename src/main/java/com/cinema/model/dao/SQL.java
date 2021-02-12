@@ -32,4 +32,7 @@ public final class SQL {
 
     public static final String SELECT_FILMS_BY_GENRE = "select * from film where genre_id = ? order by ? limit ?, ?;";
 
+    public static final String INSERT_SESSION = "insert into session (date, time, min_price, max_price, film_id, status_id) " +
+            "values (?, ?, ?, ?, ?, ?);";
+
 }
