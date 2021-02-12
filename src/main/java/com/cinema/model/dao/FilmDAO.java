@@ -61,24 +61,11 @@ public class FilmDAO {
             pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                film.setId(resultSet.getInt("id"));
-                film.setNameEN(resultSet.getString("name_en"));
-                film.setNameUA(resultSet.getString("name_ua"));
-                film.setDuration(resultSet.getInt("duration"));
-                film.setPrice(resultSet.getBigDecimal("price"));
-                Genre genre = new Genre();
-                genre.setId(resultSet.getInt("genre_id"));
-                updateGenre(genre);
-                film.setGenre(genre);
-//                Blob blob = resultSet.getBlob("poster");
-//                BufferedImage img = ImageIO.read(blob.getBinaryStream());
-//                File file = new File("poster.jpg");
-//                ImageIO.write(img, "jpg", file);
-//                film.setPoster(file);
+                mapFilm(film, resultSet);
             } else {
                 throw new FilmNotFoundException();
             }
-        } catch (SQLException | FilmNotFoundException /*| IOException*/ e) {
+        } catch (SQLException | FilmNotFoundException | IOException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
@@ -87,6 +74,23 @@ public class FilmDAO {
         }
 
         return film;
+    }
+
+    private void mapFilm(Film film, ResultSet resultSet) throws SQLException, IOException {
+        film.setId(resultSet.getInt("id"));
+        film.setNameEN(resultSet.getString("name_en"));
+        film.setNameUA(resultSet.getString("name_ua"));
+        film.setDuration(resultSet.getInt("duration"));
+        film.setPrice(resultSet.getBigDecimal("price"));
+        Genre genre = new Genre();
+        genre.setId(resultSet.getInt("genre_id"));
+        updateGenre(genre);
+        film.setGenre(genre);
+        Blob blob = resultSet.getBlob("poster");
+        BufferedImage img = ImageIO.read(blob.getBinaryStream());
+        File file = new File("poster" + film.getId() + ".jpg");
+        ImageIO.write(img, "jpg", file);
+        film.setPoster(file);
     }
 
     private void updateGenre(Genre genre) {
@@ -125,20 +129,7 @@ public class FilmDAO {
             resultSet = pStatement.executeQuery();
             while (resultSet.next()) {
                 Film film = new Film();
-                film.setId(resultSet.getInt("id"));
-                film.setNameEN(resultSet.getString("name_en"));
-                film.setNameUA(resultSet.getString("name_ua"));
-                film.setDuration(resultSet.getInt("duration"));
-                film.setPrice(resultSet.getBigDecimal("price"));
-                Genre genre = new Genre();
-                genre.setId(resultSet.getInt("genre_id"));
-                updateGenre(genre);
-                film.setGenre(genre);
-                Blob blob = resultSet.getBlob("poster");
-                BufferedImage img = ImageIO.read(blob.getBinaryStream());
-                File file = new File("poster.img");
-                ImageIO.write(img, "jpg", file);
-                film.setPoster(file);
+                mapFilm(film, resultSet);
                 filmList.add(film);
             }
         } catch (SQLException e) {

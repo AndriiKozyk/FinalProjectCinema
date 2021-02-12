@@ -33,4 +33,6 @@ public final class SQL {
 
     public static final String SELECT_STATUS_BY_ID = "select * from status where id = ?;";
 
+    public static final String SELECT_FILM_SESSIONS = "select * from session;";
+
 }
