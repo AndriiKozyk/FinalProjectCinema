@@ -2,10 +2,7 @@ package com.cinema.model.dao;
 
 import com.cinema.model.entity.user.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static com.cinema.model.Database.*;
 import static com.cinema.model.dao.SQL.*;
@@ -15,48 +12,11 @@ public class UserDAO {
     public void insertUser(User user) {
         Connection connection = null;
         PreparedStatement pStatement = null;
-        try {
-            insertUserDetails(user);
-            connection = getInstance().getConnection();
-            connection.setAutoCommit(false);
-            pStatement = connection.prepareStatement(INSERT_USER);
-            pStatement.setString(1, user.getLogin());
-            pStatement.setString(2, user.getPassword());
-            int roleId;
-            if (Role.ADMIN.equals(user.getRole())) {
-                roleId = 1;
-            } else if (Role.USER.equals(user.getRole())) {
-                roleId = 2;
-            } else {
-                throw new IncorrectRoleException();
-            }
-            pStatement.setInt(3, roleId);
-            pStatement.setString(4, user.getDetails().getEmail());
-            pStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException | IncorrectRoleException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-                deleteUserDetails(user.getDetails().getPhone());
-            }
-            e.printStackTrace();
-        } finally {
-            close(pStatement);
-            close(connection);
-        }
-    }
-
-    private void insertUserDetails(User user) throws SQLException {
-        Connection connection = null;
-        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
             connection.setAutoCommit(false);
-            pStatement = connection.prepareStatement(INSERT_USER_DETAILS);
+            pStatement = connection.prepareStatement(INSERT_USER_DETAILS, Statement.RETURN_GENERATED_KEYS);
             UserDetails details = user.getDetails();
             pStatement.setString(1, details.getFirstNameEN());
             pStatement.setString(2, details.getFirstNameUA());
@@ -65,6 +25,17 @@ public class UserDAO {
             pStatement.setString(5, details.getEmail());
             pStatement.setString(6, details.getPhone());
             pStatement.executeUpdate();
+            resultSet = pStatement.getGeneratedKeys();
+            pStatement = connection.prepareStatement(INSERT_USER);
+            pStatement.setString(1, user.getLogin());
+            pStatement.setString(2, user.getPassword());
+            pStatement.setInt(3, user.getRole().getId());
+            if (resultSet.next()) {
+                pStatement.setInt(4, resultSet.getInt(1));
+            } else {
+                throw new SQLException();
+            }
+            pStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             if (connection != null) {
@@ -74,23 +45,6 @@ public class UserDAO {
                     e1.printStackTrace();
                 }
             }
-            e.printStackTrace();
-            throw e;
-        } finally {
-            close(pStatement);
-            close(connection);
-        }
-    }
-
-    private void deleteUserDetails(String phone) {
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(DELETE_USER_DETAILS);
-            pStatement.setString(1, phone);
-            pStatement.executeUpdate();
-        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(pStatement);
@@ -174,6 +128,24 @@ public class UserDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setLogin("login");
+        user.setPassword("password");
+        Role role = Role.USER;
+        role.setId(2);
+        user.setRole(role);
+        UserDetails userDetails = new UserDetails();
+        userDetails.setFirstNameEN("User");
+        userDetails.setFirstNameUA("Юзер");
+        userDetails.setLastNameEN("Resu");
+        userDetails.setLastNameUA("Резю");
+        userDetails.setEmail("user@gmail.com");
+        userDetails.setPhone("0123456789");
+        user.setDetails(userDetails);
+        new UserDAO().insertUser(user);
     }
 
 }
