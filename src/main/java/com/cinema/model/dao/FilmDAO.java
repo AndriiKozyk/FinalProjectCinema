@@ -113,7 +113,7 @@ public class FilmDAO {
         }
     }
 
-    public List<Film> selectFilms(String orderBy, int limit, int offset) {
+    public List<Film> selectFilms() {
         List<Film> filmList = new LinkedList<>();
 
         Connection connection = null;
@@ -122,11 +122,25 @@ public class FilmDAO {
         try {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(SELECT_FILMS);
-            pStatement.setString(1, orderBy);
-            pStatement.setInt(2, offset);
-            pStatement.setInt(3, limit);
             resultSet = pStatement.executeQuery();
-            insertFilmsToList(filmList, resultSet);
+            while (resultSet.next()) {
+                Film film = new Film();
+                film.setId(resultSet.getInt("id"));
+                film.setNameEN(resultSet.getString("name_en"));
+                film.setNameUA(resultSet.getString("name_ua"));
+                film.setDuration(resultSet.getInt("duration"));
+                film.setPrice(resultSet.getBigDecimal("price"));
+                Genre genre = new Genre();
+                genre.setId(resultSet.getInt("genre_id"));
+                updateGenre(genre);
+                film.setGenre(genre);
+                Blob blob = resultSet.getBlob("poster");
+                BufferedImage img = ImageIO.read(blob.getBinaryStream());
+                File file = new File("poster.img");
+                ImageIO.write(img, "jpg", file);
+                film.setPoster(file);
+                filmList.add(film);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -138,55 +152,6 @@ public class FilmDAO {
         }
 
         return filmList;
-    }
-
-    public List<Film> selectFilmsByGenre(int genreId, String orderBy, int limit, int offset) {
-        List<Film> filmList = new LinkedList<>();
-
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_FILMS_BY_GENRE);
-            pStatement.setInt(1, genreId);
-            pStatement.setString(2, orderBy);
-            pStatement.setInt(3, offset);
-            pStatement.setInt(4, limit);
-            resultSet = pStatement.executeQuery();
-            insertFilmsToList(filmList, resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-
-        return filmList;
-    }
-
-    private void insertFilmsToList(List<Film> filmList, ResultSet resultSet) throws SQLException, IOException {
-        while (resultSet.next()) {
-            Film film = new Film();
-            film.setId(resultSet.getInt("id"));
-            film.setNameEN(resultSet.getString("name_en"));
-            film.setNameUA(resultSet.getString("name_ua"));
-            film.setDuration(resultSet.getInt("duration"));
-            film.setPrice(resultSet.getBigDecimal("price"));
-            Genre genre = new Genre();
-            genre.setId(resultSet.getInt("genre_id"));
-            updateGenre(genre);
-            film.setGenre(genre);
-            Blob blob = resultSet.getBlob("poster");
-            BufferedImage img = ImageIO.read(blob.getBinaryStream());
-            File file = new File("poster.img");
-            ImageIO.write(img, "jpg", file);
-            film.setPoster(file);
-            filmList.add(film);
-        }
     }
 
     private void close(AutoCloseable closeable) {

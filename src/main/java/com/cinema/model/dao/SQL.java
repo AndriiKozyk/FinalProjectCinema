@@ -12,8 +12,6 @@ public final class SQL {
             "account (login, password, role_id, account_details_id) " +
             "values (?, ?, ?, ?);";
 
-    public static final String DELETE_USER_DETAILS = "delete from account_details where phone = ?;";
-
     public static final String SELECT_USER = "select * from account where login = ?;";
 
     public static final String SELECT_USER_DETAILS = "select * from account_details where id = ?;";
@@ -26,18 +24,9 @@ public final class SQL {
 
     public static final String SELECT_GENRE = "select * from genre where id = ?;";
 
-    public static final String SELECT_FILMS = "select * from film order by ? limit ?, ?;";
-
-    public static final String SELECT_FILMS_BY_GENRE = "select * from film where genre_id = ? order by ? limit ?, ?;";
+    public static final String SELECT_FILMS = "select * from film";
 
     public static final String INSERT_SESSION = "insert into session (date, time, min_price, max_price, film_id, status_id) " +
             "values (?, ?, ?, ?, ?, ?);";
-
-    public static final String INSERT_SESSION_HAS_PLACE = "insert into session_has_place (session_id, place_id) " +
-            "values (?, ?);";
-
-    public static final String SET_PLACE_UNAVAILABLE = "update session_has_place set available = 0 where id = ?;";
-
-    public static final String SELECT_SESSION_HAS_PLACE = "select * from session_has_place where id = ?;";
 
 }
