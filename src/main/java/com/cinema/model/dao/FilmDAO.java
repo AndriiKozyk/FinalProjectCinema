@@ -88,7 +88,7 @@ public class FilmDAO {
         film.setGenre(genre);
         Blob blob = resultSet.getBlob("poster");
         BufferedImage img = ImageIO.read(blob.getBinaryStream());
-        File file = new File("poster" + film.getId() + ".jpg");
+        File file = new File("images/poster" + film.getId() + ".jpg");
         ImageIO.write(img, "jpg", file);
         film.setPoster(file);
     }
@@ -152,6 +152,17 @@ public class FilmDAO {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Film> filmList = new FilmDAO().selectFilms();
+        System.out.println(filmList);
+        filmList.get(0).setPoster(new File("images/Intouchables.jpg"));
+        filmList.get(1).setPoster(new File("images/poster.jpg"));
+        filmList.get(2).setPoster(new File("images/Sherlock_Holmes2.jpg"));
+        for (Film film : filmList) {
+            new FilmDAO().insertFilm(film);
         }
     }
 
