@@ -1,7 +1,7 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.filmSession.Status;
-import com.cinema.model.entity.filmSession.StatusNotFoundException;
+import com.cinema.model.entity.place.Type;
+import com.cinema.model.entity.place.TypeNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,44 +11,44 @@ import java.sql.SQLException;
 import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
-public class StatusDAO {
+public class TypeDAO {
 
-    public Status getStatus(int id) {
-        Status status = null;
+    public Type getType(int id) {
+        Type type = null;
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_STATUS_BY_ID);
+            pStatement = connection.prepareStatement(SELECT_TYPE);
             pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                switch (resultSet.getString("status_en")) {
-                    case "Available":
-                        status = Status.AVAILABLE;
+                switch (resultSet.getString("type_en")) {
+                    case "Standard":
+                        type = Type.STANDARD;
                         break;
-                    case "No places":
-                        status = Status.NO_PLACES;
+                    case "Lux":
+                        type = Type.LUX;
                         break;
-                    case "Canceled":
-                        status = Status.CANCELED;
+                    case "Super lux":
+                        type = Type.SUPER_LUX;
                         break;
                     default:
-                        throw new StatusNotFoundException();
+                        throw new TypeNotFoundException();
                 }
-                status.setId(id);
+                type.setPrice(resultSet.getBigDecimal("price"));
             } else {
-                throw new StatusNotFoundException();
+                throw new TypeNotFoundException();
             }
-        } catch (SQLException | StatusNotFoundException e) {
+        } catch (SQLException | TypeNotFoundException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
             close(pStatement);
             close(connection);
         }
-        return status;
+        return type;
     }
 
     private void close(AutoCloseable closeable) {

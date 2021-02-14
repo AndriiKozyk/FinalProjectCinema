@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.cinema.model.Database.*;
+import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class FilmSessionDAO {
@@ -43,7 +43,6 @@ public class FilmSessionDAO {
 
     public FilmSession getFilmSession(int id) {
         FilmSession filmSession = new FilmSession();
-
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
@@ -64,7 +63,6 @@ public class FilmSessionDAO {
             close(pStatement);
             close(connection);
         }
-
         return filmSession;
     }
 
@@ -79,9 +77,8 @@ public class FilmSessionDAO {
         filmSession.setStatus(status);
     }
 
-    public List<FilmSession> selectFilms() {
+    public List<FilmSession> selectFilmSessions() {
         List<FilmSession> filmList = new LinkedList<>();
-
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
@@ -101,8 +98,24 @@ public class FilmSessionDAO {
             close(pStatement);
             close(connection);
         }
-
         return filmList;
+    }
+
+    public void setStatus(FilmSession filmSession) {
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SET_FILM_SESSION_STATUS);
+            pStatement.setInt(1, filmSession.getStatus().getId());
+            pStatement.setInt(2, filmSession.getId());
+            pStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pStatement);
+            close(connection);
+        }
     }
 
     private void close(AutoCloseable closeable) {

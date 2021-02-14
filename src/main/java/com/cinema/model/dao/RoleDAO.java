@@ -1,7 +1,8 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.filmSession.Status;
-import com.cinema.model.entity.filmSession.StatusNotFoundException;
+import com.cinema.model.entity.user.IncorrectRoleException;
+import com.cinema.model.entity.user.Role;
+import com.cinema.model.entity.user.RoleNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,44 +12,41 @@ import java.sql.SQLException;
 import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
-public class StatusDAO {
+public class RoleDAO {
 
-    public Status getStatus(int id) {
-        Status status = null;
+    public Role getRole(int id) {
+        Role role = null;
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_STATUS_BY_ID);
+            pStatement = connection.prepareStatement(SELECT_ROLE);
             pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                switch (resultSet.getString("status_en")) {
-                    case "Available":
-                        status = Status.AVAILABLE;
+                switch (resultSet.getString("role")) {
+                    case "admin":
+                        role = Role.ADMIN;
                         break;
-                    case "No places":
-                        status = Status.NO_PLACES;
-                        break;
-                    case "Canceled":
-                        status = Status.CANCELED;
+                    case "user":
+                        role = Role.USER;
                         break;
                     default:
-                        throw new StatusNotFoundException();
+                        throw new IncorrectRoleException();
                 }
-                status.setId(id);
+                role.setId(id);
             } else {
-                throw new StatusNotFoundException();
+                throw new RoleNotFoundException();
             }
-        } catch (SQLException | StatusNotFoundException e) {
+        } catch (SQLException | RoleNotFoundException | IncorrectRoleException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
             close(pStatement);
             close(connection);
         }
-        return status;
+        return role;
     }
 
     private void close(AutoCloseable closeable) {

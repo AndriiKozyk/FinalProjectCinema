@@ -2,7 +2,6 @@ package com.cinema.model.entity.film;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Blob;
 
 public class Film {
 

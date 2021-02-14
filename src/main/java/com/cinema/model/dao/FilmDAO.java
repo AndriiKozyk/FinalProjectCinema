@@ -3,7 +3,6 @@ package com.cinema.model.dao;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.FilmNotFoundException;
 import com.cinema.model.entity.film.Genre;
-import com.cinema.model.entity.film.GenreNotFoundException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,7 @@ import java.io.OutputStream;
 import java.sql.*;
 import java.util.*;
 
-import static com.cinema.model.Database.*;
+import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class FilmDAO {
@@ -51,7 +50,6 @@ public class FilmDAO {
 
     public Film selectFilm(int id) {
         Film film = new Film();
-
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
@@ -72,7 +70,6 @@ public class FilmDAO {
             close(pStatement);
             close(connection);
         }
-
         return film;
     }
 
@@ -82,39 +79,14 @@ public class FilmDAO {
         film.setNameUA(resultSet.getString("name_ua"));
         film.setDuration(resultSet.getInt("duration"));
         film.setPrice(resultSet.getBigDecimal("price"));
-        Genre genre = new Genre();
-        genre.setId(resultSet.getInt("genre_id"));
-        updateGenre(genre);
+        int genreId = resultSet.getInt("genre_id");
+        Genre genre = new GenreDAO().getGenre(genreId);
         film.setGenre(genre);
         Blob blob = resultSet.getBlob("poster");
         BufferedImage img = ImageIO.read(blob.getBinaryStream());
         File file = new File("images/poster" + film.getId() + ".jpg");
         ImageIO.write(img, "jpg", file);
         film.setPoster(file);
-    }
-
-    private void updateGenre(Genre genre) {
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_GENRE);
-            pStatement.setInt(1, genre.getId());
-            resultSet = pStatement.executeQuery();
-            if (resultSet.next()) {
-                genre.setGenreEN(resultSet.getString("genre_en"));
-                genre.setGenreUA(resultSet.getString("genre_ua"));
-            } else {
-                throw new GenreNotFoundException();
-            }
-        } catch (SQLException | GenreNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
     }
 
     public List<Film> selectFilms() {

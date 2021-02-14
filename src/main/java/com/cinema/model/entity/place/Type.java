@@ -1,23 +1,24 @@
 package com.cinema.model.entity.place;
 
+import java.math.BigDecimal;
+
 public enum Type {
 
     STANDARD, LUX, SUPER_LUX;
 
-    int price;
+    BigDecimal price;
 
-    Type(int price) {
+    Type(BigDecimal price) {
         this.price = price;
     }
 
     Type() {}
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
 }

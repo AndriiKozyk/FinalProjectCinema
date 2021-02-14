@@ -4,7 +4,7 @@ import com.cinema.model.entity.user.*;
 
 import java.sql.*;
 
-import static com.cinema.model.Database.*;
+import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
 public class UserDAO {
@@ -54,12 +54,10 @@ public class UserDAO {
 
     private User getUser(String login) {
         User user = new User();
-
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
         try {
-            int detailsId = 0;
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(SELECT_USER);
             pStatement.setString(1, login);
@@ -68,51 +66,47 @@ public class UserDAO {
                 user.setId(resultSet.getInt("id"));
                 user.setLogin(resultSet.getString("login"));
                 user.setPassword(resultSet.getString("password"));
-                int role = resultSet.getInt("role_id");
-                if (role == 1) {
-                    user.setRole(Role.ADMIN);
-                } else if (role == 2) {
-                    user.setRole(Role.USER);
-                } else {
-                    throw new IncorrectRoleException();
-                }
-                detailsId = resultSet.getInt("account_details_id");
-                updateUserDetails(user, detailsId);
+                int roleId = resultSet.getInt("role_id");
+                Role role = new RoleDAO().getRole(roleId);
+                user.setRole(role);
+                user.setUserDetailsId(resultSet.getInt("account_details_id"));
             } else {
                 throw new UserNotFoundException();
             }
 
-        } catch (SQLException | IncorrectRoleException | UserNotFoundException e) {
+        } catch (SQLException | UserNotFoundException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
             close(pStatement);
             close(connection);
         }
-
         return user;
     }
 
-    private void updateUserDetails(User user, int detailsId) throws SQLException, UserNotFoundException {
+    private void getUserDetails(User user) throws SQLException {
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(SELECT_USER_DETAILS);
-            pStatement.setInt(1, detailsId);
+            pStatement.setInt(1, user.getUserDetailsId());
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                UserDetails details = user.getDetails();
+                UserDetails details = new UserDetails();
                 details.setFirstNameEN(resultSet.getString("first_name_en"));
                 details.setFirstNameUA(resultSet.getString("first_name_ua"));
                 details.setLastNameEN(resultSet.getString("last_name_en"));
                 details.setLastNameUA(resultSet.getString("last_name_ua"));
                 details.setEmail(resultSet.getString("email"));
                 details.setPhone(resultSet.getString("phone"));
+                user.setDetails(details);
             } else {
                 throw new UserNotFoundException();
             }
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
         } finally {
             close(resultSet);
             close(pStatement);

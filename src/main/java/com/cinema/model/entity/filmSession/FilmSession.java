@@ -17,7 +17,7 @@ public class FilmSession {
     private Film film;
     private Status status;
 
-    private List<Place> placeList;
+    private List<SessionHasPlace> placeList;
 
     public int getId() {
         return id;
@@ -75,11 +75,11 @@ public class FilmSession {
         this.status = status;
     }
 
-    public List<Place> getPlaceList() {
+    public List<SessionHasPlace> getPlaceList() {
         return placeList;
     }
 
-    public void setPlaceList(List<Place> placeList) {
+    public void setPlaceList(List<SessionHasPlace> placeList) {
         this.placeList = placeList;
     }
 
