@@ -5,12 +5,14 @@ import com.cinema.model.entity.film.FilmNotFoundException;
 import com.cinema.model.entity.film.Genre;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.*;
 import java.util.*;
+import java.util.List;
 
 import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
@@ -84,9 +86,11 @@ public class FilmDAO {
         film.setGenre(genre);
         Blob blob = resultSet.getBlob("poster");
         BufferedImage img = ImageIO.read(blob.getBinaryStream());
-        File file = new File("images/poster" + film.getId() + ".jpg");
+        File file = new File("C:/Desk/FinalProject/Cinema/web/images/poster" + film.getId() + ".jpg");
+        File file1 = new File("images/poster" + film.getId() + ".jpg");
         ImageIO.write(img, "jpg", file);
-        film.setPoster(file);
+        ImageIO.write(img, "jpg", file1);
+        film.setPoster(file1);
     }
 
     public List<Film> selectFilms() {

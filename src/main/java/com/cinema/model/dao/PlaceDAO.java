@@ -42,6 +42,7 @@ public class PlaceDAO {
     }
 
     private void mapPlace(Place place, ResultSet resultSet) throws SQLException {
+        place.setId(resultSet.getInt("id"));
         place.setNumber(resultSet.getInt("number"));
         place.setRow(resultSet.getInt("row"));
         Type type = new TypeDAO().getType(resultSet.getInt("type_id"));

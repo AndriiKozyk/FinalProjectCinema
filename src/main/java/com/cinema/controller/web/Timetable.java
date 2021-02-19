@@ -16,27 +16,20 @@ public class Timetable extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("GET");
         List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
-        System.out.println(filmSession);
         req.setAttribute("filmSession", filmSession);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/cinema/timetable.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);
     }
 
     public static void main(String[] args) {
         List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
         System.out.println(filmSession);
+        System.out.println(filmSession.get(0).getFilm().getPoster().getAbsolutePath());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("POST");
-        List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
-        System.out.println(filmSession);
-        req.setAttribute("filmSession", filmSession);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/cinema/timetable.jsp");
-        requestDispatcher.forward(req, resp);
     }
-
 }

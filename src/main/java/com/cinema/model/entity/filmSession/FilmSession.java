@@ -1,5 +1,7 @@
 package com.cinema.model.entity.filmSession;
 
+import com.cinema.model.dao.PlaceDAO;
+import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.place.Place;
 
@@ -17,7 +19,18 @@ public class FilmSession {
     private Film film;
     private Status status;
 
+    private int availablePlaces;
+
     private List<SessionHasPlace> placeList;
+
+    {
+        for (Place place : new PlaceDAO().selectPlaces()) {
+            SessionHasPlace shp = new SessionHasPlace();
+            shp.setSessionId(id);
+            shp.setPlace(place);
+            shp.setAvailable(false);
+        }
+    }
 
     public int getId() {
         return id;
@@ -81,6 +94,14 @@ public class FilmSession {
 
     public void setPlaceList(List<SessionHasPlace> placeList) {
         this.placeList = placeList;
+    }
+
+    public int getAvailablePlaces() {
+        return new SessionHasPlaceDAO().selectAmountAvailablePlaces(id);
+    }
+
+    public void setAvailablePlaces(int availablePlaces) {
+        this.availablePlaces = availablePlaces;
     }
 
     @Override

@@ -24,6 +24,7 @@ public class GenreDAO {
             pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
+                genre.setId(resultSet.getInt("id"));
                 genre.setGenreEN(resultSet.getString("genre_en"));
                 genre.setGenreUA(resultSet.getString("genre_ua"));
             } else {

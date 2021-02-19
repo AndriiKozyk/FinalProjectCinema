@@ -52,7 +52,7 @@ public class UserDAO {
         }
     }
 
-    private User getUser(String login) {
+    public User getUser(String login) throws UserNotFoundException {
         User user = new User();
         Connection connection = null;
         PreparedStatement pStatement = null;
@@ -74,7 +74,7 @@ public class UserDAO {
                 throw new UserNotFoundException();
             }
 
-        } catch (SQLException | UserNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
@@ -129,7 +129,6 @@ public class UserDAO {
         user.setLogin("login");
         user.setPassword("password");
         Role role = Role.USER;
-        role.setId(2);
         user.setRole(role);
         UserDetails userDetails = new UserDetails();
         userDetails.setFirstNameEN("User");

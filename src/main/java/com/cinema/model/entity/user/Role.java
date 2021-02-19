@@ -2,11 +2,9 @@ package com.cinema.model.entity.user;
 
 public enum Role {
 
-    ADMIN(1), USER;
+    ADMIN(1), USER(2);
 
     int id;
-
-    Role() {}
 
     Role(int id) {
         this.id = id;
@@ -14,9 +12,5 @@ public enum Role {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

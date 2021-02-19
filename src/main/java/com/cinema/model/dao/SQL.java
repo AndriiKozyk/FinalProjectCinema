@@ -50,7 +50,7 @@ public final class SQL {
     public static final String INSERT_SESSION_HAS_PLACE = "insert into session_has_place (session_id, place_id) " +
             "values (?, ?);";
 
-    public static final String SELECT_AMOUNT_UNAVAILABLE_PLACES = "select count(id) as amount from session_has_place where available = false;";
+    public static final String SELECT_AMOUNT_UNAVAILABLE_PLACES = "select count(id) as amount from session_has_place where session_id = ? AND available = 1;";
 
     public static final String SELECT_SESSION_HAS_PLACE_BY_ID = "select * from session_has_place where id = ?;";
 
@@ -62,5 +62,11 @@ public final class SQL {
     public static final String INSERT_TICKET = "insert into ticket values (?, ?, ?);";
 
     public static final String SELECT_USER_TICKETS = "select * from ticket where account_id = ?;";
+
+    public static final String DELETE_ROLES = "delete from role;";
+
+    public static final String INSERT_ROLES = "insert into role (id, role) values (?, ?);";
+
+    public static final String UPDATE_SESSION_PLACES = "";
 
 }

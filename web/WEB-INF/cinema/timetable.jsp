@@ -7,9 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="style/styleTimetable.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="/cinema/style.css">
 
     <title>Cinema</title>
 </head>
@@ -20,13 +20,13 @@
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <a href=""><img class="logo"
-                                src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
+                <img class="logo"
+                     src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
             </div>
             <ul class="nav navbar-right gap-4">
                 <li><a class="nav-link text-center" href="">My account</a></li>
-                <li><a class="btn btn-outline-light" href="">Create account</a></li>
-                <li><a class="btn btn-outline-light" href="">Log In</a></li>
+                <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
+                <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -74,25 +74,29 @@
 </div>
 
 <c:forEach var="filmSession" items="${filmSession}">
-    <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
-        <ul class="list-group list-group-horizontal">
-            <li><img src="https://festagent.com/system/tilda/tild3562-6362-4762-b036-653363663832__a01ccf32943f670ef632.jpg">
-            </li>
-            <li>
-                <ul>
-                    <li><p class="h2 text-danger">Status</p></li>
-                    <br>
-                    <li><p class="h2 text-info">${filmSession.film.nameEN}</p></li>
-                    <li><p class="h5 text-white">Genre</p></li>
-                    <li><p class="h5 text-white">Duration: 90 min</p></li>
-                    <li><p class="h5 text-white">Price: $30 - $60</p></li>
-                    <li><p class="h5 text-white">Available places: 50</p></li>
-                    <br>
-                    <li><p class="h5 text-white">05-Feb-21 09:00 AM</p></li>
-                </ul>
-            </li>
-        </ul>
-    </form>
+    <a href="/placeSelect?name=${filmSession.id}" style="text-decoration: none">
+        <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
+            <ul class="list-group list-group-horizontal">
+                <li><img src="${filmSession.film.poster}"/></li>
+                <li>
+                    <ul>
+                        <br>
+                        <c:if test="${filmSession.status.id != 1}">
+                            <li><p class="h2 text-danger">${filmSession.status.value}</p></li>
+                            <br>
+                        </c:if>
+                        <li><p class="h2 text-info">${filmSession.film.nameEN}</p></li>
+                        <li><p class="h5 text-white">${filmSession.film.genre.genreEN}</p></li>
+                        <li><p class="h5 text-white">Duration: ${filmSession.film.duration} min</p></li>
+                        <li><p class="h5 text-white">Price: $${filmSession.minPrice} - $${filmSession.maxPrice}</p></li>
+                        <li><p class="h5 text-white">Available places: ${filmSession.availablePlaces}</p></li>
+                        <br>
+                        <li><p class="h5 text-white">${filmSession.date} ${filmSession.time}</p></li>
+                    </ul>
+                </li>
+            </ul>
+        </form>
+    </a>
 </c:forEach>
 
 <%--<form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">--%>

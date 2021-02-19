@@ -67,10 +67,11 @@ public class FilmSessionDAO {
     }
 
     private void mapFilmSession(FilmSession filmSession, ResultSet resultSet) throws SQLException {
+        filmSession.setId(resultSet.getInt("id"));
         filmSession.setDate(resultSet.getDate("date"));
         filmSession.setTime(resultSet.getTime("time"));
-        filmSession.setMaxPrice(resultSet.getBigDecimal("min_price"));
-        filmSession.setMinPrice(resultSet.getBigDecimal("max_price"));
+        filmSession.setMinPrice(resultSet.getBigDecimal("min_price"));
+        filmSession.setMaxPrice(resultSet.getBigDecimal("max_price"));
         Film film = new FilmDAO().selectFilm(resultSet.getInt("film_id"));
         filmSession.setFilm(film);
         Status status = new StatusDAO().getStatus(resultSet.getInt("status_id"));
@@ -128,39 +129,41 @@ public class FilmSessionDAO {
         }
     }
 
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         FilmSession session = new FilmSession();
 
-        java.util.Date dateTime = new java.util.Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        java.util.Date time = new java.util.Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         try {
-            dateTime = dateFormat.parse("2021-02-15 04:00:00");
+            date = dateFormat.parse("2021-02-20");
+            time = timeFormat.parse("17:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(dateTime);
-        System.out.println(dateTime);
-        session.setDate(dateTime);
-        session.setMinPrice(new BigDecimal(150));
-        session.setMaxPrice(new BigDecimal(200));
-        Film film = new Film();
-        Genre genre = new Genre();
-        genre.setId(1);
-        film.setGenre(genre);
-        film.setPoster(new File("testimg/Sherlock_Holmes2.jpg"));
-        film.setPrice(new BigDecimal(100));
-        film.setDuration(120);
-        film.setNameUA("Тест");
-        film.setNameEN("Test");
-        new FilmDAO().insertFilm(film);
-        session.setFilm(new FilmDAO().selectFilm(4));
-        Status status = Status.AVAILABLE;
-        status.setId(1);
+        session.setDate(date);
+        session.setTime(time);
+        session.setMinPrice(new BigDecimal(170));
+        session.setMaxPrice(new BigDecimal(230));
+//        Film film = new Film();
+//        Genre genre = new Genre();
+//        genre.setId(1);
+//        film.setGenre(genre);
+//        film.setPoster(new File("images/Sherlock_Holmes2.jpg"));
+//        film.setPrice(new BigDecimal(100));
+//        film.setDuration(120);
+//        film.setNameUA("Тест");
+//        film.setNameEN("Test");
+//        new FilmDAO().insertFilm(film);
+        session.setFilm(new FilmDAO().selectFilm(7));
+        Status status = Status.NO_PLACES;
+        status.setId(2);
         session.setStatus(status);
         new FilmSessionDAO().insertFilmSession(session);
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         FilmSession filmSession = new FilmSessionDAO().getFilmSession(1);
         System.out.println(filmSession);
     }

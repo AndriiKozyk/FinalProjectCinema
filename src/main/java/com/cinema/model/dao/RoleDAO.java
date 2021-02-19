@@ -35,7 +35,6 @@ public class RoleDAO {
                     default:
                         throw new IncorrectRoleException();
                 }
-                role.setId(id);
             } else {
                 throw new RoleNotFoundException();
             }
