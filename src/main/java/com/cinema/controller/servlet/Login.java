@@ -1,4 +1,4 @@
-package com.cinema.controller.web;
+package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
 import com.cinema.model.entity.user.User;
@@ -9,14 +9,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Login extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/login.jsp");
         requestDispatcher.forward(req, resp);
+
     }
 
     @Override
@@ -24,23 +27,29 @@ public class Login extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = null;
+        String errorMessage = null;
+
+        String active;
+
         try {
-            user = new UserDAO().getUser(login);
+            UserDAO userDAO = new UserDAO();
+            user = userDAO.getUser(login);
             if (user.getPassword().equals(password)) {
+                active = "active";
+                req.getServletContext().setAttribute("active", active);
+                HttpSession userSession = req.getSession();
+                userDAO.getUserDetails(user);
+                userSession.setAttribute("user", user);
                 resp.sendRedirect("/cinema");
+                return;
             } else {
-                System.out.println("PASSWORD");
-                String errorMessage = "Incorrect password";
-                req.setAttribute("errorMessage", errorMessage);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/login.jsp");
-                requestDispatcher.forward(req, resp);
+                errorMessage = "Incorrect password";
             }
         } catch (UserNotFoundException e) {
-            System.out.println("LOGIN");
-            String errorMessage = "Incorrect login";
-            req.setAttribute("errorMessage", errorMessage);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/login.jsp");
-            requestDispatcher.forward(req, resp);
+            errorMessage = "Incorrect login";
         }
+        req.setAttribute("errorMessage", errorMessage);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/cinema/login.jsp");
+        requestDispatcher.forward(req, resp);
     }
 }

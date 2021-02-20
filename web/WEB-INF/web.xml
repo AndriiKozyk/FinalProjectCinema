@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>Timetable</servlet-name>
-        <servlet-class>com.cinema.controller.web.Timetable</servlet-class>
+        <servlet-class>com.cinema.controller.servlet.Timetable</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>PlaceSelect</servlet-name>
-        <servlet-class>com.cinema.controller.web.PlaceSelect</servlet-class>
+        <servlet-class>com.cinema.controller.servlet.PlaceSelect</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>com.cinema.controller.web.Login</servlet-class>
+        <servlet-class>com.cinema.controller.servlet.Login</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -36,12 +36,31 @@
 
     <servlet>
         <servlet-name>Registration</servlet-name>
-        <servlet-class>com.cinema.controller.web.Registration</servlet-class>
+        <servlet-class>com.cinema.controller.servlet.Registration</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
+
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.cinema.controller.filter.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <servlet-name>Login</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <servlet-name>Registration</servlet-name>
+    </filter-mapping>
 
 </web-app>

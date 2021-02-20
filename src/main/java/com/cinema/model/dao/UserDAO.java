@@ -84,7 +84,7 @@ public class UserDAO {
         return user;
     }
 
-    private void getUserDetails(User user) throws SQLException {
+    public void getUserDetails(User user) {
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
@@ -106,6 +106,8 @@ public class UserDAO {
                 throw new UserNotFoundException();
             }
         } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

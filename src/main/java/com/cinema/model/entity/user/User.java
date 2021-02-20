@@ -69,4 +69,17 @@ public class User {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", userDetailsId=" + userDetailsId +
+                ", details=" + details +
+                ", tickets=" + tickets +
+                '}';
+    }
 }

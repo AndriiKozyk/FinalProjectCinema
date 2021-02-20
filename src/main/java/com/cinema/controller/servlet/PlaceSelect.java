@@ -1,4 +1,4 @@
-package com.cinema.controller.web;
+package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.entity.filmSession.FilmSession;

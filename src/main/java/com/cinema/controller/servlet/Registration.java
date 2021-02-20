@@ -1,4 +1,4 @@
-package com.cinema.controller.web;
+package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
 import com.cinema.model.entity.user.Role;

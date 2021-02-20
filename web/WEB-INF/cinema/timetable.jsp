@@ -24,17 +24,23 @@
                      src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
             </div>
             <ul class="nav navbar-right gap-4">
-                <li><a class="nav-link text-center" href="">My account</a></li>
-                <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
-                <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
+                <c:if test="${user != null}">
+                    <li><a class="nav-link text-center" href="">My tickets</a></li>
+                    <%--<li><p class="text-center text-light">${user.details.firstNameEN} ${user.details.lastNameEN}</p></li>--%>
+                    <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
+                </c:if>
+                <c:if test="${user == null}">
+                    <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
+                    <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
+                </c:if>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-dark" href="#">English</a>
-                            <a class="dropdown-item text-dark" href="#">Українська</a>
+                            <a class="dropdown-item text-dark" href="">English</a>
+                            <a class="dropdown-item text-dark" href="">Українська</a>
                         </div>
                     </div>
                 </li>
