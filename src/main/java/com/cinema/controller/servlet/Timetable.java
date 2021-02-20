@@ -20,8 +20,8 @@ public class Timetable extends HttpServlet {
         List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
 
         if ("logout".equals(req.getParameter("name"))) {
-            String active = "unActive";
-            req.setAttribute("active", active);
+            String active = null;
+            req.getServletContext().setAttribute("active", active);
             req.getSession(false).invalidate();
         }
 
