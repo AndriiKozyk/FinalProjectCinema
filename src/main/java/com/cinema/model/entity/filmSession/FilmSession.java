@@ -24,12 +24,19 @@ public class FilmSession {
     private List<SessionHasPlace> placeList;
 
     {
+        placeList = new ArrayList<>();
+    }
+
+    public void createPlaces(FilmSession filmSession) {
+        SessionHasPlace shp;
         for (Place place : new PlaceDAO().selectPlaces()) {
-            SessionHasPlace shp = new SessionHasPlace();
-            shp.setSessionId(id);
+            shp = new SessionHasPlace();
+            shp.setSessionId(filmSession.getId());
             shp.setPlace(place);
             shp.setAvailable(false);
+            filmSession.getPlaceList().add(shp);
         }
+        new SessionHasPlaceDAO().insertSessionHasPlace(placeList);
     }
 
     public int getId() {

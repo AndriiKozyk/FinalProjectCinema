@@ -76,6 +76,7 @@ public class FilmSessionDAO {
         filmSession.setFilm(film);
         Status status = new StatusDAO().getStatus(resultSet.getInt("status_id"));
         filmSession.setStatus(status);
+        filmSession.setPlaceList(new SessionHasPlaceDAO().getSessionPlaces(filmSession.getId()));
     }
 
     public List<FilmSession> selectFilmSessions() {

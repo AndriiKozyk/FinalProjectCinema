@@ -22,6 +22,7 @@ public class SessionHasPlaceDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(INSERT_SESSION_HAS_PLACE);
             pStatement.setInt(1, shp.getSessionId());
+            System.out.println(shp.getSessionId());
             pStatement.setInt(2, shp.getPlace().getId());
             pStatement.executeUpdate();
         } catch (SQLException e) {
@@ -29,6 +30,12 @@ public class SessionHasPlaceDAO {
         } finally {
             close(pStatement);
             close(connection);
+        }
+    }
+
+    public void insertSessionHasPlace(List<SessionHasPlace> shpList) {
+        for (SessionHasPlace shp : shpList) {
+            insertSessionHasPlace(shp);
         }
     }
 

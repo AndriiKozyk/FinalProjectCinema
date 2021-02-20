@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
@@ -94,130 +95,142 @@
     <br>
     <p class="h3 text-center text-black mb-4">Screen</p>
 
+    <c:forEach var="filmSession" items="${filmSession.placeList}">
+        <c:if test="${filmSession.placeList.available == true}">
+            <input type="checkbox" class="btn-check" id="${filmSession.placeList.id}" autocomplete="off">
+            <label class="check btn btn-outline-success" for="${filmSession.placeList.id}">${filmSession.placeList.id}</label>
+        </c:if>
+        <c:if test="${filmSession.placeList.available == false}">
+            <input type="checkbox" class="btn-check" id="${filmSession.placeList.id}" autocomplete="off" disabled>
+            <label class="check btn btn-outline-success" for="${filmSession.placeList.id}">${filmSession.placeList.id}</label>
+        </c:if>
+        <c:if test="${filmSession.placeList.id % 10 == 0}">
+            <br><br>
+        </c:if>
+    </c:forEach>
+
+
+    <%--<input type="checkbox" class="btn-check" id="1" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="1">1</label>--%>
 
 
 
-    <input type="checkbox" class="btn-check" id="1" autocomplete="off">
-    <label class="check btn btn-outline-success" for="1">1</label>
 
 
 
+    <%--<input type="checkbox" class="btn-check" id="2" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="2">2</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="3" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="3">3</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="4" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="4">4</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="5" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="5">5</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="6" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="6">6</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="7" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="7">7</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="8" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="8">8</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="9" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="9">9</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="10" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="10">10</label>--%>
+
+    <%--<br><br>--%>
+
+    <%--<input type="checkbox" class="btn-check" id="11" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="11">11</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="12" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="12">12</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="13" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="13">13</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="14" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="14">14</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="15" autocomplete="off">--%>
+    <%--<label class="check check btn btn-outline-success" for="15">15</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="16" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="16">16</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="17" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="17">17</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="18" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="18">18</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="19" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="19">19</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="20" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="20">20</label>--%>
+
+    <%--<br><br>--%>
+
+    <%--<input type="checkbox" class="btn-check" id="21" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="21">21</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="22" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="22">22</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="23" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="23">23</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="24" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="24">24</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="25" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="25">25</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="26" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="26">26</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="27" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="27">27</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="28" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="28">28</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="29" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="29">29</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="30" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="30">30</label>--%>
+
+    <%--<br><br>--%>
+
+    <%--<input type="checkbox" class="btn-check" id="31" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="31">31</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="32" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="32">32</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="33" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="33">33</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="34" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="34">34</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="35" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="35">35</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="36" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="36">36</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="37" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="37">37</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="38" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="38">38</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="39" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="39">39</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="40" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="40">40</label>--%>
+
+    <%--<br><br>--%>
+
+    <%--<input type="checkbox" class="btn-check" id="41" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="41">41</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="42" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="42">42</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="43" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="43">43</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="44" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="44">44</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="45" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="45">45</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="46" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="46">46</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="47" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="47">47</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="48" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="48">48</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="49" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="49">49</label>--%>
+    <%--<input type="checkbox" class="btn-check" id="50" autocomplete="off">--%>
+    <%--<label class="check btn btn-outline-success" for="50">50</label>--%>
 
 
-
-    <input type="checkbox" class="btn-check" id="2" autocomplete="off">
-    <label class="check btn btn-outline-success" for="2">2</label>
-    <input type="checkbox" class="btn-check" id="3" autocomplete="off">
-    <label class="check btn btn-outline-success" for="3">3</label>
-    <input type="checkbox" class="btn-check" id="4" autocomplete="off">
-    <label class="check btn btn-outline-success" for="4">4</label>
-    <input type="checkbox" class="btn-check" id="5" autocomplete="off">
-    <label class="check btn btn-outline-success" for="5">5</label>
-    <input type="checkbox" class="btn-check" id="6" autocomplete="off">
-    <label class="check btn btn-outline-success" for="6">6</label>
-    <input type="checkbox" class="btn-check" id="7" autocomplete="off">
-    <label class="check btn btn-outline-success" for="7">7</label>
-    <input type="checkbox" class="btn-check" id="8" autocomplete="off">
-    <label class="check btn btn-outline-success" for="8">8</label>
-    <input type="checkbox" class="btn-check" id="9" autocomplete="off">
-    <label class="check btn btn-outline-success" for="9">9</label>
-    <input type="checkbox" class="btn-check" id="10" autocomplete="off">
-    <label class="check btn btn-outline-success" for="10">10</label>
-
-    <br><br>
-
-    <input type="checkbox" class="btn-check" id="11" autocomplete="off">
-    <label class="check btn btn-outline-success" for="11">11</label>
-    <input type="checkbox" class="btn-check" id="12" autocomplete="off">
-    <label class="check btn btn-outline-success" for="12">12</label>
-    <input type="checkbox" class="btn-check" id="13" autocomplete="off">
-    <label class="check btn btn-outline-success" for="13">13</label>
-    <input type="checkbox" class="btn-check" id="14" autocomplete="off">
-    <label class="check btn btn-outline-success" for="14">14</label>
-    <input type="checkbox" class="btn-check" id="15" autocomplete="off">
-    <label class="check check btn btn-outline-success" for="15">15</label>
-    <input type="checkbox" class="btn-check" id="16" autocomplete="off">
-    <label class="check btn btn-outline-success" for="16">16</label>
-    <input type="checkbox" class="btn-check" id="17" autocomplete="off">
-    <label class="check btn btn-outline-success" for="17">17</label>
-    <input type="checkbox" class="btn-check" id="18" autocomplete="off">
-    <label class="check btn btn-outline-success" for="18">18</label>
-    <input type="checkbox" class="btn-check" id="19" autocomplete="off">
-    <label class="check btn btn-outline-success" for="19">19</label>
-    <input type="checkbox" class="btn-check" id="20" autocomplete="off">
-    <label class="check btn btn-outline-success" for="20">20</label>
-
-    <br><br>
-
-    <input type="checkbox" class="btn-check" id="21" autocomplete="off">
-    <label class="check btn btn-outline-success" for="21">21</label>
-    <input type="checkbox" class="btn-check" id="22" autocomplete="off">
-    <label class="check btn btn-outline-success" for="22">22</label>
-    <input type="checkbox" class="btn-check" id="23" autocomplete="off">
-    <label class="check btn btn-outline-success" for="23">23</label>
-    <input type="checkbox" class="btn-check" id="24" autocomplete="off">
-    <label class="check btn btn-outline-success" for="24">24</label>
-    <input type="checkbox" class="btn-check" id="25" autocomplete="off">
-    <label class="check btn btn-outline-success" for="25">25</label>
-    <input type="checkbox" class="btn-check" id="26" autocomplete="off">
-    <label class="check btn btn-outline-success" for="26">26</label>
-    <input type="checkbox" class="btn-check" id="27" autocomplete="off">
-    <label class="check btn btn-outline-success" for="27">27</label>
-    <input type="checkbox" class="btn-check" id="28" autocomplete="off">
-    <label class="check btn btn-outline-success" for="28">28</label>
-    <input type="checkbox" class="btn-check" id="29" autocomplete="off">
-    <label class="check btn btn-outline-success" for="29">29</label>
-    <input type="checkbox" class="btn-check" id="30" autocomplete="off">
-    <label class="check btn btn-outline-success" for="30">30</label>
-
-    <br><br>
-
-    <input type="checkbox" class="btn-check" id="31" autocomplete="off">
-    <label class="check btn btn-outline-success" for="31">31</label>
-    <input type="checkbox" class="btn-check" id="32" autocomplete="off">
-    <label class="check btn btn-outline-success" for="32">32</label>
-    <input type="checkbox" class="btn-check" id="33" autocomplete="off">
-    <label class="check btn btn-outline-success" for="33">33</label>
-    <input type="checkbox" class="btn-check" id="34" autocomplete="off">
-    <label class="check btn btn-outline-success" for="34">34</label>
-    <input type="checkbox" class="btn-check" id="35" autocomplete="off">
-    <label class="check btn btn-outline-success" for="35">35</label>
-    <input type="checkbox" class="btn-check" id="36" autocomplete="off">
-    <label class="check btn btn-outline-success" for="36">36</label>
-    <input type="checkbox" class="btn-check" id="37" autocomplete="off">
-    <label class="check btn btn-outline-success" for="37">37</label>
-    <input type="checkbox" class="btn-check" id="38" autocomplete="off">
-    <label class="check btn btn-outline-success" for="38">38</label>
-    <input type="checkbox" class="btn-check" id="39" autocomplete="off">
-    <label class="check btn btn-outline-success" for="39">39</label>
-    <input type="checkbox" class="btn-check" id="40" autocomplete="off">
-    <label class="check btn btn-outline-success" for="40">40</label>
-
-    <br><br>
-
-    <input type="checkbox" class="btn-check" id="41" autocomplete="off">
-    <label class="check btn btn-outline-success" for="41">41</label>
-    <input type="checkbox" class="btn-check" id="42" autocomplete="off">
-    <label class="check btn btn-outline-success" for="42">42</label>
-    <input type="checkbox" class="btn-check" id="43" autocomplete="off">
-    <label class="check btn btn-outline-success" for="43">43</label>
-    <input type="checkbox" class="btn-check" id="44" autocomplete="off">
-    <label class="check btn btn-outline-success" for="44">44</label>
-    <input type="checkbox" class="btn-check" id="45" autocomplete="off">
-    <label class="check btn btn-outline-success" for="45">45</label>
-    <input type="checkbox" class="btn-check" id="46" autocomplete="off">
-    <label class="check btn btn-outline-success" for="46">46</label>
-    <input type="checkbox" class="btn-check" id="47" autocomplete="off">
-    <label class="check btn btn-outline-success" for="47">47</label>
-    <input type="checkbox" class="btn-check" id="48" autocomplete="off">
-    <label class="check btn btn-outline-success" for="48">48</label>
-    <input type="checkbox" class="btn-check" id="49" autocomplete="off">
-    <label class="check btn btn-outline-success" for="49">49</label>
-    <input type="checkbox" class="btn-check" id="50" autocomplete="off">
-    <label class="check btn btn-outline-success" for="50">50</label>
-
-
-    <br><br>
+    <%--<br><br>--%>
     <p class="h6">Total price: 0</p>
     <a class="btn btn-warning mt-3 mb-4" href="">Select chosen</a>
 </form>

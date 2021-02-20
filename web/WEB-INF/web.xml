@@ -44,6 +44,46 @@
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AddFilmSession</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.AddFilmSession</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddFilmSession</servlet-name>
+        <url-pattern>/addSession</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddFilm</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.AddFilm</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddFilm</servlet-name>
+        <url-pattern>/addMovie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Confirm</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.Confirm</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Confirm</servlet-name>
+        <url-pattern>/confirm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserTickets</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.UserTickets</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserTickets</servlet-name>
+        <url-pattern>/myTickets</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>15</session-timeout>
     </session-config>

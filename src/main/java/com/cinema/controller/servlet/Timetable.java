@@ -29,6 +29,7 @@ public class Timetable extends HttpServlet {
             User user = (User) req.getSession(false).getAttribute("user");
             req.setAttribute("user", user);
         }
+
         req.setAttribute("filmSession", filmSession);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);
