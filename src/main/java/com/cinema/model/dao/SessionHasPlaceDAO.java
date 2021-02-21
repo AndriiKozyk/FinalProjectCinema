@@ -22,7 +22,6 @@ public class SessionHasPlaceDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(INSERT_SESSION_HAS_PLACE);
             pStatement.setInt(1, shp.getSessionId());
-            System.out.println(shp.getSessionId());
             pStatement.setInt(2, shp.getPlace().getId());
             pStatement.executeUpdate();
         } catch (SQLException e) {
@@ -46,7 +45,7 @@ public class SessionHasPlaceDAO {
         ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_AMOUNT_UNAVAILABLE_PLACES);
+            pStatement = connection.prepareStatement(SELECT_AMOUNT_AVAILABLE_PLACES);
             pStatement.setInt(1, sessionId);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
@@ -61,7 +60,7 @@ public class SessionHasPlaceDAO {
             close(pStatement);
             close(connection);
         }
-        return 50 - amount;
+        return amount;
     }
 
     public SessionHasPlace getSessionHasPlace(int id) {
@@ -89,14 +88,14 @@ public class SessionHasPlaceDAO {
         return shp;
     }
 
-    public void setAvailable(SessionHasPlace shp) {
+    public void setAvailable(int shpId, boolean available) {
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(SET_PLACE_AVAILABLE);
-            pStatement.setBoolean(1, shp.isAvailable());
-            pStatement.setInt(2, shp.getId());
+            pStatement.setBoolean(1, available);
+            pStatement.setInt(2, shpId);
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,11 +138,30 @@ public class SessionHasPlaceDAO {
         shp.setAvailable(resultSet.getBoolean("available"));
     }
 
-    public void updatePlaces(List<SessionHasPlace> placeList, int sessionId) {
-        for (SessionHasPlace shp : getSessionPlaces(sessionId)) {
-            if (!shp.isAvailable()) {
+    public int selectSHPIdBySessionAndPlaceId(int sessionId, int placeId) {
+        int id = 0;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_SHP_ID_BY_SESSION_ID_AND_PLACE_ID);
+            pStatement.setInt(1, sessionId);
+            pStatement.setInt(2, placeId);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            } else {
+                throw new SQLException();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
         }
+        return id;
     }
 
     private void close(AutoCloseable closeable) {
@@ -157,10 +175,12 @@ public class SessionHasPlaceDAO {
     }
 
     public static void main(String[] args) {
-        SessionHasPlace shp = new SessionHasPlace();
-        shp.setSessionId(8);
-        shp.setPlace(new PlaceDAO().getPlace(9));
-        new SessionHasPlaceDAO().insertSessionHasPlace(shp);
+//        for (int i = 1; i < 51; ++i) {
+//            SessionHasPlace shp = new SessionHasPlace();
+//            shp.setSessionId(8);
+//            shp.setPlace(new PlaceDAO().getPlace(i));
+//            new SessionHasPlaceDAO().insertSessionHasPlace(shp);
+//        }
     }
 
 }

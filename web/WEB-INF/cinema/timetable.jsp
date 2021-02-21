@@ -80,8 +80,8 @@
 </div>
 
 <c:forEach var="filmSession" items="${filmSession}">
-    <a href="/placeSelect?name=${filmSession.id}" style="text-decoration: none">
-        <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
+    <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
+        <a href="/placeSelect?name=${filmSession.id}" style="text-decoration: none">
             <ul class="list-group list-group-horizontal">
                 <li><img src="${filmSession.film.poster}"/></li>
                 <li>
@@ -101,8 +101,8 @@
                     </ul>
                 </li>
             </ul>
-        </form>
-    </a>
+        </a>
+    </form>
 </c:forEach>
 
 <%--<form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">--%>

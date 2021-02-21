@@ -38,7 +38,6 @@ public class Timetable extends HttpServlet {
     public static void main(String[] args) {
         List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
         System.out.println(filmSession);
-        System.out.println(filmSession.get(0).getFilm().getPoster().getAbsolutePath());
     }
 
     @Override
