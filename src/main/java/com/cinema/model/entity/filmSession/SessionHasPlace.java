@@ -40,4 +40,14 @@ public class SessionHasPlace {
     public void setAvailable(boolean available) {
         this.available = available;
     }
+
+    @Override
+    public String toString() {
+        return "SessionHasPlace{" +
+                "id=" + id +
+                ", sessionId=" + sessionId +
+                ", place=" + place +
+                ", available=" + available +
+                '}';
+    }
 }

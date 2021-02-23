@@ -56,7 +56,6 @@ public final class SQL {
 
     public static final String SET_PLACE_AVAILABLE = "update session_has_place set available = ? where id = ?;";
 
-
     public static final String SELECT_SESSION_PLACES = "select * from session_has_place where session_id = ?;";
 
     public static final String INSERT_TICKET = "insert into ticket values (?, ?, ?);";
@@ -66,5 +65,13 @@ public final class SQL {
     public static final String SELECT_SHP_ID_BY_SESSION_ID_AND_PLACE_ID = "select id from session_has_place where session_id = ? and place_id = ?;";
 
     public static final String SELECT_USER_BY_ID = "select * from account where id = ?;";
+
+    public static final String SELECT_FILM_SESSION_BY_FILM = "select * from session where film_id = ?;";
+
+    public static final String SELECT_FILM_SESSION_BY_FILM_LIMIT = "select * from session where film_id = ? limit ?;";
+
+    public static final String SELECT_AMOUNT_OF_FILM_SESSIONS = "select count(id) as count from session where film_id = ?;";
+
+    public static final String SELECT_GENRES = "select * from genre";
 
 }

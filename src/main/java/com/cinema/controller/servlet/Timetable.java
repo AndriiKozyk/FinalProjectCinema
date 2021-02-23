@@ -21,8 +21,10 @@ public class Timetable extends HttpServlet {
 
         if ("logout".equals(req.getParameter("name"))) {
             String active = null;
+            if (req.getSession(false) != null) {
+                req.getSession(false).invalidate();
+            }
             req.getServletContext().setAttribute("active", active);
-            req.getSession(false).invalidate();
         }
 
         if (req.getSession(false) != null) {

@@ -1,12 +1,10 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.film.Film;
-import com.cinema.model.entity.film.Genre;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.SessionNotFoundException;
 import com.cinema.model.entity.filmSession.Status;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.text.DateFormat;
@@ -23,9 +21,10 @@ public class FilmSessionDAO {
     public void insertFilmSession(FilmSession filmSession) {
         Connection connection = null;
         PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
         try {
             connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(INSERT_SESSION);
+            pStatement = connection.prepareStatement(INSERT_SESSION, Statement.RETURN_GENERATED_KEYS);
             pStatement.setDate(1, new Date(filmSession.getDate().getTime()));
             pStatement.setTime(2, new Time(filmSession.getTime().getTime()));
             pStatement.setBigDecimal(3, filmSession.getMinPrice());
@@ -33,9 +32,14 @@ public class FilmSessionDAO {
             pStatement.setInt(5, filmSession.getFilm().getId());
             pStatement.setInt(6, filmSession.getStatus().getId());
             pStatement.executeUpdate();
+            resultSet = pStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                filmSession.setId(resultSet.getInt(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            close(resultSet);
             close(pStatement);
             close(connection);
         }
@@ -101,6 +105,82 @@ public class FilmSessionDAO {
             close(connection);
         }
         return filmList;
+    }
+
+    public List<FilmSession> selectFilmSessions(int filmId) {
+        List<FilmSession> filmList = new LinkedList<>();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_FILM_SESSION_BY_FILM);
+            pStatement.setInt(1, filmId);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                FilmSession filmSession = new FilmSession();
+                mapFilmSession(filmSession, resultSet);
+                filmList.add(filmSession);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return filmList;
+    }
+
+    public List<FilmSession> selectFilmSessions(int filmId, int limit) {
+        List<FilmSession> filmList = new LinkedList<>();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_FILM_SESSION_BY_FILM_LIMIT);
+            pStatement.setInt(1, filmId);
+            pStatement.setInt(2, limit);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                FilmSession filmSession = new FilmSession();
+                mapFilmSession(filmSession, resultSet);
+                filmList.add(filmSession);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return filmList;
+    }
+
+    public int selectAmountFilmSessions(int filmId) {
+        int amount = 0;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_AMOUNT_OF_FILM_SESSIONS);
+            pStatement.setInt(1, filmId);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                amount = resultSet.getInt("count");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return amount;
     }
 
     public void setStatus(FilmSession filmSession) {

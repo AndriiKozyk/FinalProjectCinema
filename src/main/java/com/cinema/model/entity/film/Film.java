@@ -15,6 +15,8 @@ public class Film {
     private Genre genre;
     private File poster;
 
+    private int additionalSession;
+
     public int getId() {
         return id;
     }
@@ -69,6 +71,14 @@ public class Film {
 
     public void setPoster(File poster) {
         this.poster = poster;//new File("images/poster6.jpg");
+    }
+
+    public int getAdditionalSession() {
+        return additionalSession;
+    }
+
+    public void setAdditionalSession(int additionalSession) {
+        this.additionalSession = additionalSession;
     }
 
     @Override

@@ -74,55 +74,48 @@
     </form>
 </div>
 
-<c:forEach var="filmSession" items="${filmSession}">
+<c:forEach var="film" items="${films}">
     <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
-        <a href="/placeSelect?name=${filmSession.id}" style="text-decoration: none">
+        <a href="/editSession?name=${film.id}" style="text-decoration: none">
             <ul class="list-group list-group-horizontal">
-                <li><img src="${filmSession.film.poster}"/></li>
+                <li><img src="${film.poster}"/></li>
                 <li>
                     <ul>
+                        <li><p class="h2 text-info">${film.nameEN}</p></li>
+                        <li><p class="h5 text-white">${film.genre.genreEN}</p></li>
+                        <li><p class="h5 text-white">Duration: ${film.duration} min</p></li>
+                        <li><p class="h5 text-white">Price: $${filmSession.minPrice} - $${filmSession.maxPrice}</p>
+                        </li>
                         <br>
-                        <c:if test="${filmSession.status.id != 1}">
-                            <li><p class="h2 text-danger">${filmSession.status.value}</p></li>
-                            <br>
+                        <c:forEach var="session" items="${filmMap[film.id]}">
+                            <li>
+                                <ul class="list-group list-group-horizontal">
+                                    <li>
+                                        <p class="h5 text-white">${session.date} ${session.time} -
+                                            <c:if test="${session.status.id == 1}">
+                                                 ${session.availablePlaces} places
+                                            </c:if>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="h5 text-danger">
+                                            <c:if test="${session.status.id != 1}">
+                                                &nbsp;${session.status.value}
+                                            </c:if>
+                                        </p></li>
+                                </ul>
+                            </li>
+                        </c:forEach>
+                        <br>
+                        <c:if test="${film.additionalSession != 0}">
+                            <li><p class="h5 text-info">Open to see all dates (+${film.additionalSession})</p></li>
                         </c:if>
-                        <li><p class="h2 text-info">${filmSession.film.nameEN}</p></li>
-                        <li><p class="h5 text-white">${filmSession.film.genre.genreEN}</p></li>
-                        <li><p class="h5 text-white">Duration: ${filmSession.film.duration} min</p></li>
-                        <li><p class="h5 text-white">Price: $${filmSession.minPrice} - $${filmSession.maxPrice}</p></li>
-                        <li><p class="h5 text-white">Available places: ${filmSession.availablePlaces}</p></li>
-                        <br>
-                        <li><p class="h5 text-white">${filmSession.date} ${filmSession.time}</p></li>
                     </ul>
                 </li>
             </ul>
         </a>
     </form>
 </c:forEach>
-
-<%--<form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">--%>
-<%--<ul class="list-group list-group-horizontal">--%>
-<%--<li><img class=""--%>
-<%--src="https://festagent.com/system/tilda/tild3562-6362-4762-b036-653363663832__a01ccf32943f670ef632.jpg">--%>
-<%--</li>--%>
-<%--<li>--%>
-<%--<ul>--%>
-<%--<li><p class="h2 text-info">Film name</p></li>--%>
-<%--<li><p class="h5 text-white">Genre</p></li>--%>
-<%--<li><p class="h5 text-white">Duration: 90 min</p></li>--%>
-<%--<li><p class="h5 text-white">Price: $30 - $60</p></li>--%>
-<%--<br>--%>
-<%--<li><p class="h5 text-white">05-Feb-21 09:00 AM - 15 places</p></li>--%>
-<%--<li><p class="h5 text-white">06-Feb-21 03:00 PM - 27 places</p></li>--%>
-<%--<li><p class="h5 text-white">06-Feb-21 06:00 PM - 44 places</p></li>--%>
-<%--<li><p class="h5 text-white">06-Feb-21 10:00 PM - 37 places</p></li>--%>
-<%--<li><p class="h5 text-white">...</p></li>--%>
-<%--<li><p class="h5 text-info">Open to see all dates</p></li>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</form>--%>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

@@ -27,14 +27,15 @@ public class FilmSession {
         placeList = new ArrayList<>();
     }
 
-    public void createPlaces(FilmSession filmSession) {
+    public void createPlaces() {
         SessionHasPlace shp;
         for (Place place : new PlaceDAO().selectPlaces()) {
             shp = new SessionHasPlace();
-            shp.setSessionId(filmSession.getId());
+            shp.setSessionId(this.getId());
             shp.setPlace(place);
-            shp.setAvailable(false);
-            filmSession.getPlaceList().add(shp);
+            shp.setAvailable(true);
+            this.getPlaceList().add(shp);
+            System.out.println(shp);
         }
         new SessionHasPlaceDAO().insertSessionHasPlace(placeList);
     }

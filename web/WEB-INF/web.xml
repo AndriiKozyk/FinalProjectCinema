@@ -45,18 +45,24 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AddFilmSession</servlet-name>
-        <servlet-class>com.cinema.controller.servlet.AddFilmSession</servlet-class>
+        <servlet-name>EditFilmSession</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.EditFilmSession</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>AddFilmSession</servlet-name>
-        <url-pattern>/addSession</url-pattern>
+        <servlet-name>EditFilmSession</servlet-name>
+        <url-pattern>/editSession</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>AddFilm</servlet-name>
         <servlet-class>com.cinema.controller.servlet.AddFilm</servlet-class>
+        <multipart-config>
+            <location>/images</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
@@ -117,7 +123,7 @@
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <servlet-name>AddFilm</servlet-name>
-        <servlet-name>AddFilmSession</servlet-name>
+        <servlet-name>EditFilmSession</servlet-name>
         <servlet-name>TimetableAdmin</servlet-name>
     </filter-mapping>
 

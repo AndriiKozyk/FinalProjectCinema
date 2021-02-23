@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.*;
+
 import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
 
@@ -38,6 +40,33 @@ public class GenreDAO {
             close(connection);
         }
         return genre;
+    }
+
+    public List<Genre> getGenres() {
+        List<Genre> genres = new ArrayList<>();
+        Genre genre = null;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_GENRES);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                genre = new Genre();
+                genre.setId(resultSet.getInt("id"));
+                genre.setGenreEN(resultSet.getString("genre_en"));
+                genre.setGenreUA(resultSet.getString("genre_ua"));
+                genres.add(genre);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return genres;
     }
 
     public void insertGenre(Genre genre) {
