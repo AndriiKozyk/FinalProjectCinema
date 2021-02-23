@@ -22,6 +22,7 @@ public class PlaceSelect extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             session.setAttribute("filmSession", filmSession);
+            req.setAttribute("user", session.getAttribute("user"));
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/placeSelect.jsp");
         requestDispatcher.forward(req, resp);

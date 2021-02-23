@@ -33,6 +33,10 @@ ul li {
     list-style: none;
 }
 
+.btn-width {
+    width: 200px;
+}
+
 .first-name {
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;

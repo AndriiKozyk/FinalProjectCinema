@@ -48,6 +48,8 @@ public class Confirm extends HttpServlet {
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 ticket.setSessionHasPlaceId(shpId);
                 ticket.setPrice(new BigDecimal(30));
+//                ticket.setFirstName(req.getParameter("firstName"));
+//                ticket.setLastName(req.getParameter("lastName"));
                 new TicketDAO().insertTicket(ticket);
             }
             String path = "/cinema";

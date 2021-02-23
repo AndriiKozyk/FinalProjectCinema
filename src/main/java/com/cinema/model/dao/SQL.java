@@ -65,4 +65,6 @@ public final class SQL {
 
     public static final String SELECT_SHP_ID_BY_SESSION_ID_AND_PLACE_ID = "select id from session_has_place where session_id = ? and place_id = ?;";
 
+    public static final String SELECT_USER_BY_ID = "select * from account where id = ?;";
+
 }

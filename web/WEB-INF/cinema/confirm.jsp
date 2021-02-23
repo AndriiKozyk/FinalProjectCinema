@@ -23,7 +23,6 @@
                                        src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
-                <li><a class="nav-link text-center" href="">My tickets</a></li>
                 <%--<li><p class="text-center text-light">${user.details.firstNameEN} ${user.details.lastNameEN}</p></li>--%>
                 <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 <li>
@@ -64,15 +63,15 @@
                 <p class="h5">Place: ${place}</p>
             </li>
             <br>
-            <li>
-                <ul class="list-group list-group-horizontal">
-                    <li><input type="text" placeholder="First name" class="form-control first-name"
-                               value="${user.details.firstNameEN}"></li>
-                    <li><input type="text" placeholder="Last name" class="form-control last-name"
-                               value="${user.details.lastNameEN}"></li>
-                </ul>
-            </li>
-            <br>
+            <%--<li>--%>
+                <%--<ul class="list-group list-group-horizontal">--%>
+                    <%--<li><input type="text" placeholder="First name" name="firstName" class="form-control first-name"--%>
+                               <%--value="${user.details.firstNameEN}"></li>--%>
+                    <%--<li><input type="text" placeholder="Last name" name="lastName" class="form-control last-name"--%>
+                               <%--value="${user.details.lastNameEN}"></li>--%>
+                <%--</ul>--%>
+            <%--</li>--%>
+            <%--<br>--%>
             <li>
                 <p class="h5">Price: $30</p>
             </li>

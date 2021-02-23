@@ -20,20 +20,26 @@
         <div class="container">
             <div class="navbar-header">
                 <a href="/cinema"><img class="logo"
-                                src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
+                                       src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
-                <li><a class="nav-link text-center" href="">My account</a></li>
-                <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
-                <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
+                <c:if test="${user != null}">
+                    <li><a class="nav-link text-center" href="/myTickets">My tickets</a></li>
+                    <%--<li><p class="text-center text-light">${user.details.firstNameEN} ${user.details.lastNameEN}</p></li>--%>
+                    <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
+                </c:if>
+                <c:if test="${user == null}">
+                    <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
+                    <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
+                </c:if>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-dark" href="#">English</a>
-                            <a class="dropdown-item text-dark" href="#">Українська</a>
+                            <a class="dropdown-item text-dark" href="">English</a>
+                            <a class="dropdown-item text-dark" href="">Українська</a>
                         </div>
                     </div>
                 </li>
@@ -92,7 +98,8 @@
             <label class="check btn btn-outline-success" for="${place.place.id}">${place.place.id}</label>
         </c:if>
         <c:if test="${place.available == false}">
-            <input type="checkbox" class="btn-check" name="place" value="${place.place.id}" id="${place.place.id}" disabled>
+            <input type="checkbox" class="btn-check" name="place" value="${place.place.id}" id="${place.place.id}"
+                   disabled>
             <label class="check btn btn-outline-success" for="${place.place.id}">${place.place.id}</label>
         </c:if>
         <c:if test="${place.place.id % 10 == 0}">
@@ -101,7 +108,12 @@
     </c:forEach>
 
     <p class="h6">Total price: 0</p>
-    <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen"/>
+    <c:if test="${user == null}">
+        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen" disabled/>
+    </c:if>
+    <c:if test="${user != null}">
+        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen"/>
+    </c:if>
 </form>
 
 

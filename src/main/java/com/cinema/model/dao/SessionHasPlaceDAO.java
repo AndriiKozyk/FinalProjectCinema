@@ -177,7 +177,7 @@ public class SessionHasPlaceDAO {
     public static void main(String[] args) {
 //        for (int i = 1; i < 51; ++i) {
 //            SessionHasPlace shp = new SessionHasPlace();
-//            shp.setSessionId(8);
+//            shp.setSessionId(13);
 //            shp.setPlace(new PlaceDAO().getPlace(i));
 //            new SessionHasPlaceDAO().insertSessionHasPlace(shp);
 //        }

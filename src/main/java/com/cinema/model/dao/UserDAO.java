@@ -63,13 +63,7 @@ public class UserDAO {
             pStatement.setString(1, login);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                user.setId(resultSet.getInt("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                int roleId = resultSet.getInt("role_id");
-                Role role = new RoleDAO().getRole(roleId);
-                user.setRole(role);
-                user.setUserDetailsId(resultSet.getInt("account_details_id"));
+                mapUser(user, resultSet);
             } else {
                 throw new UserNotFoundException();
             }
@@ -82,6 +76,44 @@ public class UserDAO {
             close(connection);
         }
         return user;
+    }
+
+    public User getUser(int id) {
+        User user = new User();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_USER_BY_ID);
+            pStatement.setInt(1, id);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                mapUser(user, resultSet);
+            } else {
+                throw new UserNotFoundException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return user;
+    }
+
+    private void mapUser(User user, ResultSet resultSet) throws SQLException {
+        user.setId(resultSet.getInt("id"));
+        user.setLogin(resultSet.getString("login"));
+        user.setPassword(resultSet.getString("password"));
+        int roleId = resultSet.getInt("role_id");
+        Role role = new RoleDAO().getRole(roleId);
+        user.setRole(role);
+        user.setUserDetailsId(resultSet.getInt("account_details_id"));
     }
 
     public void getUserDetails(User user) {

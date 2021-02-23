@@ -28,7 +28,7 @@ public final class DBManager {
         return dbManager;
     }
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 

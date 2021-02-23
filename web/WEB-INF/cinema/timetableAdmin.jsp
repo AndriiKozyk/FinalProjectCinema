@@ -25,13 +25,8 @@
             </div>
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
-                    <li><a class="nav-link text-center" href="/myTickets">My tickets</a></li>
-                    <%--<li><p class="text-center text-light">${user.details.firstNameEN} ${user.details.lastNameEN}</p></li>--%>
+                    <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
-                </c:if>
-                <c:if test="${user == null}">
-                    <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
-                    <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
                 </c:if>
                 <li>
                     <div class="dropdown">

@@ -20,7 +20,7 @@
                 <a href="/cinema"><img class="logo" src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
-                <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
+                <li><a class="btn btn-outline-light btn-width" href="/login">Log In</a></li>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language</button>

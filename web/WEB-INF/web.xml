@@ -88,6 +88,16 @@
         <session-timeout>15</session-timeout>
     </session-config>
 
+    <servlet>
+        <servlet-name>TimetableAdmin</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.TimetableAdmin</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TimetableAdmin</servlet-name>
+        <url-pattern>/timetableAdmin</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.cinema.controller.filter.LoginFilter</filter-class>
@@ -96,11 +106,30 @@
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <servlet-name>Login</servlet-name>
+        <servlet-name>Registration</servlet-name>
     </filter-mapping>
 
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>com.cinema.controller.filter.AdminFilter</filter-class>
+    </filter>
+
     <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        <servlet-name>Registration</servlet-name>
+        <filter-name>AdminFilter</filter-name>
+        <servlet-name>AddFilm</servlet-name>
+        <servlet-name>AddFilmSession</servlet-name>
+        <servlet-name>TimetableAdmin</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>com.cinema.controller.filter.UserFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <servlet-name>Confirm</servlet-name>
+        <servlet-name>UserTickets</servlet-name>
     </filter-mapping>
 
 </web-app>

@@ -138,15 +138,15 @@ public class FilmSessionDAO {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         try {
-            date = dateFormat.parse("2021-02-20");
-            time = timeFormat.parse("17:00:00");
+            date = dateFormat.parse("2021-02-22");
+            time = timeFormat.parse("18:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         session.setDate(date);
         session.setTime(time);
-        session.setMinPrice(new BigDecimal(170));
-        session.setMaxPrice(new BigDecimal(230));
+        session.setMinPrice(new BigDecimal(100));
+        session.setMaxPrice(new BigDecimal(200));
 //        Film film = new Film();
 //        Genre genre = new Genre();
 //        genre.setId(1);
@@ -157,9 +157,9 @@ public class FilmSessionDAO {
 //        film.setNameUA("Тест");
 //        film.setNameEN("Test");
 //        new FilmDAO().insertFilm(film);
-        session.setFilm(new FilmDAO().selectFilm(7));
-        Status status = Status.NO_PLACES;
-        status.setId(2);
+        session.setFilm(new FilmDAO().selectFilm(4));
+        Status status = Status.AVAILABLE;
+        status.setId(1);
         session.setStatus(status);
         new FilmSessionDAO().insertFilmSession(session);
     }

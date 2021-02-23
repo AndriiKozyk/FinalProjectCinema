@@ -1,6 +1,7 @@
 package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
+import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
 import com.cinema.model.entity.user.UserNotFoundException;
 
@@ -40,6 +41,10 @@ public class Login extends HttpServlet {
                 HttpSession userSession = req.getSession();
                 userDAO.getUserDetails(user);
                 userSession.setAttribute("user", user);
+                if (Role.ADMIN.equals(user.getRole())) {
+                    resp.sendRedirect("/timetableAdmin");
+                    return;
+                }
                 resp.sendRedirect("/cinema");
                 return;
             } else {
