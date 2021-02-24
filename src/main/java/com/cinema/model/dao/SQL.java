@@ -74,4 +74,8 @@ public final class SQL {
 
     public static final String SELECT_GENRES = "select * from genre";
 
+    public static final String SELECT_MIN_PLACE_PRICE = "select min(price) from type;";
+
+    public static final String SELECT_MAX_PLACE_PRICE = "select max(price) from type;";
+
 }

@@ -5,6 +5,7 @@ import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import java.math.BigDecimal;
@@ -30,36 +32,17 @@ public class AddFilm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("GOOD1");
-        System.out.println(req.getParameter("action"));
-        System.out.println(req.getServletContext().getAttribute("action"));
-
         if ("Add movie".equals(req.getParameter("action"))) {
-            System.out.println("GOOD2");
-
             Film film = new Film();
             film.setNameEN(req.getParameter("nameEN"));
             film.setNameUA(req.getParameter("nameUA"));
-            System.out.println(req.getParameter("nameEN"));
-            System.out.println("GOOD3");
-
             film.setDuration(Integer.parseInt(req.getParameter("duration")));
             film.setPrice(new BigDecimal(req.getParameter("price")));
             Genre genre = new GenreDAO().getGenre(Integer.parseInt(req.getParameter("genre")));
-            System.out.println("GOOD4");
-
             film.setGenre(genre);
-            System.out.println("GOOD5");
             Part part = req.getPart("poster");
-            System.out.println("GOOD6");
             InputStream inputStream = part.getInputStream();
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            File file = new File("images/poster.jpg");
-            OutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(buffer);
-            film.setPoster(file);
-            System.out.println(file);
+            film.setPosterInput(inputStream);
             new FilmDAO().insertFilm(film);
             resp.sendRedirect("/timetableAdmin");
         } else if ("Add genre".equals(req.getParameter("action"))) {

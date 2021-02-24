@@ -49,9 +49,7 @@
     <li>
         <form class="timetable mt-4 mx-auto" style="width: 500px; height: 250px">
             <ul class="list-group list-group-horizontal">
-                <li><img class=""
-                         src="${film.poster}">
-                </li>
+                <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
                 <li>
                     <ul>
                         <li>
@@ -63,9 +61,12 @@
                         <li>
                             <p class="h5 text-white">Duration: ${film.duration} min</p>
                         </li>
-                        <li>
-                            <p class="h5 text-white">Price: $30 - $60</p>
-                        </li>
+                        <c:if test="${filmSessions[0] != null}">
+                            <li>
+                                <p class="h5 text-white">Price: $${filmSessions[0].minPrice} -
+                                    $${filmSessions[0].maxPrice}</p>
+                            </li>
+                        </c:if>
                     </ul>
                 </li>
 

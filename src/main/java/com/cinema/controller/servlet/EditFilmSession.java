@@ -2,6 +2,7 @@ package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
+import com.cinema.model.dao.TypeDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.Status;
@@ -76,10 +77,12 @@ public class EditFilmSession extends HttpServlet {
         FilmSession filmSession = new FilmSession();
         filmSession.setDate(date);
         filmSession.setTime(time);
-        System.out.println(time);
         filmSession.setFilm(film);
-        filmSession.setMinPrice(new BigDecimal(100));
-        filmSession.setMaxPrice(new BigDecimal(150));
+        TypeDAO typeDAO = new TypeDAO();
+        filmSession.setMinPrice(film.getPrice().add(typeDAO.getPrice(false)));
+        filmSession.setMaxPrice(film.getPrice().add(typeDAO.getPrice(true)));
+        System.out.println(filmSession.getMinPrice());
+        System.out.println(film.getPrice());
         filmSession.setStatus(Status.AVAILABLE);
         new FilmSessionDAO().insertFilmSession(filmSession);
         filmSession.createPlaces();

@@ -2,6 +2,7 @@ package com.cinema.model.entity.film;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 
@@ -13,7 +14,9 @@ public class Film {
     private int duration;
     private BigDecimal price;
     private Genre genre;
-    private File poster;
+
+    private InputStream posterInput;
+    private String posterOut;
 
     private int additionalSession;
 
@@ -65,20 +68,28 @@ public class Film {
         this.genre = genre;
     }
 
-    public File getPoster() {
-        return poster;
-    }
-
-    public void setPoster(File poster) {
-        this.poster = poster;//new File("images/poster6.jpg");
-    }
-
     public int getAdditionalSession() {
         return additionalSession;
     }
 
     public void setAdditionalSession(int additionalSession) {
         this.additionalSession = additionalSession;
+    }
+
+    public InputStream getPosterInput() {
+        return posterInput;
+    }
+
+    public void setPosterInput(InputStream posterInput) {
+        this.posterInput = posterInput;
+    }
+
+    public String getPosterOut() {
+        return posterOut;
+    }
+
+    public void setPosterOut(String posterOut) {
+        this.posterOut = posterOut;
     }
 
     @Override
@@ -90,7 +101,6 @@ public class Film {
                 ", duration=" + duration +
                 ", price=" + price +
                 ", genre=" + genre +
-                ", poster=" + poster +
                 '}';
     }
 }

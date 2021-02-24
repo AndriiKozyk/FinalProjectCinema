@@ -83,7 +83,7 @@
     <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
         <a href="/placeSelect?name=${filmSession.id}" style="text-decoration: none">
             <ul class="list-group list-group-horizontal">
-                <li><img src="${filmSession.film.poster}"/></li>
+                <li><img src="data:image/jpg;base64,${filmSession.film.posterOut}"/></li>
                 <li>
                     <ul>
                         <br>

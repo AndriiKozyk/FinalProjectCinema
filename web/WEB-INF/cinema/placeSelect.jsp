@@ -50,8 +50,7 @@
 
 <form class="timetable mt-4 mx-auto" style="width: 500px; height: 250px">
     <ul class="list-group list-group-horizontal">
-        <li><img src="${filmSession.film.poster}">
-        </li>
+        <li><img src="data:image/jpg;base64,${filmSession.film.posterOut}"/></li>
         <li>
             <br>
             <ul>

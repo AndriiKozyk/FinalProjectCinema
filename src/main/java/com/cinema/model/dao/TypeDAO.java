@@ -3,6 +3,7 @@ package com.cinema.model.dao;
 import com.cinema.model.entity.place.Type;
 import com.cinema.model.entity.place.TypeNotFoundException;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +50,32 @@ public class TypeDAO {
             close(connection);
         }
         return type;
+    }
+
+    public BigDecimal getPrice(boolean max) {
+        BigDecimal price = null;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            if (max) {
+                pStatement = connection.prepareStatement(SELECT_MAX_PLACE_PRICE);
+            } else {
+                pStatement = connection.prepareStatement(SELECT_MIN_PLACE_PRICE);
+            }
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                price = resultSet.getBigDecimal(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return price;
     }
 
     private void close(AutoCloseable closeable) {

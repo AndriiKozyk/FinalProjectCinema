@@ -30,17 +30,7 @@ public class FilmDAO {
             pStatement.setInt(3, film.getDuration());
             pStatement.setBigDecimal(4, film.getPrice());
             pStatement.setInt(5, film.getGenre().getId());
-            Blob poster = null;
-            try {
-                BufferedImage img = ImageIO.read(film.getPoster());
-                poster = connection.createBlob();
-                try (OutputStream outputStream = poster.setBinaryStream(1)) {
-                    ImageIO.write(img, "jpg", outputStream);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            pStatement.setBlob(6, poster);
+            pStatement.setBlob(6, film.getPosterInput());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,12 +75,9 @@ public class FilmDAO {
         Genre genre = new GenreDAO().getGenre(genreId);
         film.setGenre(genre);
         Blob blob = resultSet.getBlob("poster");
-        BufferedImage img = ImageIO.read(blob.getBinaryStream());
-        File file = new File("C:/Desk/FinalProject/Cinema/web/images/poster" + film.getId() + ".jpg");
-        File file1 = new File("images/poster" + film.getId() + ".jpg");
-        ImageIO.write(img, "jpg", file);
-        ImageIO.write(img, "jpg", file1);
-        film.setPoster(file1);
+        byte[] image = blob.getBytes(1, (int) blob.length());
+        String encode = Base64.getEncoder().encodeToString(image);
+        film.setPosterOut(encode);
     }
 
     public List<Film> selectFilms() {
@@ -108,9 +95,7 @@ public class FilmDAO {
                 mapFilm(film, resultSet);
                 filmList.add(film);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
@@ -128,17 +113,6 @@ public class FilmDAO {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static void main(String[] args) {
-        List<Film> filmList = new FilmDAO().selectFilms();
-        System.out.println(filmList);
-        filmList.get(0).setPoster(new File("images/Intouchables.jpg"));
-        filmList.get(1).setPoster(new File("images/poster.jpg"));
-        filmList.get(2).setPoster(new File("images/Sherlock_Holmes2.jpg"));
-        for (Film film : filmList) {
-            new FilmDAO().insertFilm(film);
         }
     }
 

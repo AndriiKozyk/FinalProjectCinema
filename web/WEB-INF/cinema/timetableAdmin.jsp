@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ page isELIgnored="false" %>--%>
 <html>
 
 <head>
@@ -78,14 +77,17 @@
     <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
         <a href="/editSession?name=${film.id}" style="text-decoration: none">
             <ul class="list-group list-group-horizontal">
-                <li><img src="${film.poster}"/></li>
+                <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
                 <li>
                     <ul>
                         <li><p class="h2 text-info">${film.nameEN}</p></li>
                         <li><p class="h5 text-white">${film.genre.genreEN}</p></li>
                         <li><p class="h5 text-white">Duration: ${film.duration} min</p></li>
-                        <li><p class="h5 text-white">Price: $${filmSession.minPrice} - $${filmSession.maxPrice}</p>
-                        </li>
+                        <c:if test="${filmMap[film.id][0] != null}">
+                            <li><p class="h5 text-white">Price: $${filmMap[film.id][0].minPrice} -
+                                $${filmMap[film.id][0].maxPrice}</p>
+                            </li>
+                        </c:if>
                         <br>
                         <c:forEach var="session" items="${filmMap[film.id]}">
                             <li>
@@ -93,7 +95,7 @@
                                     <li>
                                         <p class="h5 text-white">${session.date} ${session.time} -
                                             <c:if test="${session.status.id == 1}">
-                                                 ${session.availablePlaces} places
+                                                ${session.availablePlaces} places
                                             </c:if>
                                         </p>
                                     </li>
