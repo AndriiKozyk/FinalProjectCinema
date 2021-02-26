@@ -50,39 +50,39 @@
 
 <form class="timetable mt-4 mx-auto" style="width: 500px; height: 250px">
     <ul class="list-group list-group-horizontal">
-        <li><img src="data:image/jpg;base64,${filmSession.film.posterOut}"/></li>
+        <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
         <li>
             <br>
             <ul>
                 <li>
-                    <p class="h2 text-info">${filmSession.film.nameEN}</p>
+                    <p class="h2 text-info">${film.nameEN}</p>
                 </li>
                 <li>
-                    <p class="h5 text-white">${filmSession.film.genre.genreEN}</p>
+                    <p class="h5 text-white">${film.genre.genreEN}</p>
                 </li>
                 <li>
-                    <p class="h5 text-white">Duration: ${filmSession.film.duration} min</p>
+                    <p class="h5 text-white">Duration: ${film.duration} min</p>
                 </li>
                 <li>
-                    <p class="h5 text-white">Price: $${filmSession.minPrice} - $${filmSession.maxPrice}</p>
+                    <p class="h5 text-white">Price: $${filmSessions[0].minPrice} - $${filmSessions[0].maxPrice}</p>
                 </li>
                 <br>
             </ul>
         </li>
-
     </ul>
-
-
 </form>
 
 <div class="session-select mx-auto" style="width: 500px">
     <p class="h3 mt-4 text-center text-white">Session</p>
     <div class="mt-4">
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a class="nav-link text-center select">${filmSession.date} ${filmSession.time}</a>
-                <span class="badge bg-primary rounded-pill">${filmSession.availablePlaces}</span>
-            </li>
+            <c:forEach var="session" items="${filmSessions}">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="/placeSelect?name=${film.id}&id=${session.id}"
+                       class="nav-link text-center select">${session.date} ${session.time}</a>
+                    <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>
+                </li>
+            </c:forEach>
         </ul>
     </div>
 </div>
@@ -91,10 +91,11 @@
     <br>
     <p class="h3 text-center text-black mb-4">Screen</p>
 
-    <c:forEach var="place" items="${filmSession.placeList}">
+    <c:forEach var="place" items="${activeSession.placeList}">
         <c:if test="${place.available == true}">
             <input type="checkbox" class="btn-check" name="place" value="${place.place.id}" id="${place.place.id}">
-            <label class="check btn btn-outline-success" for="${place.place.id}">${place.place.id}</label>
+            <label data-bs-toggle="tooltip" data-bs-placement="top" title="${place.place.type.price + film.price}"
+                   class="check btn btn-outline-success" for="${place.place.id}">${place.place.id}</label>
         </c:if>
         <c:if test="${place.available == false}">
             <input type="checkbox" class="btn-check" name="place" value="${place.place.id}" id="${place.place.id}"
@@ -106,15 +107,22 @@
         </c:if>
     </c:forEach>
 
-    <p class="h6">Total price: 0</p>
     <c:if test="${user == null}">
-        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen" disabled/>
+        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen" disabled required
+               autofocus/>
     </c:if>
     <c:if test="${user != null}">
-        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen"/>
+        <input type="submit" class="btn btn-warning mt-3 mb-4" href="/confirm" value="Select chosen" required
+               autofocus/>
     </c:if>
 </form>
 
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

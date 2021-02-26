@@ -60,27 +60,18 @@
                 <p class="h5">${filmSession.date} ${filmSession.time}</p>
             </li>
             <li>
-                <p class="h5">Place: ${place}</p>
+                <p class="h5">Place: ${place.key}</p>
             </li>
             <br>
-            <%--<li>--%>
-                <%--<ul class="list-group list-group-horizontal">--%>
-                    <%--<li><input type="text" placeholder="First name" name="firstName" class="form-control first-name"--%>
-                               <%--value="${user.details.firstNameEN}"></li>--%>
-                    <%--<li><input type="text" placeholder="Last name" name="lastName" class="form-control last-name"--%>
-                               <%--value="${user.details.lastNameEN}"></li>--%>
-                <%--</ul>--%>
-            <%--</li>--%>
-            <%--<br>--%>
             <li>
-                <p class="h5">Price: $30</p>
+                <p class="h5">Price: $${place.value}</p>
             </li>
         </ul>
     </form>
 </c:forEach>
 
 <form method="post">
-    <p class="h3 text-center text-white mb-4">Price: $30</p>
+    <p class="h3 text-center text-white mb-4">Price: $${totalPrice}</p>
     <div class="confirm d-flex justify-content-center gap-2">
         <input type="submit" class="btn btn-warning mb-4 btn-width" name="button" value="Confirm"/>
         <input type="submit" class="btn btn-outline-light mb-4 btn-width" name="button" value="Cancel"/>

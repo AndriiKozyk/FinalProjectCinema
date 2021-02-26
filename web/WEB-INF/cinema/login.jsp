@@ -48,13 +48,13 @@
              height="120">
         <h1 class="h3 mb-3 font-weight-normal">Please, sign in</h1>
         <input type="login" name="login" class="form-control" placeholder="Login" required autofocus>
-        <input type="password" name="password" placeholder="Password" class="form-control">
+        <input type="password" name="password" placeholder="Password" class="form-control" required>
         <c:if test="${errorMessage != null}">
             <p class="text-danger mt-3">${errorMessage}</p>
         </c:if>
         <div class="mt-3">
             <input type="submit" class="btn btn-sm btn-primary" value="Sign In" style="width: 270px;">
-            <p>If you do not have an account, create it now!</p>
+            <p>If you don't have an account, create it now!</p>
             <a href="/registration" class="btn btn-sm btn-dark" style="width: 270px;">Create account</a>
         </div>
     </form>

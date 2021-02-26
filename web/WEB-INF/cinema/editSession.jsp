@@ -19,7 +19,7 @@
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <a href="/timetableAdmin"><img class="logo"
+                <a href="/cinema"><img class="logo"
                                                src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
@@ -78,8 +78,8 @@
         <form class="mb-4 mt-4" style="width: 350px; height: 250px; margin: auto; padding: 30px;" method="post">
             <div class="container text-center">
                 <h1 class="h3 mb-3 font-weight-normal">Add new session</h1>
-                <input type="date" name="date" class="start form-control">
-                <input type="time" name="time" class="finish form-control">
+                <input type="date" name="date" class="start form-control" required>
+                <input type="time" name="time" class="finish form-control" required>
                 <div>
                     <input type="submit" class="btn btn-sm btn-dark mt-4" value="Add session" style="width: 270px;">
                 </div>

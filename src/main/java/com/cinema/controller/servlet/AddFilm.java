@@ -44,7 +44,7 @@ public class AddFilm extends HttpServlet {
             InputStream inputStream = part.getInputStream();
             film.setPosterInput(inputStream);
             new FilmDAO().insertFilm(film);
-            resp.sendRedirect("/timetableAdmin");
+            resp.sendRedirect("/cinema");
         } else if ("Add genre".equals(req.getParameter("action"))) {
             Genre genre = new Genre();
             genre.setGenreEN(req.getParameter("genreEN"));

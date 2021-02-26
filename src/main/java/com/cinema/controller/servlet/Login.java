@@ -1,6 +1,7 @@
 package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
+import com.cinema.model.encryption.CryptPassword;
 import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
 import com.cinema.model.entity.user.UserNotFoundException;
@@ -26,7 +27,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
-        String password = req.getParameter("password");
         User user = null;
         String errorMessage = null;
 
@@ -35,20 +35,20 @@ public class Login extends HttpServlet {
         try {
             UserDAO userDAO = new UserDAO();
             user = userDAO.getUser(login);
-            if (user.getPassword().equals(password)) {
-                active = "active";
-                req.getServletContext().setAttribute("active", active);
-                HttpSession userSession = req.getSession();
-                userDAO.getUserDetails(user);
-                userSession.setAttribute("user", user);
-                if (Role.ADMIN.equals(user.getRole())) {
-                    resp.sendRedirect("/timetableAdmin");
+            try {
+                if (CryptPassword.check(req.getParameter("password"), user.getPassword())) {
+                    active = "active";
+                    req.getServletContext().setAttribute("active", active);
+                    HttpSession userSession = req.getSession();
+                    userDAO.getUserDetails(user);
+                    userSession.setAttribute("user", user);
+                    resp.sendRedirect("/cinema");
                     return;
+                } else {
+                    errorMessage = "Incorrect password";
                 }
-                resp.sendRedirect("/cinema");
-                return;
-            } else {
-                errorMessage = "Incorrect password";
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } catch (UserNotFoundException e) {
             errorMessage = "Incorrect login";

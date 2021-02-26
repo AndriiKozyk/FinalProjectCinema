@@ -39,24 +39,24 @@
     <form style="width: 400px; margin: auto; padding: 30px;" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
         <label class="form-label">Login</label>
-        <input type="login" class="form-control mb-3" placeholder="Login" name="login">
+        <input type="login" class="form-control mb-3" placeholder="Login" name="login" required>
         <label class="form-label">Password</label>
-        <input type="password" placeholder="Password" class="form-control mb-3" name="password">
-        <input type="password" placeholder="Repeat password" class="form-control mb-3" name="repeatPassword">
+        <input type="password" placeholder="Password" class="form-control mb-3" name="password" required>
+        <input type="password" placeholder="Repeat password" class="form-control mb-3" name="repeatPassword" required>
         <label class="form-label">Email</label>
-        <input type="email" placeholder="Email" class="form-control mb-3" name="email">
+        <input type="email" placeholder="Email" class="form-control mb-3" name="email"required>
         <label class="form-label">First name and last name</label>
         <ul class="list-group list-group-horizontal mb-3">
-            <li><input type="text" placeholder="First name" class="form-control first-name" name="firstNameEN"></li>
-            <li><input type="text" placeholder="Last name" class="form-control last-name" name="lastNameEN"></li>
+            <li><input type="text" placeholder="First name" class="form-control first-name" name="firstNameEN" required></li>
+            <li><input type="text" placeholder="Last name" class="form-control last-name" name="lastNameEN" required></li>
         </ul>
         <label class="form-label">Ім'я та прізвище</label>
         <ul class="list-group list-group-horizontal mb-3">
-            <li><input type="text" placeholder="Ім'я" class="first-name form-control" name="firstNameUA"></li>
-            <li><input type="text" placeholder="Прізвище" class="form-control last-name" name="lastNameUA"></li>
+            <li><input type="text" placeholder="Ім'я" class="first-name form-control" name="firstNameUA" required></li>
+            <li><input type="text" placeholder="Прізвище" class="form-control last-name" name="lastNameUA" required></li>
         </ul>
         <label class="form-label">Phone number</label>
-        <input type="text" placeholder="Phone number" class="form-control mb-3" name="phone">
+        <input type="text" placeholder="Phone number" class="form-control mb-3" name="phone" required>
         <div class="mt-4">
             <input type="submit" class="btn btn-sm btn-dark" value="Create account" style="width: 270px;">
         </div>

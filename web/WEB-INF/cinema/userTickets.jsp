@@ -42,7 +42,7 @@
 
 <p class="h3 mt-4 mb-4 text-center text-white">My tickets</p>
 
-<c:if test="${tickets == null}">
+<c:if test="${tickets == []}">
     <p class="h1 mt-4 mb-4 text-center text-white">You don't have any tickets yet.</p>
 </c:if>
 <c:forEach var="ticket" items="${tickets}">

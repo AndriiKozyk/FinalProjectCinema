@@ -19,7 +19,7 @@
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <a href="/timetableAdmin"><img class="logo"
+                <a href="/cinema"><img class="logo"
                                 src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
@@ -53,12 +53,12 @@
             </select>
         </div>
         <label class="form-label">You can create genre below, if it doesn't exist.</label>
-        <input name="nameEN" type="text" class="start form-control" placeholder="Movie name">
-        <input name="nameUA" type="text" class="in form-control" placeholder="Назва фільму">
-        <input name="duration" type="number" placeholder="Duration (min)" class="in form-control">
-        <input name="price" type="number" placeholder="Price" class="finish form-control mb-2">
+        <input name="nameEN" type="text" class="start form-control" placeholder="Movie name" required>
+        <input name="nameUA" type="text" class="in form-control" placeholder="Назва фільму" required>
+        <input name="duration" type="number" placeholder="Duration (min)" class="in form-control" required>
+        <input name="price" type="number" placeholder="Price" class="finish form-control mb-2" required>
         <label class="form-label">Poster</label>
-        <input name="poster" type="file" class="form-control mb-3">
+        <input name="poster" type="file" class="form-control mb-3" required>
         <div>
             <input type="submit" name="action" class="btn btn-sm btn-dark" value="Add movie" style="width: 270px;">
         </div>
@@ -68,8 +68,8 @@
 <div class="container text-center mb-4">
     <form style="width: 400px; margin: auto; padding: 30px;" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Add new genre</h1>
-        <input name="genreEN" type="text" class="start form-control" placeholder="Genre">
-        <input name="genreUA" type="text" class="finish form-control mb-3" placeholder="Жанр">
+        <input name="genreEN" type="text" class="start form-control" placeholder="Genre" required>
+        <input name="genreUA" type="text" class="finish form-control mb-3" placeholder="Жанр" required>
         <div>
             <input type="submit" name="action" class="btn btn-sm btn-dark" value="Add genre" style="width: 270px;">
         </div>

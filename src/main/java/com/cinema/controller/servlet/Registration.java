@@ -1,6 +1,7 @@
 package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
+import com.cinema.model.encryption.CryptPassword;
 import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
 import com.cinema.model.entity.user.UserDetails;
@@ -25,7 +26,12 @@ public class Registration extends HttpServlet {
         User user = new User();
         UserDetails details = new UserDetails();
         user.setLogin(req.getParameter("login"));
-        user.setPassword(req.getParameter("password"));
+        try {
+            String cryptPassword = CryptPassword.getSaltedHash(req.getParameter("password"));
+            user.setPassword(cryptPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         user.setRole(Role.USER);
         details.setFirstNameEN(req.getParameter("firstNameEN"));
         details.setLastNameEN(req.getParameter("lastNameEN"));

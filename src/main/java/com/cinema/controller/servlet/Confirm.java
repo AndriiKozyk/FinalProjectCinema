@@ -15,41 +15,43 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Enumeration;
+import java.util.Map;
 
 public class Confirm extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/confirm.jsp");
-        req.setAttribute("places", req.getSession(false).getAttribute("places"));
+        req.setAttribute("places", req.getSession(false).getAttribute("chosenPlaces"));
+        req.setAttribute("totalPrice", req.getSession(false).getAttribute("totalPrice"));
         req.setAttribute("user", req.getSession(false).getAttribute("user"));
-        req.setAttribute("filmSession", req.getSession(false).getAttribute("filmSession"));
+        req.setAttribute("filmSession", req.getSession(false).getAttribute("activeSession"));
         requestDispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int[] places = (int[]) req.getSession(false).getAttribute("places");
+        Map<Integer, BigDecimal> places = (Map<Integer, BigDecimal>) req.getSession(false).getAttribute("chosenPlaces");
         SessionHasPlaceDAO shpDAO = new SessionHasPlaceDAO();
+        FilmSession activeSession = ((FilmSession) req.getSession(false).getAttribute("activeSession"));
+        int filmSessionId = activeSession.getId();
         if ("Cancel".equals(req.getParameter("button"))) {
-            int filmSessionId = ((FilmSession) req.getSession(false).getAttribute("filmSession")).getId();
-            for (int place : places) {
+            for (int place : places.keySet()) {
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 shpDAO.setAvailable(shpId, true);
             }
-            String path = "/placeSelect?name=" + filmSessionId;
+            String path = "/placeSelect?name=" + activeSession.getFilm().getId() + "&id=" + filmSessionId;
             resp.sendRedirect(path);
         } else if ("Confirm".equals(req.getParameter("button"))) {
             Ticket ticket;
-            int filmSessionId = ((FilmSession) req.getSession(false).getAttribute("filmSession")).getId();
-            for (int place : places) {
+            for (int place : places.keySet()) {
                 ticket = new Ticket();
                 ticket.setUserId(((User) req.getSession(false).getAttribute("user")).getId());
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
+                SessionHasPlace shp = shpDAO.getSessionHasPlace(shpId);
                 ticket.setSessionHasPlaceId(shpId);
-                ticket.setPrice(new BigDecimal(30));
-//                ticket.setFirstName(req.getParameter("firstName"));
-//                ticket.setLastName(req.getParameter("lastName"));
+                BigDecimal price = activeSession.getFilm().getPrice().add(shp.getPlace().getType().getPrice());
+                ticket.setPrice(price);
                 new TicketDAO().insertTicket(ticket);
             }
             String path = "/cinema";
