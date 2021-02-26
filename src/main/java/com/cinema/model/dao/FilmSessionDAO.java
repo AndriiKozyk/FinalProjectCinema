@@ -2,7 +2,6 @@ package com.cinema.model.dao;
 
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.filmSession.SessionNotFoundException;
 import com.cinema.model.entity.filmSession.Status;
 
 import java.math.BigDecimal;
@@ -58,9 +57,9 @@ public class FilmSessionDAO {
             if (resultSet.next()) {
                 mapFilmSession(filmSession, resultSet);
             } else {
-                throw new SessionNotFoundException();
+                throw new SQLException("Session not found!");
             }
-        } catch (SQLException | SessionNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

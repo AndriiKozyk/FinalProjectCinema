@@ -1,15 +1,9 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.film.Film;
-import com.cinema.model.entity.film.FilmNotFoundException;
 import com.cinema.model.entity.film.Genre;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.*;
 import java.util.*;
 import java.util.List;
@@ -53,9 +47,9 @@ public class FilmDAO {
             if (resultSet.next()) {
                 mapFilm(film, resultSet);
             } else {
-                throw new FilmNotFoundException();
+                throw new SQLException("Film not found!");
             }
-        } catch (SQLException | FilmNotFoundException | IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

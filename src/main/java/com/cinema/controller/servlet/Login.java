@@ -2,9 +2,7 @@ package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.UserDAO;
 import com.cinema.model.encryption.CryptPassword;
-import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
-import com.cinema.model.entity.user.UserNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Login extends HttpServlet {
 
@@ -50,7 +49,7 @@ public class Login extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } catch (UserNotFoundException e) {
+        } catch (SQLException e) {
             errorMessage = "Incorrect login";
         }
         req.setAttribute("errorMessage", errorMessage);

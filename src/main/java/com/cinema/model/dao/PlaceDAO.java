@@ -1,7 +1,6 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.place.Place;
-import com.cinema.model.entity.place.PlaceNotFoundException;
 import com.cinema.model.entity.place.Type;
 
 import java.sql.Connection;
@@ -29,9 +28,9 @@ public class PlaceDAO {
             if (resultSet.next()) {
                 mapPlace(place, resultSet);
             } else {
-                throw new PlaceNotFoundException();
+                throw new SQLException("Place not found!");
             }
-        } catch (SQLException | PlaceNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

@@ -1,11 +1,9 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.SessionHasPlace;
 import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.User;
-import com.mysql.cj.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

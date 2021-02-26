@@ -4,11 +4,9 @@ import com.cinema.model.dao.PlaceDAO;
 import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.place.Place;
-import com.cinema.model.entity.place.Type;
 
 import java.math.BigDecimal;
 import java.util.*;
-
 
 public class FilmSession {
 

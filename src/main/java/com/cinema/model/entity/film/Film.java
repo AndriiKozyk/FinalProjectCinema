@@ -1,10 +1,7 @@
 package com.cinema.model.entity.film;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 
 public class Film {
 

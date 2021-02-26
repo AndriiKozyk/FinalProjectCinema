@@ -52,7 +52,7 @@ public class UserDAO {
         }
     }
 
-    public User getUser(String login) throws UserNotFoundException {
+    public User getUser(String login) throws SQLException {
         User user = new User();
         Connection connection = null;
         PreparedStatement pStatement = null;
@@ -65,11 +65,8 @@ public class UserDAO {
             if (resultSet.next()) {
                 mapUser(user, resultSet);
             } else {
-                throw new UserNotFoundException();
+                throw new SQLException("User not found");
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             close(resultSet);
             close(pStatement);
@@ -91,12 +88,10 @@ public class UserDAO {
             if (resultSet.next()) {
                 mapUser(user, resultSet);
             } else {
-                throw new UserNotFoundException();
+                throw new SQLException("User not found!");
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (UserNotFoundException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
@@ -135,10 +130,8 @@ public class UserDAO {
                 details.setPhone(resultSet.getString("phone"));
                 user.setDetails(details);
             } else {
-                throw new UserNotFoundException();
+                throw new SQLException("User not found!");
             }
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

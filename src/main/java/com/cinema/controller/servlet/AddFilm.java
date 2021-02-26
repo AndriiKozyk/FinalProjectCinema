@@ -5,19 +5,15 @@ import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
 
-import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.util.*;
 
 public class AddFilm extends HttpServlet {

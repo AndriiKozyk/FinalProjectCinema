@@ -28,9 +28,6 @@ public class UserTickets extends HttpServlet {
         } else {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/errorPage.jsp");
             requestDispatcher.forward(req, resp);
-
         }
-
     }
-
 }

@@ -1,7 +1,6 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.film.Genre;
-import com.cinema.model.entity.film.GenreNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,9 +29,9 @@ public class GenreDAO {
                 genre.setGenreEN(resultSet.getString("genre_en"));
                 genre.setGenreUA(resultSet.getString("genre_ua"));
             } else {
-                throw new GenreNotFoundException();
+                throw new SQLException("Genre not found!");
             }
-        } catch (SQLException | GenreNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

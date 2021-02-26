@@ -1,8 +1,6 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.user.IncorrectRoleException;
 import com.cinema.model.entity.user.Role;
-import com.cinema.model.entity.user.RoleNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,12 +31,12 @@ public class RoleDAO {
                         role = Role.USER;
                         break;
                     default:
-                        throw new IncorrectRoleException();
+                        throw new SQLException("Incorrect role!");
                 }
             } else {
-                throw new RoleNotFoundException();
+                throw new SQLException("Role not found!");
             }
-        } catch (SQLException | RoleNotFoundException | IncorrectRoleException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

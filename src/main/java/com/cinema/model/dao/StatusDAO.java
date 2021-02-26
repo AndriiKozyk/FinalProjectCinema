@@ -1,7 +1,6 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.filmSession.Status;
-import com.cinema.model.entity.filmSession.StatusNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,13 +34,13 @@ public class StatusDAO {
                         status = Status.CANCELED;
                         break;
                     default:
-                        throw new StatusNotFoundException();
+                        throw new SQLException("Status not found!");
                 }
                 status.setId(id);
             } else {
-                throw new StatusNotFoundException();
+                throw new SQLException("Status not found!");
             }
-        } catch (SQLException | StatusNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);

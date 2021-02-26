@@ -1,7 +1,6 @@
 package com.cinema.model.dao;
 
 import com.cinema.model.entity.place.Type;
-import com.cinema.model.entity.place.TypeNotFoundException;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -36,13 +35,13 @@ public class TypeDAO {
                         type = Type.SUPER_LUX;
                         break;
                     default:
-                        throw new TypeNotFoundException();
+                        throw new SQLException("Type not found!");
                 }
                 type.setPrice(resultSet.getBigDecimal("price"));
             } else {
-                throw new TypeNotFoundException();
+                throw new SQLException("Type not found!");
             }
-        } catch (SQLException | TypeNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(resultSet);
