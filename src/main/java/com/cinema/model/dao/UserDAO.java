@@ -151,21 +151,4 @@ public class UserDAO {
         }
     }
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.setLogin("login");
-        user.setPassword("password");
-        Role role = Role.USER;
-        user.setRole(role);
-        UserDetails userDetails = new UserDetails();
-        userDetails.setFirstNameEN("User");
-        userDetails.setFirstNameUA("Юзер");
-        userDetails.setLastNameEN("Resu");
-        userDetails.setLastNameUA("Резю");
-        userDetails.setEmail("user@gmail.com");
-        userDetails.setPhone("0123456789");
-        user.setDetails(userDetails);
-        new UserDAO().insertUser(user);
-    }
-
 }

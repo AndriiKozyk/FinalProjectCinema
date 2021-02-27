@@ -3,12 +3,10 @@ package com.cinema.model.dao;
 import com.cinema.model.entity.filmSession.SessionHasPlace;
 import com.cinema.model.entity.place.Place;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.util.*;
+import java.util.Date;
 
 import static com.cinema.model.DBManager.*;
 import static com.cinema.model.dao.SQL.*;
@@ -38,6 +36,39 @@ public class SessionHasPlaceDAO {
         }
     }
 
+    public void insertBookTime(long time, int shpId) {
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(INSERT_BOOKED_TIME);
+            pStatement.setTimestamp(1, new Timestamp(time));
+            pStatement.setInt(2, shpId);
+            pStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pStatement);
+            close(connection);
+        }
+    }
+
+    public void setBookTimeNull(int shpId) {
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SET_TIME_NULL);
+            pStatement.setInt(1, shpId);
+            pStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pStatement);
+            close(connection);
+        }
+    }
+
     public int selectAmountAvailablePlaces(int sessionId) {
         int amount = 0;
         Connection connection = null;
@@ -50,8 +81,6 @@ public class SessionHasPlaceDAO {
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
                 amount = resultSet.getInt("amount");
-            } else {
-                throw new SQLException();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,6 +90,29 @@ public class SessionHasPlaceDAO {
             close(connection);
         }
         return amount;
+    }
+
+    public boolean isPlaceAvailable(int sessionId) {
+        boolean available = false;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(IS_PLACE_AVAILABLE);
+            pStatement.setInt(1, sessionId);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                available = resultSet.getBoolean("available");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return available;
     }
 
     public SessionHasPlace getSessionHasPlace(int id) {
@@ -75,8 +127,6 @@ public class SessionHasPlaceDAO {
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
                 mapSessionHasPlace(shp, resultSet);
-            } else {
-                throw new SQLException();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,6 +186,39 @@ public class SessionHasPlaceDAO {
         Place place = new PlaceDAO().getPlace(resultSet.getInt("place_id"));
         shp.setPlace(place);
         shp.setAvailable(resultSet.getBoolean("available"));
+        Timestamp bookTime = resultSet.getTimestamp("book_time");
+        if (bookTime != null) {
+            long time = System.currentTimeMillis() - bookTime.getTime();
+            long oneMin = 60_000;
+            if (time > oneMin) {
+                setAvailable(shp.getId(), true);
+                setBookTimeNull(shp.getId());
+            }
+        }
+    }
+
+    public boolean isTimeOut(int shpId) {
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_BOOKED_TIME);
+            pStatement.setInt(1, shpId);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                if (resultSet.getTimestamp("book_time") == null) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return false;
     }
 
     public int selectSHPIdBySessionAndPlaceId(int sessionId, int placeId) {
@@ -172,15 +255,6 @@ public class SessionHasPlaceDAO {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void main(String[] args) {
-//        for (int i = 1; i < 51; ++i) {
-//            SessionHasPlace shp = new SessionHasPlace();
-//            shp.setSessionId(13);
-//            shp.setPlace(new PlaceDAO().getPlace(i));
-//            new SessionHasPlaceDAO().insertSessionHasPlace(shp);
-//        }
     }
 
 }

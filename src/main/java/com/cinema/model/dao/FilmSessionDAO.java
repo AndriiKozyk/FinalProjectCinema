@@ -209,43 +209,4 @@ public class FilmSessionDAO {
         }
     }
 
-    public static void main(String[] args) {
-        FilmSession session = new FilmSession();
-
-        java.util.Date date = new java.util.Date();
-        java.util.Date time = new java.util.Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        try {
-            date = dateFormat.parse("2021-02-22");
-            time = timeFormat.parse("18:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        session.setDate(date);
-        session.setTime(time);
-        session.setMinPrice(new BigDecimal(100));
-        session.setMaxPrice(new BigDecimal(200));
-//        Film film = new Film();
-//        Genre genre = new Genre();
-//        genre.setId(1);
-//        film.setGenre(genre);
-//        film.setPoster(new File("images/Sherlock_Holmes2.jpg"));
-//        film.setPrice(new BigDecimal(100));
-//        film.setDuration(120);
-//        film.setNameUA("Тест");
-//        film.setNameEN("Test");
-//        new FilmDAO().insertFilm(film);
-        session.setFilm(new FilmDAO().selectFilm(4));
-        Status status = Status.AVAILABLE;
-        status.setId(1);
-        session.setStatus(status);
-        new FilmSessionDAO().insertFilmSession(session);
-    }
-
-    public static void main2(String[] args) {
-        FilmSession filmSession = new FilmSessionDAO().getFilmSession(1);
-        System.out.println(filmSession);
-    }
-
 }

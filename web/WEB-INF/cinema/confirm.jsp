@@ -72,8 +72,13 @@
 
 <form method="post">
     <p class="h3 text-center text-white mb-4">Price: $${totalPrice}</p>
+    <c:if test="${timeOut == true}">
+        <p class="h3 text-center text-white mb-4">Sorry, time is over</p>
+    </c:if>
     <div class="confirm d-flex justify-content-center gap-2">
-        <input type="submit" class="btn btn-warning mb-4 btn-width" name="button" value="Confirm"/>
+        <c:if test="${timeOut != true}">
+            <input type="submit" class="btn btn-warning mb-4 btn-width" name="button" value="Confirm"/>
+        </c:if>
         <input type="submit" class="btn btn-outline-light mb-4 btn-width" name="button" value="Cancel"/>
     </div>
 </form>

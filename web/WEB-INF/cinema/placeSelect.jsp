@@ -79,7 +79,7 @@
             <c:forEach var="session" items="${filmSessions}">
                 <c:if test="${session.status.id != 1}">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <p class="h6 text-danger">${session.status.value}</p>
+                        <p class="h6 text-danger" style="width: 100px;">${session.status.value}</p>
                         <a class="nav-link text-center select">${session.date} ${session.time}</a>
                         <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>
                     </li>
@@ -98,6 +98,7 @@
 
 <form class="hall mt-5 mb-5 mx-auto bg-white text-center" method="post">
     <br>
+    <p class="h6 text-center text-black mb-4">Session: ${activeSession.date} ${activeSession.time}</p>
     <p class="h3 text-center text-black mb-4">Screen</p>
 
     <c:forEach var="place" items="${activeSession.placeList}">

@@ -82,12 +82,25 @@ public class PlaceSelect extends HttpServlet {
 
         Map<Integer, BigDecimal> placePrice = (Map<Integer, BigDecimal>) session.getAttribute("placePrice");
         Map<Integer, BigDecimal> chosenPlaces = new LinkedHashMap<>();
+        FilmSession filmSession = ((FilmSession) session.getAttribute("activeSession"));
+        int filmSessionId = filmSession.getId();
         for (int i = 0; i < stringPlaces.length; i++) {
             places[i] = Integer.parseInt(stringPlaces[i]);
-            int filmSessionId = ((FilmSession) session.getAttribute("activeSession")).getId();
             int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, places[i]);
-            shpDAO.setAvailable(shpId, false);
-            chosenPlaces.put(places[i], placePrice.get(places[i]));
+            if (shpDAO.isPlaceAvailable(shpId)) {
+                shpDAO.insertBookTime(System.currentTimeMillis(), shpId);
+                shpDAO.setAvailable(shpId, false);
+                chosenPlaces.put(places[i], placePrice.get(places[i]));
+            } else {
+                String path = req.getServletPath() + "?name=" + req.getParameter("name");
+                resp.sendRedirect(path);
+                return;
+            }
+        }
+        int available = shpDAO.selectAmountAvailablePlaces(filmSessionId);
+        if (available == 0) {
+            filmSession.setStatus(Status.NO_PLACES);
+            new FilmSessionDAO().setStatus(filmSession);
         }
         BigDecimal totalPrice = new BigDecimal(0);
         for (BigDecimal price : chosenPlaces.values()) {
