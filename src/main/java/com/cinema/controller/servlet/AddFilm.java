@@ -28,13 +28,14 @@ public class AddFilm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        GenreDAO genreDAO = new GenreDAO();
         if ("Add movie".equals(req.getParameter("action"))) {
             Film film = new Film();
             film.setNameEN(req.getParameter("nameEN"));
             film.setNameUA(req.getParameter("nameUA"));
             film.setDuration(Integer.parseInt(req.getParameter("duration")));
             film.setPrice(new BigDecimal(req.getParameter("price")));
-            Genre genre = new GenreDAO().getGenre(Integer.parseInt(req.getParameter("genre")));
+            Genre genre = genreDAO.getGenre(Integer.parseInt(req.getParameter("genre")));
             film.setGenre(genre);
             Part part = req.getPart("poster");
             InputStream inputStream = part.getInputStream();
@@ -45,9 +46,9 @@ public class AddFilm extends HttpServlet {
             Genre genre = new Genre();
             genre.setGenreEN(req.getParameter("genreEN"));
             genre.setGenreUA(req.getParameter("genreUA"));
-            new GenreDAO().insertGenre(genre);
+            genreDAO.insertGenre(genre);
             resp.sendRedirect("/addMovie");
         }
-
     }
+
 }

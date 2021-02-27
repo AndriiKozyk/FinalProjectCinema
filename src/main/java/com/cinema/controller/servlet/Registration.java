@@ -22,7 +22,7 @@ public class Registration extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = new User();
         UserDetails details = new UserDetails();
         user.setLogin(req.getParameter("login"));
@@ -43,4 +43,5 @@ public class Registration extends HttpServlet {
         new UserDAO().insertUser(user);
         resp.sendRedirect("/login");
     }
+
 }

@@ -24,8 +24,8 @@
             </div>
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
+                    <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
                     <li><a class="nav-link text-center" href="/myTickets">My tickets</a></li>
-                    <%--<li><p class="text-center text-light">${user.details.firstNameEN} ${user.details.lastNameEN}</p></li>--%>
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 </c:if>
                 <c:if test="${user == null}">
@@ -77,11 +77,20 @@
     <div class="mt-4">
         <ul class="list-group">
             <c:forEach var="session" items="${filmSessions}">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="/placeSelect?name=${film.id}&id=${session.id}"
-                       class="nav-link text-center select">${session.date} ${session.time}</a>
-                    <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>
-                </li>
+                <c:if test="${session.status.id != 1}">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <p class="h6 text-danger">${session.status.value}</p>
+                        <a class="nav-link text-center select">${session.date} ${session.time}</a>
+                        <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>
+                    </li>
+                </c:if>
+                <c:if test="${session.status.id == 1}">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/placeSelect?name=${film.id}&id=${session.id}"
+                           class="nav-link text-center select">${session.date} ${session.time}</a>
+                        <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>
+                    </li>
+                </c:if>
             </c:forEach>
         </ul>
     </div>

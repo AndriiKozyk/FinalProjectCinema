@@ -23,10 +23,12 @@ public class AdminFilter implements Filter {
             ((HttpServletResponse) resp).sendRedirect("/cinema");
             return;
         }
-        User user = (User) session.getAttribute("user");
-        if (!Role.ADMIN.equals(user.getRole())) {
-            ((HttpServletResponse) resp).sendRedirect("/cinema");
-            return;
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (!Role.ADMIN.equals(user.getRole())) {
+                ((HttpServletResponse) resp).sendRedirect("/cinema");
+                return;
+            }
         }
         chain.doFilter(req, resp);
     }

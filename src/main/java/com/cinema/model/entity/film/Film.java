@@ -1,7 +1,12 @@
 package com.cinema.model.entity.film;
 
+import com.cinema.model.dao.FilmSessionDAO;
+import com.cinema.model.entity.filmSession.FilmSession;
+import com.cinema.model.entity.filmSession.Status;
+
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Film {
 
@@ -16,6 +21,16 @@ public class Film {
     private String posterOut;
 
     private int additionalSession;
+
+    public static boolean haveAvailableSession(int filmId) {
+        List<FilmSession> sessions = new FilmSessionDAO().selectFilmSessions(filmId);
+        for (FilmSession session : sessions) {
+            if (Status.AVAILABLE.equals(session.getStatus())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int getId() {
         return id;

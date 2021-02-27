@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class UserFilter implements Filter {
+public class AdminBlockedPage implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -19,15 +19,13 @@ public class UserFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) req).getSession(false);
-        if (!"active".equals(req.getServletContext().getAttribute("active"))) {
-            ((HttpServletResponse) resp).sendRedirect("/cinema");
-            return;
-        }
         if (session != null) {
             User user = (User) session.getAttribute("user");
-            if (!Role.USER.equals(user.getRole())) {
-                ((HttpServletResponse) resp).sendRedirect("/cinema");
-                return;
+            if (user != null) {
+                if (Role.ADMIN.equals(user.getRole())) {
+                    ((HttpServletResponse) resp).sendRedirect("/cinema");
+                    return;
+                }
             }
         }
         chain.doFilter(req, resp);
@@ -37,4 +35,5 @@ public class UserFilter implements Filter {
     public void destroy() {
 
     }
+
 }

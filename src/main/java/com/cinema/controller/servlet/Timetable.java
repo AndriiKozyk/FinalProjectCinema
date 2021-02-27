@@ -47,22 +47,26 @@ public class Timetable extends HttpServlet {
         req.setAttribute("link", link);
 
         List<Film> films = new FilmDAO().selectFilms();
-
         Map<Integer, List<FilmSession>> filmMap = new LinkedHashMap<>();
+        List<Film> emptyFilms = new ArrayList<>();
 
         for (Film film : films) {
-            List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions(film.getId(), SESSION_LIMIT);
+            List<FilmSession> filmSessions = new FilmSessionDAO().selectFilmSessions(film.getId(), SESSION_LIMIT);
             int amountOfSessions = new FilmSessionDAO().selectAmountFilmSessions(film.getId());
             if (amountOfSessions > 4) {
                 amountOfSessions -= 4;
                 film.setAdditionalSession(amountOfSessions);
             }
-            filmMap.put(film.getId(), filmSession);
             if (user == null || Role.USER.equals(user.getRole())) {
-                if (filmSession.isEmpty()) {
-                    films.remove(film);
+                if (filmSessions.isEmpty() || !Film.haveAvailableSession(film.getId())) {
+                    emptyFilms.add(film);
                 }
             }
+            filmMap.put(film.getId(), filmSessions);
+        }
+
+        for (Film film : emptyFilms) {
+            films.remove(film);
         }
 
         req.setAttribute("films", films);
@@ -72,13 +76,4 @@ public class Timetable extends HttpServlet {
         requestDispatcher.forward(req, resp);
     }
 
-    public static void main(String[] args) {
-        List<FilmSession> filmSession = new FilmSessionDAO().selectFilmSessions();
-        System.out.println(filmSession);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("POST");
-    }
 }

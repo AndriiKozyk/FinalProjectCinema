@@ -24,6 +24,8 @@
             </div>
             <ul class="nav navbar-right gap-4">
                 <ul class="nav navbar-right gap-4">
+                    <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
+                    <li class="mt-2 text-warning">ADMIN</li>
                     <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 </ul>
@@ -99,8 +101,14 @@
                 <c:forEach var="session" items="${filmSessions}">
                     <ul class="list-group">
                         <li class="d-flex justify-content-center">
+                            <c:if test="${session.status.id == 1}">
                             <input type="checkbox" class="btn-check" name="sessionForDelete" value="${session.id}"
                                    id="${session.id}" autocomplete="off">
+                            </c:if>
+                            <c:if test="${session.status.id != 1}">
+                                <input type="checkbox" class="btn-check" name="sessionForDelete" value="${session.id}"
+                                       id="${session.id}" autocomplete="off" disabled>
+                            </c:if>
                             <label class="btn btn-outline-light check d-flex justify-content-between"
                                    for="${session.id}" style="width: 400px;">${session.date} ${session.time}
                                 <span class="badge bg-primary rounded-pill">${session.availablePlaces}</span>

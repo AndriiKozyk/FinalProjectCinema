@@ -17,18 +17,15 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/login.jsp");
         requestDispatcher.forward(req, resp);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
-        User user = null;
+        User user;
         String errorMessage = null;
-
         String active;
 
         try {
@@ -56,4 +53,5 @@ public class Login extends HttpServlet {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/cinema/login.jsp");
         requestDispatcher.forward(req, resp);
     }
+
 }

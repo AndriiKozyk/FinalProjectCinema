@@ -60,7 +60,6 @@ public class EditFilmSession extends HttpServlet {
             }
         }
 
-
         Film film = new FilmDAO().selectFilm(Integer.parseInt(req.getParameter("name")));
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,12 +79,11 @@ public class EditFilmSession extends HttpServlet {
         TypeDAO typeDAO = new TypeDAO();
         filmSession.setMinPrice(film.getPrice().add(typeDAO.getPrice(false)));
         filmSession.setMaxPrice(film.getPrice().add(typeDAO.getPrice(true)));
-        System.out.println(filmSession.getMinPrice());
-        System.out.println(film.getPrice());
         filmSession.setStatus(Status.AVAILABLE);
         new FilmSessionDAO().insertFilmSession(filmSession);
         filmSession.createPlaces();
         resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
+
     }
 
 }

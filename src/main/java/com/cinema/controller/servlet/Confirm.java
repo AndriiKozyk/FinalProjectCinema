@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -30,9 +31,10 @@ public class Confirm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<Integer, BigDecimal> places = (Map<Integer, BigDecimal>) req.getSession(false).getAttribute("chosenPlaces");
+        HttpSession session = req.getSession(false);
+        Map<Integer, BigDecimal> places = (Map<Integer, BigDecimal>) session.getAttribute("chosenPlaces");
         SessionHasPlaceDAO shpDAO = new SessionHasPlaceDAO();
-        FilmSession activeSession = ((FilmSession) req.getSession(false).getAttribute("activeSession"));
+        FilmSession activeSession = ((FilmSession) session.getAttribute("activeSession"));
         int filmSessionId = activeSession.getId();
         if ("Cancel".equals(req.getParameter("button"))) {
             for (int place : places.keySet()) {
@@ -45,7 +47,7 @@ public class Confirm extends HttpServlet {
             Ticket ticket;
             for (int place : places.keySet()) {
                 ticket = new Ticket();
-                ticket.setUserId(((User) req.getSession(false).getAttribute("user")).getId());
+                ticket.setUserId(((User) session.getAttribute("user")).getId());
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 SessionHasPlace shp = shpDAO.getSessionHasPlace(shpId);
                 ticket.setSessionHasPlaceId(shpId);

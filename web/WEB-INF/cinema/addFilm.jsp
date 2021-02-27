@@ -24,6 +24,8 @@
             </div>
             <ul class="nav navbar-right gap-4">
                 <ul class="nav navbar-right gap-4">
+                    <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
+                    <li class="mt-2 text-warning">ADMIN</li>
                     <li><a class="btn btn-outline-light btn-width" href="/cinema?name=logout">Log Out</a></li>
                 </ul>
                 <li>

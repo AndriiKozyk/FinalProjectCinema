@@ -23,6 +23,7 @@
                                 src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
+                <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
                 <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 <li>
                     <div class="dropdown">
