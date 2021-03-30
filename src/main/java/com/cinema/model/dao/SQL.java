@@ -78,4 +78,12 @@ public final class SQL {
 
     public static final String SELECT_MAX_PLACE_PRICE = "select max(price) from type;";
 
+    public static final String IS_PLACE_AVAILABLE = "select available from session_has_place where id = ?;";
+
+    public static final String INSERT_BOOKED_TIME = "update session_has_place set book_time = ? where id = ?;";
+
+    public static final String SET_TIME_NULL = "update session_has_place set book_time = null where id = ?;";
+
+    public static final String SELECT_BOOKED_TIME = "select book_time from session_has_place where id = ?;";
+
 }

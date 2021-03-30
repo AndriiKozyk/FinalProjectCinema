@@ -1,9 +1,11 @@
 package com.cinema.controller.servlet;
 
+import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.dao.TicketDAO;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.SessionHasPlace;
+import com.cinema.model.entity.filmSession.Status;
 import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.User;
 
@@ -22,10 +24,15 @@ public class Confirm extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/confirm.jsp");
-        req.setAttribute("places", req.getSession(false).getAttribute("chosenPlaces"));
-        req.setAttribute("totalPrice", req.getSession(false).getAttribute("totalPrice"));
-        req.setAttribute("user", req.getSession(false).getAttribute("user"));
-        req.setAttribute("filmSession", req.getSession(false).getAttribute("activeSession"));
+        HttpSession session = req.getSession(false);
+        req.setAttribute("places", session.getAttribute("chosenPlaces"));
+        req.setAttribute("totalPrice", session.getAttribute("totalPrice"));
+        req.setAttribute("user", session.getAttribute("user"));
+        req.setAttribute("filmSession", session.getAttribute("activeSession"));
+        if (session.getAttribute("timeOut") != null) {
+            req.setAttribute("timeOut", session.getAttribute("timeOut"));
+            session.setAttribute("timeOut", false);
+        }
         requestDispatcher.forward(req, resp);
     }
 
@@ -40,20 +47,32 @@ public class Confirm extends HttpServlet {
             for (int place : places.keySet()) {
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 shpDAO.setAvailable(shpId, true);
+                shpDAO.setBookTimeNull(shpId);
+            }
+            if (Status.NO_PLACES.equals(activeSession.getStatus())) {
+                activeSession.setStatus(Status.AVAILABLE);
+                new FilmSessionDAO().setStatus(activeSession);
             }
             String path = "/placeSelect?name=" + activeSession.getFilm().getId() + "&id=" + filmSessionId;
             resp.sendRedirect(path);
         } else if ("Confirm".equals(req.getParameter("button"))) {
             Ticket ticket;
             for (int place : places.keySet()) {
+                int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
+                boolean timeOut = shpDAO.isTimeOut(shpId);
+                if (timeOut) {
+                    session.setAttribute("timeOut", true);
+                    resp.sendRedirect("/confirm");
+                    return;
+                }
                 ticket = new Ticket();
                 ticket.setUserId(((User) session.getAttribute("user")).getId());
-                int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 SessionHasPlace shp = shpDAO.getSessionHasPlace(shpId);
                 ticket.setSessionHasPlaceId(shpId);
                 BigDecimal price = activeSession.getFilm().getPrice().add(shp.getPlace().getType().getPrice());
                 ticket.setPrice(price);
                 new TicketDAO().insertTicket(ticket);
+                shpDAO.setBookTimeNull(shpId);
             }
             String path = "/cinema";
             resp.sendRedirect(path);
