@@ -4,11 +4,7 @@ import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.Status;
 
-import java.math.BigDecimal;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 

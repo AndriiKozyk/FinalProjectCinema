@@ -9,7 +9,7 @@ public final class DBManager {
 
     private static final String CONNECTION_URL = "jdbc:mysql://127.0.0.1:3306/cinema?allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=UTC&useSSL=false";
     private static final String USER = "root";
-    private static final String PASSWORD = "vemega44";
+    private static final String PASSWORD = "root";
 
     public static BasicDataSource dataSource = new BasicDataSource();
 
