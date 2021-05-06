@@ -16,13 +16,21 @@ import java.util.*;
 
 public class UserTickets extends HttpServlet {
 
+    private static final int TICKETS_LIMIT = 5;
+    private int currentPage = 1;
+    private static final int CONST_ONE = 1;
+    private static final TicketDAO ticketDAO = new TicketDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session != null) {
             User user = (User) session.getAttribute("user");
-            List<Ticket> tickets = new TicketDAO().getUserTickets(user.getId());
+
+            List<Ticket> tickets = pagination(req, user);
+
             req.setAttribute("tickets", tickets);
+
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/userTickets.jsp");
             requestDispatcher.forward(req, resp);
         } else {
@@ -30,4 +38,32 @@ public class UserTickets extends HttpServlet {
             requestDispatcher.forward(req, resp);
         }
     }
+
+    private List<Ticket> pagination(HttpServletRequest req, User user) {
+        int ticketAmount = ticketDAO.amountTickets(user.getId());
+        int pageAmount = (int) Math.ceil((double) ticketAmount / TICKETS_LIMIT);
+
+        Integer[] pages = new Integer[pageAmount];
+        for (int i = 0; i < pageAmount; ++i) {
+            pages[i] = i + 1;
+        }
+
+        if (req.getParameter("page") != null) {
+            currentPage = Integer.parseInt(req.getParameter("page"));
+            if (currentPage > pageAmount || currentPage < 1) {
+                currentPage = 1;
+            }
+        }
+
+        int offset = (currentPage - 1) * TICKETS_LIMIT;
+        List<Ticket> tickets = ticketDAO.getUserTickets(user.getId(), offset, TICKETS_LIMIT);
+
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("pages", pages);
+        req.setAttribute("firstPage", CONST_ONE);
+        req.setAttribute("lastPage", pageAmount);
+
+        return tickets;
+    }
+
 }

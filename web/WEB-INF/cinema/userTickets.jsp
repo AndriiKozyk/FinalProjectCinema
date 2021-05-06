@@ -20,7 +20,7 @@
         <div class="container">
             <div class="navbar-header">
                 <a href="/cinema"><img class="logo"
-                                src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
+                                       src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
             </div>
             <ul class="nav navbar-right gap-4">
                 <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
@@ -67,10 +67,6 @@
                 <p class="h5">Place: ${ticket.place}</p>
             </li>
             <br>
-            <%--<li>--%>
-                <%--<p class="h5">${ticket.firstName} ${ticket.lastName}</p>--%>
-            <%--</li>--%>
-            <%--<br>--%>
             <li>
                 <p class="h5">Price: $${ticket.price}</p>
             </li>
@@ -78,10 +74,65 @@
     </form>
 </c:forEach>
 
+<nav>
+    <div class="d-flex justify-content-center mt-5 mb-4">
+        <ul class="pagination">
+
+            <c:if test="${currentPage == firstPage}">
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            </c:if>
+            <c:if test="${currentPage != firstPage}">
+                <li class="page-item">
+                    <a href="/myTickets?page=${currentPage-1}" style="text-decoration: none">
+                        <span class="page-link">Previous</span>
+                    </a>
+                </li>
+            </c:if>
+
+            <c:forEach var="pageNumber" items="${pages}">
+
+                <c:choose>
+
+                    <c:when test="${pageNumber.equals(currentPage)}">
+                        <li class="page-item disabled">
+                            <span class="page-link">${pageNumber}</span>
+                        </li>
+                    </c:when>
+
+                    <c:otherwise>
+                        <li class="page-item">
+                            <a href="/myTickets?page=${pageNumber}" style="text-decoration: none">
+                                <span class="page-link">${pageNumber}</span>
+                            </a>
+                        </li>
+                    </c:otherwise>
+
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage == lastPage}">
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            </c:if>
+            <c:if test="${currentPage != lastPage}">
+                <li class="page-item">
+                    <a href="/myTickets?page=${currentPage+1}" style="text-decoration: none">
+                        <span class="page-link">Next</span>
+                    </a>
+                </li>
+            </c:if>
+
+        </ul>
+    </div>
+</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 </body>
 
 </html>

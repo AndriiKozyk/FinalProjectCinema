@@ -55,8 +55,65 @@ public class TicketDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
         }
         return ticketList;
+    }
+
+    public List<Ticket> getUserTickets(int userId, int offset, int limit) {
+        List<Ticket> ticketList = new LinkedList<>();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_USER_TICKETS_LIMIT);
+            pStatement.setInt(1, userId);
+            pStatement.setInt(2, offset);
+            pStatement.setInt(3, limit);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                Ticket ticket = new Ticket();
+                ticket.setUserId(resultSet.getInt("account_id"));
+                ticket.setSessionHasPlaceId(resultSet.getInt("session_has_place_id"));
+                ticket.setPrice(resultSet.getBigDecimal("price"));
+                additionalInformation(ticket);
+                ticketList.add(ticket);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return ticketList;
+    }
+
+    public int amountTickets(int userId) {
+        int amount = 0;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_AMOUNT_TICKETS);
+            pStatement.setInt(1, userId);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return amount;
     }
 
     private void additionalInformation(Ticket ticket) {
@@ -70,8 +127,6 @@ public class TicketDAO {
         ticket.setTime(filmSession.getTime());
         ticket.setDuration(filmSession.getFilm().getDuration());
         ticket.setPlace(shp.getPlace().getNumber());
-//        ticket.setFirstName(user.getDetails().getFirstNameEN());
-//        ticket.setLastName(user.getDetails().getLastNameEN());
     }
 
     private void close(AutoCloseable closeable) {

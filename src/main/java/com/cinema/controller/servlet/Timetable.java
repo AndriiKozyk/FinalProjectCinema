@@ -4,6 +4,7 @@ import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
+import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
 
@@ -15,10 +16,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class Timetable extends HttpServlet {
 
     private static final int SESSION_LIMIT = 4;
+    private static final int FILMS_LIMIT = 5;
+    private int currentPage = 1;
+    private static final int CONST_ONE = 1;
+    private static final FilmDAO filmDao = new FilmDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,7 +52,7 @@ public class Timetable extends HttpServlet {
 
         req.setAttribute("link", link);
 
-        List<Film> films = new FilmDAO().selectFilms();
+        List<Film> films = filmDao.selectFilms();
         Map<Integer, List<FilmSession>> filmMap = new LinkedHashMap<>();
         List<Film> emptyFilms = new ArrayList<>();
 
@@ -69,11 +75,42 @@ public class Timetable extends HttpServlet {
             films.remove(film);
         }
 
+        films = pagination(req, films);
+
         req.setAttribute("films", films);
         req.setAttribute("filmMap", filmMap);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);
+    }
+
+    private List<Film> pagination(HttpServletRequest req, List<Film> films) {
+        int filmAmount = films.size();
+        int pageAmount = (int) Math.ceil((double) filmAmount / FILMS_LIMIT);
+
+        Integer[] pages = new Integer[pageAmount];
+        for (int i = 0; i < pageAmount; ++i) {
+            pages[i] = i + 1;
+        }
+
+        if (req.getParameter("page") != null) {
+            currentPage = Integer.parseInt(req.getParameter("page"));
+            if (currentPage > pageAmount || currentPage < 1) {
+                currentPage = 1;
+            }
+        }
+
+        int offset = (currentPage - 1) * FILMS_LIMIT;
+        int lastFilm = currentPage * FILMS_LIMIT;
+
+        films = films.stream().skip(offset).limit(lastFilm).collect(Collectors.toList());
+
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("pages", pages);
+        req.setAttribute("firstPage", CONST_ONE);
+        req.setAttribute("lastPage", pageAmount);
+
+        return films;
     }
 
 }

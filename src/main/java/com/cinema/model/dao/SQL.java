@@ -86,4 +86,12 @@ public final class SQL {
 
     public static final String SELECT_BOOKED_TIME = "select book_time from session_has_place where id = ?;";
 
+    public static final String SELECT_USER_TICKETS_LIMIT = "select * from ticket where account_id = ? limit ?, ?;";
+
+    public static final String SELECT_AMOUNT_TICKETS = "select count(account_id) as count from ticket where account_id = ?;";
+
+    public static final String SELECT_AMOUNT_FILMS = "select count(id) as count from film;";
+
+    public static final String SELECT_FILMS_LIMIT = "select * from film limit ?, ?;";
+
 }

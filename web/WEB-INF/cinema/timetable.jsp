@@ -131,6 +131,60 @@
     </form>
 </c:forEach>
 
+<nav>
+    <div class="d-flex justify-content-center mt-5 mb-4">
+        <ul class="pagination">
+
+            <c:if test="${currentPage == firstPage}">
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            </c:if>
+            <c:if test="${currentPage != firstPage}">
+                <li class="page-item">
+                    <a href="/cinema?page=${currentPage-1}" style="text-decoration: none">
+                        <span class="page-link">Previous</span>
+                    </a>
+                </li>
+            </c:if>
+
+            <c:forEach var="pageNumber" items="${pages}">
+
+                <c:choose>
+
+                    <c:when test="${pageNumber.equals(currentPage)}">
+                        <li class="page-item disabled">
+                            <span class="page-link">${pageNumber}</span>
+                        </li>
+                    </c:when>
+
+                    <c:otherwise>
+                        <li class="page-item">
+                            <a href="/cinema?page=${pageNumber}" style="text-decoration: none">
+                                <span class="page-link">${pageNumber}</span>
+                            </a>
+                        </li>
+                    </c:otherwise>
+
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage == lastPage}">
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            </c:if>
+            <c:if test="${currentPage != lastPage}">
+                <li class="page-item">
+                    <a href="/cinema?page=${currentPage+1}" style="text-decoration: none">
+                        <span class="page-link">Next</span>
+                    </a>
+                </li>
+            </c:if>
+
+        </ul>
+    </div>
+</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
