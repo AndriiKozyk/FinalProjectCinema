@@ -20,8 +20,9 @@
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <img class="logo"
+                <a href="/cinema"><img class="logo"
                      src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
+                </a>
             </div>
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
@@ -56,35 +57,59 @@
 </header>
 
 <div class="sort d-flex justify-content-center">
-    <form class="mt-4 mb-4">
-        <ul class="nav gap-4">
-            <li>
-                <button type="button" class="btn btn-outline-light btn-width">Name</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-outline-light btn-width">Empty places</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-outline-light btn-width">Date / time</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-outline-light btn-width">Available</button>
-            </li>
-            <li>
-                <div class="dropdown">
-                    <button class="btn btn-outline-light dropdown-toggle btn-width" type="button" id="dropdownGenre"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genre
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownGenre">
-                        <a class="dropdown-item text-dark btn-width" href="#">Some genre</a>
-                        <a class="dropdown-item text-dark btn-width" href="#">Another genre</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </form>
+    <ul class="nav gap-4">
+        <li>
+            <form class="mt-4 mb-4 timetable" style="width: 700px; height: 125px" method="post">
+                <p class="h3 text-center text-light mb-2">Sort by:</p>
+                <ul class="nav gap-4 d-flex justify-content-center">
+                    <li>
+                        <input type="submit" class="btn btn-outline-light btn-width" value="Name" name="sortBy">
+                    </li>
+                    <li>
+                        <input type="submit" class="btn btn-outline-light btn-width" value="Empty places" name="sortBy">
+                    </li>
+                    <li>
+                        <input type="submit" class="btn btn-outline-light btn-width" value="Date / Time" name="sortBy">
+                    </li>
+                </ul>
+                <p class="text-light mt-2 text-center">Sorted: ${sortBy} ${sortOrder}</p>
+            </form>
+        </li>
+        <li>
+            <form class="mt-4 mb-4 timetable" style="width: 475px; height: 125px" method="post">
+                <p class="h3 text-center text-light mb-2">Show only:</p>
+                <ul class="nav gap-4 d-flex justify-content-center">
+                    <li>
+                        <input type="submit" class="btn btn-outline-light btn-width"
+                               value="Available" name="showOnlyAvailable">
+                        <p class="text-light mt-2 text-center">Available: ${showOnlyAvailable}</p>
+                    </li>
+                    <li>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light dropdown-toggle btn-width" type="button"
+                                    id="dropdownGenre"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genre
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownGenre">
+                                <input type="submit" class="btn dropdown-item text-dark btn-width"
+                                       value="All" name="showOnlyGenre">
+                                <c:forEach var="genre" items="${genres}">
+                                    <input type="submit" class="btn dropdown-item text-dark btn-width"
+                                           value="${genre.genreEN}" name="showOnlyGenre">
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <p class="text-light mt-2 text-center">Genre: ${showOnlyGenre}</p>
+                    </li>
+                </ul>
+            </form>
+        </li>
+    </ul>
 </div>
 
+<c:if test="${films == []}">
+    <p class="h1 mt-4 mb-4 text-center text-white">No available films.</p>
+</c:if>
 <c:forEach var="film" items="${films}">
     <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
         <a href="/${link}?name=${film.id}" style="text-decoration: none">
@@ -131,60 +156,62 @@
     </form>
 </c:forEach>
 
-<nav>
-    <div class="d-flex justify-content-center mt-5 mb-4">
-        <ul class="pagination">
+<c:if test="${films != []}">
+    <nav>
+        <div class="d-flex justify-content-center mt-5 mb-4">
+            <ul class="pagination">
 
-            <c:if test="${currentPage == firstPage}">
-                <li class="page-item disabled">
-                    <span class="page-link">Previous</span>
-                </li>
-            </c:if>
-            <c:if test="${currentPage != firstPage}">
-                <li class="page-item">
-                    <a href="/cinema?page=${currentPage-1}" style="text-decoration: none">
+                <c:if test="${currentPage == firstPage}">
+                    <li class="page-item disabled">
                         <span class="page-link">Previous</span>
-                    </a>
-                </li>
-            </c:if>
+                    </li>
+                </c:if>
+                <c:if test="${currentPage != firstPage}">
+                    <li class="page-item">
+                        <a href="/cinema?page=${currentPage-1}" style="text-decoration: none">
+                            <span class="page-link">Previous</span>
+                        </a>
+                    </li>
+                </c:if>
 
-            <c:forEach var="pageNumber" items="${pages}">
+                <c:forEach var="pageNumber" items="${pages}">
 
-                <c:choose>
+                    <c:choose>
 
-                    <c:when test="${pageNumber.equals(currentPage)}">
-                        <li class="page-item disabled">
-                            <span class="page-link">${pageNumber}</span>
-                        </li>
-                    </c:when>
-
-                    <c:otherwise>
-                        <li class="page-item">
-                            <a href="/cinema?page=${pageNumber}" style="text-decoration: none">
+                        <c:when test="${pageNumber.equals(currentPage)}">
+                            <li class="page-item disabled">
                                 <span class="page-link">${pageNumber}</span>
-                            </a>
-                        </li>
-                    </c:otherwise>
+                            </li>
+                        </c:when>
 
-                </c:choose>
-            </c:forEach>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a href="/cinema?page=${pageNumber}" style="text-decoration: none">
+                                    <span class="page-link">${pageNumber}</span>
+                                </a>
+                            </li>
+                        </c:otherwise>
 
-            <c:if test="${currentPage == lastPage}">
-                <li class="page-item disabled">
-                    <span class="page-link">Next</span>
-                </li>
-            </c:if>
-            <c:if test="${currentPage != lastPage}">
-                <li class="page-item">
-                    <a href="/cinema?page=${currentPage+1}" style="text-decoration: none">
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${currentPage == lastPage}">
+                    <li class="page-item disabled">
                         <span class="page-link">Next</span>
-                    </a>
-                </li>
-            </c:if>
+                    </li>
+                </c:if>
+                <c:if test="${currentPage != lastPage}">
+                    <li class="page-item">
+                        <a href="/cinema?page=${currentPage+1}" style="text-decoration: none">
+                            <span class="page-link">Next</span>
+                        </a>
+                    </li>
+                </c:if>
 
-        </ul>
-    </div>
-</nav>
+            </ul>
+        </div>
+    </nav>
+</c:if>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"

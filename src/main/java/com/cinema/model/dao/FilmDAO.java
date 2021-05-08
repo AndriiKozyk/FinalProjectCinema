@@ -100,6 +100,33 @@ public class FilmDAO {
         return filmList;
     }
 
+    public List<Film> selectFilms(String genre) {
+        List<Film> filmList = new LinkedList<>();
+
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_FILMS_BY_GENRE);
+            pStatement.setString(1, genre);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                Film film = new Film();
+                mapFilm(film, resultSet);
+                filmList.add(film);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+
+        return filmList;
+    }
+
     public List<Film> selectFilms(int offset, int limit) {
         List<Film> filmList = new LinkedList<>();
 

@@ -1,8 +1,14 @@
 package com.cinema.controller.servlet;
 
+import com.cinema.comparator.FilmSessionAvailableDateComparator;
+import com.cinema.comparator.FilmSessionAvailablePlaceComparator;
+import com.cinema.comparator.FilmSessionDateComparator;
+import com.cinema.comparator.FilmSessionPlaceComparator;
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
+import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
+import com.cinema.model.entity.film.Genre;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.Role;
@@ -24,7 +30,14 @@ public class Timetable extends HttpServlet {
     private static final int FILMS_LIMIT = 5;
     private int currentPage = 1;
     private static final int CONST_ONE = 1;
-    private static final FilmDAO filmDao = new FilmDAO();
+    private final FilmDAO filmDao = new FilmDAO();
+    private final FilmSessionDAO filmSessionDAO = new FilmSessionDAO();
+    private static String sortOrder = "ascending";
+    private static final String ASC = "ascending";
+    private static final String DESC = "descending";
+    private static String sortBy = "Date / Time";
+    private static String showOnlyAvailable = "Only available";
+    private static String showOnlyGenre = "All";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,13 +65,25 @@ public class Timetable extends HttpServlet {
 
         req.setAttribute("link", link);
 
-        List<Film> films = filmDao.selectFilms();
+        List<Film> films;
+
+        if (showOnlyGenre.equals("All")) {
+            films = filmDao.selectFilms();
+        } else {
+            films = filmDao.selectFilms(showOnlyGenre);
+        }
         Map<Integer, List<FilmSession>> filmMap = new LinkedHashMap<>();
         List<Film> emptyFilms = new ArrayList<>();
 
+        List<FilmSession> filmSessions;
+
         for (Film film : films) {
-            List<FilmSession> filmSessions = new FilmSessionDAO().selectFilmSessions(film.getId(), SESSION_LIMIT);
-            int amountOfSessions = new FilmSessionDAO().selectAmountFilmSessions(film.getId());
+            if (showOnlyAvailable.equals("Only available")) {
+                filmSessions = filmSessionDAO.selectAvailableFilmSessions(film.getId(), SESSION_LIMIT);
+            } else {
+                filmSessions = filmSessionDAO.selectFilmSessions(film.getId(), SESSION_LIMIT);
+            }
+            int amountOfSessions = filmSessionDAO.selectAmountFilmSessions(film.getId());
             if (amountOfSessions > 4) {
                 amountOfSessions -= 4;
                 film.setAdditionalSession(amountOfSessions);
@@ -68,6 +93,7 @@ public class Timetable extends HttpServlet {
                     emptyFilms.add(film);
                 }
             }
+            filmSessions = filmSessions.stream().sorted().collect(Collectors.toList());
             filmMap.put(film.getId(), filmSessions);
         }
 
@@ -75,13 +101,52 @@ public class Timetable extends HttpServlet {
             films.remove(film);
         }
 
+        films = sorting(films);
+
         films = pagination(req, films);
+
+        List<Genre> genres = new GenreDAO().getGenres();
 
         req.setAttribute("films", films);
         req.setAttribute("filmMap", filmMap);
+        req.setAttribute("genres", genres);
+        req.setAttribute("sortBy", sortBy);
+        req.setAttribute("sortOrder", sortOrder);
+        req.setAttribute("showOnlyAvailable", showOnlyAvailable);
+        req.setAttribute("showOnlyGenre", showOnlyGenre);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String temp = req.getParameter("sortBy");
+        if (temp != null) {
+            if (temp.equals(sortBy)) {
+                sortOrder = changeSortOrder(sortOrder);
+            } else {
+                sortOrder = ASC;
+                sortBy = temp;
+            }
+        }
+
+        temp = req.getParameter("showOnlyAvailable");
+        if (temp != null) {
+            if (showOnlyAvailable.equals("Only available")) {
+                showOnlyAvailable = "All";
+            } else {
+                showOnlyAvailable = "Only available";
+            }
+        }
+
+        temp = req.getParameter("showOnlyGenre");
+        if (temp != null) {
+            showOnlyGenre = temp;
+        }
+
+        resp.sendRedirect("/cinema");
     }
 
     private List<Film> pagination(HttpServletRequest req, List<Film> films) {
@@ -109,6 +174,65 @@ public class Timetable extends HttpServlet {
         req.setAttribute("pages", pages);
         req.setAttribute("firstPage", CONST_ONE);
         req.setAttribute("lastPage", pageAmount);
+
+        return films;
+    }
+
+    private String changeSortOrder(String sortOrder) {
+        if (sortOrder.equals(ASC)) {
+            sortOrder = DESC;
+        } else {
+            sortOrder = ASC;
+        }
+        return sortOrder;
+    }
+
+    private List<Film> sorting(List<Film> films) {
+
+        switch (sortBy) {
+            case "Name": {
+                if (sortOrder.equals(ASC)) {
+                    films = films.stream().sorted().collect(Collectors.toList());
+                } else {
+                    films = films.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+                }
+                break;
+            }
+
+            case "Empty places": {
+                if (showOnlyAvailable.equals("Only available")) {
+                    if (sortOrder.equals(ASC)) {
+                        films.sort(new FilmSessionAvailablePlaceComparator());
+                    } else {
+                        films.sort(new FilmSessionAvailablePlaceComparator().reversed());
+                    }
+                } else {
+                    if (sortOrder.equals(ASC)) {
+                        films.sort(new FilmSessionPlaceComparator());
+                    } else {
+                        films.sort(new FilmSessionPlaceComparator().reversed());
+                    }
+                }
+                break;
+            }
+
+            default: {
+                if (showOnlyAvailable.equals("Only available")) {
+                    if (sortOrder.equals(ASC)) {
+                        films.sort(new FilmSessionAvailableDateComparator());
+                    } else {
+                        films.sort(new FilmSessionAvailableDateComparator().reversed());
+                    }
+                } else {
+                    if (sortOrder.equals(ASC)) {
+                        films.sort(new FilmSessionDateComparator());
+                    } else {
+                        films.sort(new FilmSessionAvailableDateComparator().reversed());
+                    }
+                }
+                break;
+            }
+        }
 
         return films;
     }

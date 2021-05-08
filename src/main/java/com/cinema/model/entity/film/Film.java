@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Film {
+public class Film implements Comparable<Film> {
 
     private int id;
     private String nameEN;
@@ -115,4 +115,10 @@ public class Film {
                 ", genre=" + genre +
                 '}';
     }
+
+    @Override
+    public int compareTo(Film film) {
+        return this.getNameEN().compareTo(film.getNameEN());
+    }
+
 }

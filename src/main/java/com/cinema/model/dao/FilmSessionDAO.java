@@ -127,6 +127,57 @@ public class FilmSessionDAO {
         return filmList;
     }
 
+    public List<FilmSession> selectAvailableFilmSessions(int filmId) {
+        List<FilmSession> filmList = new LinkedList<>();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_AVAILABLE_FILM_SESSION_BY_FILM);
+            pStatement.setInt(1, filmId);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                FilmSession filmSession = new FilmSession();
+                mapFilmSession(filmSession, resultSet);
+                filmList.add(filmSession);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return filmList;
+    }
+
+    public List<FilmSession> selectAvailableFilmSessions(int filmId, int limit) {
+        List<FilmSession> filmList = new LinkedList<>();
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_AVAILABLE_FILM_SESSION_BY_FILM_LIMIT);
+            pStatement.setInt(1, filmId);
+            pStatement.setInt(2, limit);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                FilmSession filmSession = new FilmSession();
+                mapFilmSession(filmSession, resultSet);
+                filmList.add(filmSession);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return filmList;
+    }
+
     public List<FilmSession> selectFilmSessions(int filmId, int limit) {
         List<FilmSession> filmList = new LinkedList<>();
         Connection connection = null;

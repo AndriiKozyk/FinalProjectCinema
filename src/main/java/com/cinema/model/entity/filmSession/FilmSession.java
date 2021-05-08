@@ -8,7 +8,7 @@ import com.cinema.model.entity.place.Place;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class FilmSession {
+public class FilmSession implements Comparable<FilmSession> {
 
     private int id;
     private Date date;
@@ -124,4 +124,13 @@ public class FilmSession {
                 ", placeList=" + placeList +
                 '}';
     }
+
+    @Override
+    public int compareTo(FilmSession session) {
+        if (this.getDate().equals(session.getDate())) {
+            return this.getTime().compareTo(session.getTime());
+        }
+        return this.getDate().compareTo(session.getDate());
+    }
+
 }

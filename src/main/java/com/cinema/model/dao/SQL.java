@@ -70,7 +70,8 @@ public final class SQL {
 
     public static final String SELECT_FILM_SESSION_BY_FILM_LIMIT = "select * from session where film_id = ? limit ?;";
 
-    public static final String SELECT_AMOUNT_OF_FILM_SESSIONS = "select count(id) as count from session where film_id = ?;";
+    public static final String SELECT_AMOUNT_OF_FILM_SESSIONS = "select count(id) as count from session where film_id = ? " +
+            "and status_id = (select id from status where status_en = \"Available\");";
 
     public static final String SELECT_GENRES = "select * from genre";
 
@@ -93,5 +94,14 @@ public final class SQL {
     public static final String SELECT_AMOUNT_FILMS = "select count(id) as count from film;";
 
     public static final String SELECT_FILMS_LIMIT = "select * from film limit ?, ?;";
+
+    public static final String SELECT_AVAILABLE_FILM_SESSION_BY_FILM = "select * from session where film_id = ? and " +
+            "status_id = (select id from status where status_en = \"Available\");";
+
+    public static final String SELECT_FILMS_BY_GENRE = "select * from film where genre_id = " +
+            "(select id from genre where genre_en = ?);";
+
+    public static final String SELECT_AVAILABLE_FILM_SESSION_BY_FILM_LIMIT = "select * from session where film_id = ? and " +
+            "status_id = (select id from status where status_en = \"Available\") limit ?;";
 
 }
