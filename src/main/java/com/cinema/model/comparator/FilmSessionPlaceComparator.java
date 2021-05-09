@@ -1,4 +1,4 @@
-package com.cinema.comparator;
+package com.cinema.model.comparator;
 
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.entity.film.Film;

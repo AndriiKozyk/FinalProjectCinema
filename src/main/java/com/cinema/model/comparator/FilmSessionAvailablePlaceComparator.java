@@ -1,4 +1,4 @@
-package com.cinema.comparator;
+package com.cinema.model.comparator;
 
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.entity.film.Film;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FilmSessionDateComparator implements Comparator<Film> {
+public class FilmSessionAvailablePlaceComparator implements Comparator<Film> {
 
     @Override
     public int compare(Film film1, Film film2) {
@@ -33,11 +33,23 @@ public class FilmSessionDateComparator implements Comparator<Film> {
             return -1;
         }
 
-        return session1.compareTo(session2);
+        int count = 2;
+
+        while (session1.getAvailablePlaces() == session2.getAvailablePlaces()) {
+            if (film1Sessions.size() < count && film2Sessions.size() < count) {
+                session1 = film1Sessions.get(count - 1);
+                session2 = film2Sessions.get(count - 1);
+                ++count;
+            } else {
+                break;
+            }
+        }
+
+        return session2.getAvailablePlaces() - session1.getAvailablePlaces();
     }
 
     private List<FilmSession> getSessions(int filmId) {
-        return new FilmSessionDAO().selectFilmSessions(filmId);
+        return new FilmSessionDAO().selectAvailableFilmSessions(filmId);
     }
 
 }

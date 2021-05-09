@@ -1,16 +1,15 @@
 package com.cinema.controller.servlet;
 
-import com.cinema.comparator.FilmSessionAvailableDateComparator;
-import com.cinema.comparator.FilmSessionAvailablePlaceComparator;
-import com.cinema.comparator.FilmSessionDateComparator;
-import com.cinema.comparator.FilmSessionPlaceComparator;
+import com.cinema.model.comparator.FilmSessionAvailableDateComparator;
+import com.cinema.model.comparator.FilmSessionAvailablePlaceComparator;
+import com.cinema.model.comparator.FilmSessionDateComparator;
+import com.cinema.model.comparator.FilmSessionPlaceComparator;
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
 
