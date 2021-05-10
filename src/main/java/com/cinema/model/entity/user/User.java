@@ -1,5 +1,6 @@
 package com.cinema.model.entity.user;
 
+import com.cinema.model.entity.filmToOrder.FilmToOrder;
 import com.cinema.model.entity.ticket.Ticket;
 import java.util.*;
 
@@ -13,6 +14,9 @@ public class User {
     private UserDetails details;
 
     private List<Ticket> tickets;
+
+    private List<FilmToOrder> userVote;
+    private List<FilmToOrder> userSuggestion;
 
     public int getId() {
         return id;

@@ -104,4 +104,35 @@ public final class SQL {
     public static final String SELECT_AVAILABLE_FILM_SESSION_BY_FILM_LIMIT = "select * from session where film_id = ? and " +
             "status_id = (select id from status where status_en = \"Available\") limit ?;";
 
+    public static final String GET_FILM_TO_ORDER = "select * from film_to_order where id = ?;";
+
+    public static final String GET_ALL_FILM_TO_ORDER_BY_STATUS = "select * from film_to_order where film_status_id = " +
+            "(select id from film_status where status_en = ?);";
+
+    public static final String GET_ALL_FILM_TO_ORDER_BY_USER_VOTE = "select * from film_to_order where id " +
+            "in (select order_film_id from user_vote where account_id = ?);";
+
+    public static final String GET_ALL_FILM_TO_ORDER_BY_USER_SUGGESTION = "select * from film_to_order where id " +
+            "in (select order_film_id from user_suggestion where account_id = ?);";
+
+    public static final String INSERT_FILM_TO_ORDER = "insert into film_to_order (name_en, name_ua, year, description, film_status_id) " +
+            "values (?, ?, ?, ?, (select id from film_status where status_en = 'suggestion'));";
+
+    public static final String INSERT_USER_VOTE = "insert into user_vote (account_id, order_film_id) " +
+            "values (?, ?);";
+
+    public static final String INSERT_USER_SUGGESTION = "insert into user_suggestion (account_id, order_film_id) " +
+            "values (?, ?);";
+
+    public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?, name_ua = ?," +
+            "poster = ?, required_vote = ?, film_status_id = (select id from film_status where status_en = 'voting') where id = ?;";
+
+    public static final String UPDATE_FILM_TO_ORDER_STATUS = "update film_to_order set " +
+            "film_status_id = (select id from film_status where status_en = ?) where id = ?;";
+
+    public static final String UPDATE_FILM_TO_ORDER_VOTE = "update film_to_order set vote = " +
+            "(select count(account_id) from user_vote where order_film_id = ?) where id = ?;";
+
+    public static final String SELECT_FILM_STATUS = "select status_en from film_status where id = ?;";
+
 }
