@@ -52,6 +52,7 @@
         <h1 class="h3 mb-3 font-weight-normal">Movie to order</h1>
         <input type="text" class="start form-control" placeholder="Movie name">
         <input type="text" class="in form-control" placeholder="Назва фільму">
+        <input type="text" class="in form-control" placeholder="Link to trailer">
         <input type="number" placeholder="Required votes" class="finish form-control mb-2">
         <label class="form-label">Poster</label>
         <input type="file" class="form-control mb-3">

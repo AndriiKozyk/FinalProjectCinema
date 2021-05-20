@@ -16,6 +16,7 @@ public class Film implements Comparable<Film> {
     private int duration;
     private BigDecimal price;
     private Genre genre;
+    private String trailer;
 
     private InputStream posterInput;
     private String posterOut;
@@ -102,6 +103,14 @@ public class Film implements Comparable<Film> {
 
     public void setPosterOut(String posterOut) {
         this.posterOut = posterOut;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
     @Override

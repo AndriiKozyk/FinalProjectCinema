@@ -17,8 +17,8 @@ public final class SQL {
     public static final String SELECT_USER_DETAILS = "select * from account_details where id = ?;";
 
     public static final String INSERT_FILM = "insert into " +
-            "film (name_en, name_ua, duration, price, genre_id, poster) " +
-            "values (?, ?, ?, ?, ?, ?)";
+            "film (name_en, name_ua, duration, price, genre_id, poster, trailer) " +
+            "values (?, ?, ?, ?, ?, ?, ?)";
 
     public static final String SELECT_FILM_BY_ID = "select * from film where id = ?;";
 
@@ -125,7 +125,7 @@ public final class SQL {
             "values (?, ?);";
 
     public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?, name_ua = ?," +
-            "poster = ?, required_vote = ?, film_status_id = (select id from film_status where status_en = 'voting') where id = ?;";
+            "poster = ?, required_vote = ?, film_status_id = (select id from film_status where status_en = 'voting'), trailer = ? where id = ?;";
 
     public static final String UPDATE_FILM_TO_ORDER_STATUS = "update film_to_order set " +
             "film_status_id = (select id from film_status where status_en = ?) where id = ?;";

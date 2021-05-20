@@ -58,6 +58,7 @@
         <input name="nameEN" type="text" class="start form-control" placeholder="Movie name" required>
         <input name="nameUA" type="text" class="in form-control" placeholder="Назва фільму" required>
         <input name="duration" type="number" placeholder="Duration (min)" class="in form-control" required>
+        <input name="trailer" type="text" class="in form-control" placeholder="Link to trailer" required>
         <input name="price" type="number" placeholder="Price" class="finish form-control mb-2" required>
         <label class="form-label">Poster</label>
         <input name="poster" type="file" class="form-control mb-3" required>

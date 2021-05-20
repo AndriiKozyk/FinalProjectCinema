@@ -19,6 +19,8 @@ public class FilmToOrder {
 
     private FilmStatus status;
 
+    private String trailer;
+
     public int getId() {
         return id;
     }
@@ -99,4 +101,11 @@ public class FilmToOrder {
         this.status = status;
     }
 
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
+    }
 }

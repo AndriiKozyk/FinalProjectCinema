@@ -173,7 +173,8 @@ public class FilmToOrderDAO {
             pStatement.setString(2, film.getNameUA());
             pStatement.setBlob(3, film.getPosterInput());
             pStatement.setInt(4, film.getRequiredVote());
-            pStatement.setInt(5, film.getId());
+            pStatement.setString(5, film.getTrailer());
+            pStatement.setInt(6, film.getId());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,6 +209,7 @@ public class FilmToOrderDAO {
         film.setDescription(resultSet.getString("description"));
         film.setVote(resultSet.getInt("vote"));
         film.setRequiredVote(resultSet.getInt("required_vote"));
+        film.setTrailer(resultSet.getString("trailer"));
         int statusId = resultSet.getInt("film_status_id");
         FilmStatus status = new FilmStatusDAO().getStatus(statusId);
         film.setStatus(status);

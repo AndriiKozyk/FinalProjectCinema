@@ -48,29 +48,44 @@
     </nav>
 </header>
 
-<form class="timetable mt-4 mx-auto" style="width: 500px; height: 250px">
-    <ul class="list-group list-group-horizontal">
-        <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
-        <li>
-            <br>
-            <ul>
+<ul class="list-group list-group-horizontal justify-content-center align-items-center gap-4">
+    <li>
+        <form class="timetable mt-4 mx-auto" style="width: 500px; height: 250px">
+            <ul class="list-group list-group-horizontal">
+                <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
                 <li>
-                    <p class="h2 text-info">${film.nameEN}</p>
+                    <br>
+                    <ul>
+                        <li>
+                            <p class="h2 text-info">${film.nameEN}</p>
+                        </li>
+                        <li>
+                            <p class="h5 text-white">${film.genre.genreEN}</p>
+                        </li>
+                        <li>
+                            <p class="h5 text-white">Duration: ${film.duration} min</p>
+                        </li>
+                        <li>
+                            <p class="h5 text-white">Price: $${filmSessions[0].minPrice} -
+                                $${filmSessions[0].maxPrice}</p>
+                        </li>
+                        <br>
+                    </ul>
                 </li>
-                <li>
-                    <p class="h5 text-white">${film.genre.genreEN}</p>
-                </li>
-                <li>
-                    <p class="h5 text-white">Duration: ${film.duration} min</p>
-                </li>
-                <li>
-                    <p class="h5 text-white">Price: $${filmSessions[0].minPrice} - $${filmSessions[0].maxPrice}</p>
-                </li>
-                <br>
             </ul>
-        </li>
-    </ul>
-</form>
+        </form>
+    </li>
+    <li>
+        <form class="mt-4 mx-auto" style="width: 475px; height: 250px">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <iframe width="475" height="250" src="${film.trailer}" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </form>
+    </li>
+</ul>
 
 <div class="session-select mx-auto" style="width: 500px">
     <p class="h3 mt-4 text-center text-white">Session</p>

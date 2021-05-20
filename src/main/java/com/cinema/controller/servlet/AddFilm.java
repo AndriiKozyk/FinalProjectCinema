@@ -35,6 +35,8 @@ public class AddFilm extends HttpServlet {
             film.setNameUA(req.getParameter("nameUA"));
             film.setDuration(Integer.parseInt(req.getParameter("duration")));
             film.setPrice(new BigDecimal(req.getParameter("price")));
+            String trailer = buildTrailerLink(req.getParameter("trailer"));
+            film.setTrailer(trailer);
             Genre genre = genreDAO.getGenre(Integer.parseInt(req.getParameter("genre")));
             film.setGenre(genre);
             Part part = req.getPart("poster");
@@ -49,6 +51,13 @@ public class AddFilm extends HttpServlet {
             genreDAO.insertGenre(genre);
             resp.sendRedirect("/addMovie");
         }
+    }
+
+    private String buildTrailerLink(String link) {
+        StringBuilder sb = new StringBuilder();
+        String code = link.substring(32);
+        sb.append("https://www.youtube.com/embed/").append(code).append("?autoplay=1");
+        return sb.toString();
     }
 
 }

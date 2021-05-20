@@ -25,6 +25,7 @@ public class FilmDAO {
             pStatement.setBigDecimal(4, film.getPrice());
             pStatement.setInt(5, film.getGenre().getId());
             pStatement.setBlob(6, film.getPosterInput());
+            pStatement.setString(7, film.getTrailer());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +66,7 @@ public class FilmDAO {
         film.setNameUA(resultSet.getString("name_ua"));
         film.setDuration(resultSet.getInt("duration"));
         film.setPrice(resultSet.getBigDecimal("price"));
+        film.setTrailer(resultSet.getString("trailer"));
         int genreId = resultSet.getInt("genre_id");
         Genre genre = new GenreDAO().getGenre(genreId);
         film.setGenre(genre);
