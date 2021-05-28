@@ -37,9 +37,9 @@ public class OrderFilmToRolling extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         GenreDAO genreDAO = new GenreDAO();
+        int filmId = Integer.parseInt(req.getParameter("id"));
         if ("Add movie".equals(req.getParameter("action"))) {
 
-            int filmId = Integer.parseInt(req.getParameter("id"));
             FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
             FilmToOrder filmToOrder = filmToOrderDAO.getOrderFilm(filmId);
 
@@ -58,7 +58,7 @@ public class OrderFilmToRolling extends HttpServlet {
             genre.setGenreEN(req.getParameter("genreEN"));
             genre.setGenreUA(req.getParameter("genreUA"));
             genreDAO.insertGenre(genre);
-            resp.sendRedirect("/toRolling");
+            resp.sendRedirect("/toRolling?name=" + filmId);
         }
     }
 

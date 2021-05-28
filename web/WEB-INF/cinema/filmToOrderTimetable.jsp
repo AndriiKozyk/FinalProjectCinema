@@ -95,11 +95,10 @@
     <c:when test="${shortForm == true}">
         <c:forEach var="film" items="${filmsMap}">
 
-            <form class="timetable mb-4" style="width: 400px; margin: auto; padding: 30px;">
-
-                <c:choose>
-                    <c:when test="${user != null && user.role.id == 1}">
-                        <a href="/processing?name=${film.key.id}" style="text-decoration: none">
+            <c:choose>
+                <c:when test="${user != null && user.role.id == 1}">
+                    <a href="/processing?name=${film.key.id}" style="text-decoration: none">
+                        <form class="timetable mb-4" style="width: 400px; margin: auto; padding: 30px;">
                             <p class="h4 text-info">${film.key.nameEN}</p>
                             <c:if test="${film.key.year != 0}">
                                 <p class="h4 text-info">Year: ${film.key.year}</p>
@@ -107,10 +106,13 @@
                             <c:if test="${film.key.description != \"\"}">
                                 <p class="h4 text-info mb-3">${film.key.description}</p>
                             </c:if>
-                        </a>
-                    </c:when>
+                        </form>
+                    </a>
+                </c:when>
 
-                    <c:otherwise>
+                <c:otherwise>
+                    <form class="timetable mb-4" style="width: 400px; margin: auto; padding: 30px;">
+
                         <p class="h4 text-info">${film.key.nameEN}</p>
                         <c:if test="${film.key.year != 0}">
                             <p class="h4 text-info">Year: ${film.key.year}</p>
@@ -133,11 +135,11 @@
                                 <p class="h4 text-info">Status: ${film.value}</p>
                             </c:otherwise>
                         </c:choose>
-                    </c:otherwise>
-                </c:choose>
+                    </form>
+                </c:otherwise>
+            </c:choose>
 
 
-            </form>
         </c:forEach>
     </c:when>
 

@@ -33,12 +33,12 @@ public class Timetable extends HttpServlet {
     private final FilmDAO filmDao = new FilmDAO();
     private final FilmSessionDAO filmSessionDAO = new FilmSessionDAO();
     private final FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
-    private static String sortOrder = "ascending";
-    private static final String ASC = "ascending";
-    private static final String DESC = "descending";
-    private static String sortBy = "Date / Time";
-    private static String showOnlyAvailable = "Only available";
-    private static String showOnlyGenre = "All";
+    private String sortOrder = "ascending";
+    private final String ASC = "ascending";
+    private final String DESC = "descending";
+    private String sortBy = "Date / Time";
+    private String showOnlyAvailable = "Only available";
+    private String showOnlyGenre = "All";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
