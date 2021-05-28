@@ -21,21 +21,12 @@ public class FilmToOrderDAO {
         try {
             connection = getInstance().getConnection();
             connection.setAutoCommit(false);
-            pStatement = connection.prepareStatement(INSERT_FILM_TO_ORDER, Statement.RETURN_GENERATED_KEYS);
+            pStatement = connection.prepareStatement(INSERT_FILM_TO_ORDER);
             pStatement.setString(1, film.getNameEN());
             pStatement.setString(2, film.getNameUA());
             pStatement.setInt(3, film.getYear());
             pStatement.setString(4, film.getDescription());
-            pStatement.executeUpdate();
-            resultSet = pStatement.getGeneratedKeys();
-
-            pStatement = connection.prepareStatement(INSERT_USER_SUGGESTION);
-            pStatement.setInt(1, userId);
-            if (resultSet.next()) {
-                pStatement.setInt(2, resultSet.getInt(1));
-            } else {
-                throw new SQLException();
-            }
+            pStatement.setInt(5, userId);
             pStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -89,6 +80,32 @@ public class FilmToOrderDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(GET_ALL_FILM_TO_ORDER_BY_STATUS);
             pStatement.setString(1, status);
+            resultSet = pStatement.executeQuery();
+            while (resultSet.next()) {
+                FilmToOrder film = new FilmToOrder();
+                mapFilm(film, resultSet);
+                filmList.add(film);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+
+        return filmList;
+    }
+
+    public List<FilmToOrder> selectOrderFilmsByStatusReady() {
+        List<FilmToOrder> filmList = new LinkedList<>();
+
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(GET_ALL_FILM_TO_ORDER_BY_STATUS_READY);
             resultSet = pStatement.executeQuery();
             while (resultSet.next()) {
                 FilmToOrder film = new FilmToOrder();
@@ -201,6 +218,84 @@ public class FilmToOrderDAO {
         }
     }
 
+    public boolean isUserVote(int userId, int filmId) {
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(USER_HAS_VOTE);
+            pStatement.setInt(1, userId);
+            pStatement.setInt(2, filmId);
+            resultSet = pStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return false;
+    }
+
+    public String getStatusByFilm(int filmId) {
+        String status = null;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(SELECT_STATUS_BY_FILM);
+            pStatement.setInt(1, filmId);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                status = resultSet.getString("status_en");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return status;
+    }
+
+    public int amountUserSuggestion() {
+        return amountFilms(USER_SUGGESTIONS_COUNT);
+    }
+
+    public int amountVotedFilms() {
+        return amountFilms(FILMS_READY_TO_ROLLING_COUNT);
+    }
+
+    private int amountFilms(String query) {
+        int amount = 0;
+        Connection connection = null;
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getInstance().getConnection();
+            pStatement = connection.prepareStatement(query);
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                amount = resultSet.getInt("count");
+            } else {
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+            close(pStatement);
+            close(connection);
+        }
+        return amount;
+    }
+
     private void mapFilm(FilmToOrder film, ResultSet resultSet) throws SQLException, IOException {
         film.setId(resultSet.getInt("id"));
         film.setNameEN(resultSet.getString("name_en"));
@@ -214,9 +309,12 @@ public class FilmToOrderDAO {
         FilmStatus status = new FilmStatusDAO().getStatus(statusId);
         film.setStatus(status);
         Blob blob = resultSet.getBlob("poster");
-        byte[] image = blob.getBytes(1, (int) blob.length());
-        String encode = Base64.getEncoder().encodeToString(image);
-        film.setPosterOut(encode);
+        if (blob != null) {
+            film.setPosterInput(blob.getBinaryStream());
+            byte[] image = blob.getBytes(1, (int) blob.length());
+            String encode = Base64.getEncoder().encodeToString(image);
+            film.setPosterOut(encode);
+        }
     }
 
     private void close(AutoCloseable closeable) {

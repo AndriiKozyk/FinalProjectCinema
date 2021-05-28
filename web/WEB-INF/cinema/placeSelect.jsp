@@ -25,7 +25,8 @@
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <li><a class="nav-link text-center" href="/myTickets">My tickets</a></li>
+                    <li><a class="btn btn-outline-light" href="/suggest">Suggest movie</a></li>
+                    <li><a class="btn btn-outline-light" href="/myTickets">My tickets</a></li>
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 </c:if>
                 <c:if test="${user == null}">

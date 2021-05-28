@@ -24,6 +24,9 @@
             </div>
             <ul class="nav navbar-right gap-4">
                 <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
+                <c:if test="${user.role.id == 2}">
+                    <li><a class="btn btn-outline-light" href="/suggest">Suggest movie</a></li>
+                </c:if>
                 <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 <li>
                     <div class="dropdown">

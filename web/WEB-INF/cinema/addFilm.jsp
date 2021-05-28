@@ -48,7 +48,7 @@
     <form style="width: 400px; margin: auto; padding: 30px;" method="post" enctype="multipart/form-data">
         <h1 class="h3 mb-3 font-weight-normal">Movie</h1>
         <div class="dropdown mb-2">
-            <select name="genre" class="btn btn-outline-secondary dropdown-toggle">
+            <select name="genre" class="btn btn-outline-secondary dropdown-toggle" required>
                 <c:forEach var="genre" items="${genres}">
                     <option value="${genre.id}">${genre.genreEN}</option>
                 </c:forEach>

@@ -6,6 +6,7 @@ import com.cinema.model.comparator.FilmSessionDateComparator;
 import com.cinema.model.comparator.FilmSessionPlaceComparator;
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
+import com.cinema.model.dao.FilmToOrderDAO;
 import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
@@ -31,6 +32,7 @@ public class Timetable extends HttpServlet {
     private static final int CONST_ONE = 1;
     private final FilmDAO filmDao = new FilmDAO();
     private final FilmSessionDAO filmSessionDAO = new FilmSessionDAO();
+    private final FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
     private static String sortOrder = "ascending";
     private static final String ASC = "ascending";
     private static final String DESC = "descending";
@@ -106,6 +108,9 @@ public class Timetable extends HttpServlet {
 
         List<Genre> genres = new GenreDAO().getGenres();
 
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
         req.setAttribute("films", films);
         req.setAttribute("filmMap", filmMap);
         req.setAttribute("genres", genres);
@@ -113,6 +118,8 @@ public class Timetable extends HttpServlet {
         req.setAttribute("sortOrder", sortOrder);
         req.setAttribute("showOnlyAvailable", showOnlyAvailable);
         req.setAttribute("showOnlyGenre", showOnlyGenre);
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);

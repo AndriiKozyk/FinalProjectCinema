@@ -20,37 +20,50 @@
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <a href="/cinema"><img class="logo"
-                     src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
-                </a>
+                <ul class="nav gap-4">
+                    <li>
+                        <a href="/cinema">
+                            <img class="logo"
+                                 src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to order</a>
+                    </li>
+                    <c:if test="${user != null}">
+                        <c:if test="${user.role.id == 2}">
+                            <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
+                        </c:if>
+                        <c:if test="${user.role.id == 1}">
+                            <li>
+                                <a href="/suggestionsList?name=suggestions"
+                                   class="btn btn-outline-light mt-1">Suggestions <span class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
+                            </li>
+                            <li>
+                                <a href="/suggestionsList?name=movies"
+                                   class="btn btn-outline-light mt-1">Movies <span class="badge bg-primary rounded-pill">${votedFilms}</span></a>
+                            </li>
+                        </c:if>
+                    </c:if>
+                </ul>
             </div>
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
+                    <c:if test="${user.role.id == 2}">
+                        <li><a class="btn btn-outline-light" href="/myTickets">My tickets</a></li>
+                    </c:if>
                     <c:if test="${user.role.id == 1}">
                         <li class="mt-2 text-warning">ADMIN</li>
                         <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     </c:if>
-                    <c:if test="${user.role.id == 2}">
-                        <li><a class="nav-link text-center" href="/myTickets">My tickets</a></li>
-                    </c:if>
+
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
                 </c:if>
                 <c:if test="${user == null}">
                     <li><a class="btn btn-outline-light" href="/registration">Create account</a></li>
                     <li><a class="btn btn-outline-light" href="/login">Log In</a></li>
                 </c:if>
-                <li>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-dark" href="">English</a>
-                            <a class="dropdown-item text-dark" href="">Українська</a>
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
     </nav>
@@ -114,7 +127,9 @@
     <form class="timetable mb-4 mx-auto" style="width: 700px; height: 360px">
         <a href="/${link}?name=${film.id}" style="text-decoration: none">
             <ul class="list-group list-group-horizontal">
-                <li><img src="data:image/jpg;base64,${film.posterOut}"/></li>
+                <li>
+                    <img src="data:image/jpg;base64,${film.posterOut}"/>
+                </li>
                 <li>
                     <ul>
                         <li><p class="h2 text-info">${film.nameEN}</p></li>
@@ -156,7 +171,7 @@
     </form>
 </c:forEach>
 
-<c:if test="${films != []}">
+<c:if test="${lastPage > 1}">
     <nav>
         <div class="d-flex justify-content-center mt-5 mb-4">
             <ul class="pagination">

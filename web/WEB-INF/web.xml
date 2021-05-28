@@ -90,9 +90,69 @@
         <url-pattern>/myTickets</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SuggestMovie</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.SuggestMovie</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SuggestMovie</servlet-name>
+        <url-pattern>/suggest</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderFilmProcessing</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.OrderFilmProcessing</servlet-class>
+        <multipart-config>
+            <location>/</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderFilmProcessing</servlet-name>
+        <url-pattern>/processing</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderFilmToRolling</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.OrderFilmToRolling</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderFilmToRolling</servlet-name>
+        <url-pattern>/toRolling</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderFilmDetails</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.OrderFilmDetails</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderFilmDetails</servlet-name>
+        <url-pattern>/orderFilmDetails</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderFilmTimetable</servlet-name>
+        <servlet-class>com.cinema.controller.servlet.OrderFilmTimetable</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderFilmTimetable</servlet-name>
+        <url-pattern>/suggestionsList</url-pattern>
+    </servlet-mapping>
+
+
+
     <session-config>
         <session-timeout>15</session-timeout>
     </session-config>
+
+
 
     <filter>
         <filter-name>LoginFilter</filter-name>
@@ -114,6 +174,8 @@
         <filter-name>AdminFilter</filter-name>
         <servlet-name>AddFilm</servlet-name>
         <servlet-name>EditFilmSession</servlet-name>
+        <servlet-name>OrderFilmProcessing</servlet-name>
+        <servlet-name>OrderFilmToRolling</servlet-name>
     </filter-mapping>
 
     <filter>
@@ -125,6 +187,7 @@
         <filter-name>UserFilter</filter-name>
         <servlet-name>Confirm</servlet-name>
         <servlet-name>UserTickets</servlet-name>
+        <servlet-name>SuggestMovie</servlet-name>
     </filter-mapping>
 
     <filter>
@@ -135,6 +198,7 @@
     <filter-mapping>
         <filter-name>AdminBlockedPage</filter-name>
         <servlet-name>PlaceSelect</servlet-name>
+        <servlet-name>OrderFilmDetails</servlet-name>
     </filter-mapping>
 
 </web-app>

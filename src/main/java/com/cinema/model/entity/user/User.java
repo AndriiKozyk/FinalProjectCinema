@@ -13,11 +13,6 @@ public class User {
     private int userDetailsId;
     private UserDetails details;
 
-    private List<Ticket> tickets;
-
-    private List<FilmToOrder> userVote;
-    private List<FilmToOrder> userSuggestion;
-
     public int getId() {
         return id;
     }
@@ -66,14 +61,6 @@ public class User {
         this.details = details;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -83,7 +70,6 @@ public class User {
                 ", role=" + role +
                 ", userDetailsId=" + userDetailsId +
                 ", details=" + details +
-                ", tickets=" + tickets +
                 '}';
     }
 }
