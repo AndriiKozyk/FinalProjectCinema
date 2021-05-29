@@ -43,3 +43,7 @@ input[type="submit"] {
 .nav a {
     color: white;
 }
+
+ul li a {
+    width: 150px;
+}

@@ -88,6 +88,12 @@ public class OrderFilmTimetable extends HttpServlet {
             req.setAttribute("filmsMap", userVotesMap);
         }
 
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
+
         req.setAttribute("sortBy", sortBy);
         req.setAttribute("isEmpty", empty);
         req.setAttribute("shortForm", shortForm);
@@ -112,6 +118,10 @@ public class OrderFilmTimetable extends HttpServlet {
 
         if (user == null) {
             sortBy = SORT_VOTING;
+        } else {
+            if (user.getRole().equals(Role.ADMIN) && sortBy.equals(SORT_VOTING)) {
+                sortBy = SORT_MOVIES;
+            }
         }
 
         switch (sortBy) {

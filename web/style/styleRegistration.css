@@ -47,3 +47,7 @@ ul li {
     border-top-left-radius: 0px;
     border-left: 0px;
 }
+
+ul li a {
+    width: 150px;
+}

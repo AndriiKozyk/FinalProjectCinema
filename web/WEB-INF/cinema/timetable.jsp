@@ -27,9 +27,18 @@
                                  src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
                         </a>
                     </li>
-                    <li>
-                        <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to order</a>
-                    </li>
+                    <c:if test="${user == null}">
+                        <li>
+                            <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to
+                                order</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${user != null && user.role.id == 2}">
+                        <li>
+                            <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to
+                                order</a>
+                        </li>
+                    </c:if>
                     <c:if test="${user != null}">
                         <c:if test="${user.role.id == 2}">
                             <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
@@ -37,11 +46,13 @@
                         <c:if test="${user.role.id == 1}">
                             <li>
                                 <a href="/suggestionsList?name=suggestions"
-                                   class="btn btn-outline-light mt-1">Suggestions <span class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
+                                   class="btn btn-outline-light mt-1">Suggestions <span
+                                        class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
                             </li>
                             <li>
                                 <a href="/suggestionsList?name=movies"
-                                   class="btn btn-outline-light mt-1">Movies <span class="badge bg-primary rounded-pill">${votedFilms}</span></a>
+                                   class="btn btn-outline-light mt-1">Votes <span
+                                        class="badge bg-primary rounded-pill">${votedFilms}</span></a>
                             </li>
                         </c:if>
                     </c:if>

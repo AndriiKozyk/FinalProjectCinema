@@ -27,6 +27,11 @@ public class OrderFilmToRolling extends HttpServlet {
         FilmToOrder film = filmToOrderDAO.getOrderFilm(filmId);
         List<Genre> genres = new GenreDAO().getGenres();
 
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
         req.setAttribute("genres", genres);
         req.setAttribute("film", film);
 

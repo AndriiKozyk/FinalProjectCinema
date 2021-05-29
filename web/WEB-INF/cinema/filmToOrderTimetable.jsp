@@ -33,13 +33,11 @@
                         <c:if test="${user.role.id == 1}">
                             <li>
                                 <a href="/suggestionsList?name=suggestions"
-                                   class="btn btn-outline-light mt-1">Suggestions <span
-                                        class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
+                                   class="btn btn-outline-light mt-1">Suggestions <span class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
                             </li>
                             <li>
                                 <a href="/suggestionsList?name=movies"
-                                   class="btn btn-outline-light mt-1">Movies <span
-                                        class="badge bg-primary rounded-pill">${votedFilms}</span></a>
+                                   class="btn btn-outline-light mt-1">Votes <span class="badge bg-primary rounded-pill">${votedFilms}</span></a>
                             </li>
                         </c:if>
                     </c:if>

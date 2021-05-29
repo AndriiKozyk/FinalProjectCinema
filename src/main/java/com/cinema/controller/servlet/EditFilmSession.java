@@ -2,6 +2,7 @@ package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
+import com.cinema.model.dao.FilmToOrderDAO;
 import com.cinema.model.dao.TypeDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
@@ -26,8 +27,15 @@ public class EditFilmSession extends HttpServlet {
         int filmId = Integer.parseInt(req.getParameter("name"));
         Film film = new FilmDAO().selectFilm(filmId);
         List<FilmSession> filmSessions = new FilmSessionDAO().selectFilmSessions(filmId);
+
+        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
         req.setAttribute("film", film);
         req.setAttribute("filmSessions", filmSessions);
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
         req.getSession(false).setAttribute("filmSessions", filmSessions);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/editSession.jsp");
         requestDispatcher.forward(req, resp);

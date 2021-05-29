@@ -1,6 +1,7 @@
 package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmDAO;
+import com.cinema.model.dao.FilmToOrderDAO;
 import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.film.Genre;
@@ -21,7 +22,15 @@ public class AddFilm extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Genre> genres = new GenreDAO().getGenres();
+
+        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
         req.setAttribute("genres", genres);
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/addFilm.jsp");
         requestDispatcher.forward(req, resp);
     }

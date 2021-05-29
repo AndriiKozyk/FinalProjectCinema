@@ -23,8 +23,11 @@ public class OrderFilmDetails extends HttpServlet {
         boolean userVote = true;
 
         if (req.getSession(false) != null) {
-            int userId = ((User) req.getSession(false).getAttribute("user")).getId();
-            userVote = filmToOrderDAO.isUserVote(userId, filmId);
+            User user = (User) req.getSession(false).getAttribute("user");
+            if (user != null) {
+                int userId = user.getId();
+                userVote = filmToOrderDAO.isUserVote(userId, filmId);
+            }
         }
 
         req.setAttribute("userVote", userVote);

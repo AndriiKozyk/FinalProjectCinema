@@ -15,36 +15,45 @@
 
 <body>
 
-<header class="header mb-4">
+<header class="header">
     <nav class="navbar navbar-style mt-4">
         <div class="container">
             <div class="navbar-header">
-                <a href="/cinema"><img class="logo"
-                                               src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg"></a>
+                <ul class="nav gap-4">
+                    <li>
+                        <a href="/cinema">
+                            <img class="logo"
+                                 src="https://png.pngtree.com/element_our/png_detail/20181022/movie-cinema-entertainment-logo-with-neon-sign-effect-vector-illustration-png_199458.jpg">
+                        </a>
+                    </li>
+                    <c:if test="${user != null}">
+                        <c:if test="${user.role.id == 1}">
+                            <li>
+                                <a href="/suggestionsList?name=suggestions"
+                                   class="btn btn-outline-light mt-1">Suggestions <span class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
+                            </li>
+                            <li>
+                                <a href="/suggestionsList?name=movies"
+                                   class="btn btn-outline-light mt-1">Votes <span class="badge bg-primary rounded-pill">${votedFilms}</span></a>
+                            </li>
+                        </c:if>
+                    </c:if>
+                </ul>
             </div>
             <ul class="nav navbar-right gap-4">
-                <ul class="nav navbar-right gap-4">
+                <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <li class="mt-2 text-warning">ADMIN</li>
-                    <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
+                    <c:if test="${user.role.id == 1}">
+                        <li class="mt-2 text-warning">ADMIN</li>
+                        <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
+                    </c:if>
+
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>
-                </ul>
-                <li>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-dark" href="">English</a>
-                            <a class="dropdown-item text-dark" href="">Українська</a>
-                        </div>
-                    </div>
-                </li>
+                </c:if>
             </ul>
         </div>
     </nav>
 </header>
-
 
 <ul class="list-group list-group-horizontal mb-3 d-flex justify-content-center gap-4">
 

@@ -59,3 +59,11 @@ ul li {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
+
+ul li a {
+    width: 150px;
+}
+
+.btn-width {
+    width: 150px;
+}

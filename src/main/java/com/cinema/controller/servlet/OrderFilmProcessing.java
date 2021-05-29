@@ -21,6 +21,12 @@ public class OrderFilmProcessing extends HttpServlet {
         FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
         FilmToOrder film = filmToOrderDAO.getOrderFilm(filmId);
 
+        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
+        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
+
+        req.setAttribute("userSuggestions", amountUserSuggestions);
+        req.setAttribute("votedFilms", amountVotedFilms);
+
         req.setAttribute("film", film);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/filmToOrderProcessing.jsp");
