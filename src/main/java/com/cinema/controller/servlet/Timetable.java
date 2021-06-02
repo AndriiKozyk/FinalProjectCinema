@@ -50,6 +50,7 @@ public class Timetable extends HttpServlet {
             if (req.getSession(false) != null) {
                 req.getSession(false).invalidate();
             }
+            currentPage = 1;
             req.getServletContext().setAttribute("active", active);
         }
 
