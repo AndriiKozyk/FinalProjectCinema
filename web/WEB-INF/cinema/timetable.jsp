@@ -89,9 +89,16 @@
                     <li>
                         <input type="submit" class="btn btn-outline-light btn-width" value="Name" name="sortBy">
                     </li>
-                    <li>
-                        <input type="submit" class="btn btn-outline-light btn-width" value="Empty places" name="sortBy">
-                    </li>
+                    <c:choose>
+                        <c:when test="${user != null && user.role.id == 1}">
+                        </c:when>
+                        <c:otherwise>
+                            <li>
+                                <input type="submit" class="btn btn-outline-light btn-width" value="Empty places"
+                                       name="sortBy">
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                     <li>
                         <input type="submit" class="btn btn-outline-light btn-width" value="Date / Time" name="sortBy">
                     </li>
@@ -103,11 +110,17 @@
             <form class="mt-4 mb-4 timetable" style="width: 475px; height: 125px" method="post">
                 <p class="h3 text-center text-light mb-2">Show only:</p>
                 <ul class="nav gap-4 d-flex justify-content-center">
-                    <li>
-                        <input type="submit" class="btn btn-outline-light btn-width"
-                               value="Available" name="showOnlyAvailable">
-                        <p class="text-light mt-2 text-center">Available: ${showOnlyAvailable}</p>
-                    </li>
+                    <c:choose>
+                        <c:when test="${user != null && user.role.id == 1}">
+                        </c:when>
+                        <c:otherwise>
+                            <li>
+                                <input type="submit" class="btn btn-outline-light btn-width"
+                                       value="Available" name="showOnlyAvailable">
+                                <p class="text-light mt-2 text-center">Available: ${showOnlyAvailable}</p>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                     <li>
                         <div class="dropdown">
                             <button class="btn btn-outline-light dropdown-toggle btn-width" type="button"
