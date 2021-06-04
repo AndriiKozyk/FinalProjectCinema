@@ -75,32 +75,6 @@ public class UserDAO {
         return user;
     }
 
-    public User getUser(int id) {
-        User user = new User();
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_USER_BY_ID);
-            pStatement.setInt(1, id);
-            resultSet = pStatement.executeQuery();
-            if (resultSet.next()) {
-                mapUser(user, resultSet);
-            } else {
-                throw new SQLException("User not found!");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-        return user;
-    }
-
     private void mapUser(User user, ResultSet resultSet) throws SQLException {
         user.setId(resultSet.getInt("id"));
         user.setLogin(resultSet.getString("login"));
