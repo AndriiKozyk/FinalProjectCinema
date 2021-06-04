@@ -32,7 +32,7 @@ public class Registration extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        user.setRole(Role.ADMIN);
+        user.setRole(Role.USER);
         details.setFirstNameEN(req.getParameter("firstNameEN"));
         details.setLastNameEN(req.getParameter("lastNameEN"));
         details.setFirstNameUA(req.getParameter("firstNameUA"));

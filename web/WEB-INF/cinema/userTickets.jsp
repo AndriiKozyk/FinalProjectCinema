@@ -30,7 +30,7 @@
                         <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to order</a>
                     </li>
                     <c:if test="${user != null}">
-                        <c:if test="${user.role.id == 2}">
+                        <c:if test="${user.role == \"USER\"}">
                             <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
                         </c:if>
                     </c:if>

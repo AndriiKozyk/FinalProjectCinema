@@ -32,14 +32,14 @@
                                 order</a>
                         </li>
                     </c:if>
-                    <c:if test="${user != null && user.role.id == 2}">
+                    <c:if test="${user != null && user.role == \"USER\"}">
                         <li>
                             <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to
                                 order</a>
                         </li>
                     </c:if>
                     <c:if test="${user != null}">
-                        <c:if test="${user.role.id == 2}">
+                        <c:if test="${user.role == \"USER\"}">
                             <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
                         </c:if>
                     </c:if>
@@ -48,7 +48,7 @@
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <c:if test="${user.role.id == 2}">
+                    <c:if test="${user.role == \"USER\"}">
                         <li><a class="btn btn-outline-light" href="/myTickets">My tickets</a></li>
                     </c:if>
                     <li><a class="btn btn-outline-light" href="/cinema?name=logout">Log Out</a></li>

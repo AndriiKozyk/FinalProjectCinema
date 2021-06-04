@@ -27,10 +27,10 @@
                         </a>
                     </li>
                     <c:if test="${user != null}">
-                        <c:if test="${user.role.id == 2}">
+                        <c:if test="${user.role == \"USER\"}">
                             <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
                         </c:if>
-                        <c:if test="${user.role.id == 1}">
+                        <c:if test="${user.role == \"ADMIN\"}">
                             <li>
                                 <a href="/suggestionsList?name=suggestions"
                                    class="btn btn-outline-light mt-1">Suggestions <span class="badge bg-primary rounded-pill">${userSuggestions}</span></a>
@@ -46,10 +46,10 @@
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <c:if test="${user.role.id == 2}">
+                    <c:if test="${user.role == \"USER\"}">
                         <li><a class="btn btn-outline-light" href="/myTickets">My tickets</a></li>
                     </c:if>
-                    <c:if test="${user.role.id == 1}">
+                    <c:if test="${user.role == \"ADMIN\"}">
                         <li class="mt-2 text-warning">ADMIN</li>
                         <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     </c:if>
@@ -65,7 +65,7 @@
     </nav>
 </header>
 
-<c:if test="${user.role.id == 2}">
+<c:if test="${user.role == \"USER\"}">
     <div class="sort d-flex justify-content-center">
         <form class="mb-4">
             <ul class="nav gap-4">
@@ -94,7 +94,7 @@
         <c:forEach var="film" items="${filmsMap}">
 
             <c:choose>
-                <c:when test="${user != null && user.role.id == 1}">
+                <c:when test="${user != null && user.role == \"ADMIN\"}">
                     <a href="/processing?name=${film.key.id}" style="text-decoration: none">
                         <form class="timetable mb-4" style="width: 400px; margin: auto; padding: 30px;">
                             <p class="h4 text-info">${film.key.nameEN}</p>
@@ -145,7 +145,7 @@
     <c:otherwise>
 
         <c:choose>
-            <c:when test="${user != null && user.role.id == 1}">
+            <c:when test="${user != null && user.role == \"ADMIN\"}">
                 <c:forEach var="film" items="${filmsMap}">
                     <form class="timetable mb-4 mx-auto" style="width: 550px; height: 300px" method="post">
                         <a href="/toRolling?name=${film.key.id}" style="text-decoration: none">

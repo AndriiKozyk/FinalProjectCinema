@@ -10,7 +10,7 @@ public final class SQL {
 
     public static final String INSERT_USER = "insert into " +
             "account (login, password, role_id, account_details_id) " +
-            "values (?, ?, ?, ?);";
+            "values (?, ?, (select id from role where role = ?), ?);";
 
     public static final String SELECT_USER = "select * from account where login = ?;";
 

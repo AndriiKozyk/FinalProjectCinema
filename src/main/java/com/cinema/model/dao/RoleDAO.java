@@ -33,7 +33,6 @@ public class RoleDAO {
                     default:
                         throw new SQLException("Incorrect role!");
                 }
-                role.setId(id);
             } else {
                 throw new SQLException("Role not found!");
             }

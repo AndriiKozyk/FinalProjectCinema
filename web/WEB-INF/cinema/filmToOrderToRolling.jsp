@@ -26,7 +26,7 @@
                         </a>
                     </li>
                     <c:if test="${user != null}">
-                        <c:if test="${user.role.id == 1}">
+                        <c:if test="${user.role == \"ADMIN\"}">
                             <li>
                                 <a href="/suggestionsList?name=suggestions"
                                    class="btn btn-outline-light mt-1">Suggestions <span
@@ -44,7 +44,7 @@
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <c:if test="${user.role.id == 1}">
+                    <c:if test="${user.role == \"ADMIN\"}">
                         <li class="mt-2 text-warning">ADMIN</li>
                         <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     </c:if>

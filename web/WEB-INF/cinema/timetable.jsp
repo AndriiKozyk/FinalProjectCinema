@@ -33,17 +33,17 @@
                                 order</a>
                         </li>
                     </c:if>
-                    <c:if test="${user != null && user.role.id == 2}">
+                    <c:if test="${user != null && user.role == \"USER\"}">
                         <li>
                             <a class="btn btn-outline-light mt-1" href="/suggestionsList?name=voting">Movies to
                                 order</a>
                         </li>
                     </c:if>
                     <c:if test="${user != null}">
-                        <c:if test="${user.role.id == 2}">
+                        <c:if test="${user.role == \"USER\"}">
                             <li><a class="btn btn-outline-light mt-1" href="/suggest">Suggest movie</a></li>
                         </c:if>
-                        <c:if test="${user.role.id == 1}">
+                        <c:if test="${user.role == \"ADMIN\"}">
                             <li>
                                 <a href="/suggestionsList?name=suggestions"
                                    class="btn btn-outline-light mt-1">Suggestions <span
@@ -61,10 +61,10 @@
             <ul class="nav navbar-right gap-4">
                 <c:if test="${user != null}">
                     <li class="mt-2 text-warning">${user.details.firstNameEN} ${user.details.lastNameEN}</li>
-                    <c:if test="${user.role.id == 2}">
+                    <c:if test="${user.role == \"USER\"}">
                         <li><a class="btn btn-outline-light" href="/myTickets">My tickets</a></li>
                     </c:if>
-                    <c:if test="${user.role.id == 1}">
+                    <c:if test="${user.role == \"ADMIN\"}">
                         <li class="mt-2 text-warning">ADMIN</li>
                         <li><a class="btn btn-outline-light" href="/addMovie">Add new film</a></li>
                     </c:if>
@@ -90,7 +90,7 @@
                         <input type="submit" class="btn btn-outline-light btn-width" value="Name" name="sortBy">
                     </li>
 <%--                    <c:choose>--%>
-<%--                        <c:when test="${user != null && user.role.id == 1}">--%>
+<%--                        <c:when test="${user != null && user.role == \"ADMIN\"}">--%>
 <%--                        </c:when>--%>
 <%--                        <c:otherwise>--%>
 <%--                            <li>--%>
@@ -111,7 +111,7 @@
                 <p class="h3 text-center text-light mb-2">Show only:</p>
                 <ul class="nav gap-4 d-flex justify-content-center">
 <%--                    <c:choose>--%>
-<%--                        <c:when test="${user != null && user.role.id == 1}">--%>
+<%--                        <c:when test="${user != null && user.role == \"ADMIN\"}">--%>
 <%--                        </c:when>--%>
 <%--                        <c:otherwise>--%>
 <%--                            <li>--%>

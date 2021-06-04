@@ -29,7 +29,7 @@ public class UserDAO {
             pStatement = connection.prepareStatement(INSERT_USER);
             pStatement.setString(1, user.getLogin());
             pStatement.setString(2, user.getPassword());
-            pStatement.setInt(3, user.getRole().getId());
+            pStatement.setString(3, user.getRole().toString().toLowerCase());
             if (resultSet.next()) {
                 pStatement.setInt(4, resultSet.getInt(1));
             } else {
