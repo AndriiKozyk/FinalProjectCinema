@@ -5,7 +5,7 @@ import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,13 +30,13 @@ public class PlaceSelect extends HttpServlet {
         if (req.getParameter("id") != null) {
             int sessionId = Integer.parseInt(req.getParameter("id"));
             filmSession = new FilmSessionDAO().getFilmSession(sessionId);
-            if (!Status.AVAILABLE.equals(filmSession.getStatus()) || filmSession.getFilm().getId() != filmId) {
+            if (!FilmSessionStatus.AVAILABLE.equals(filmSession.getStatus()) || filmSession.getFilm().getId() != filmId) {
                 filmSession = null;
             }
         } else {
             filmSession = null;
             for (FilmSession session : sessions) {
-                if (Status.AVAILABLE.equals(session.getStatus())) {
+                if (FilmSessionStatus.AVAILABLE.equals(session.getStatus())) {
                     filmSession = session;
                     break;
                 }
@@ -99,7 +99,7 @@ public class PlaceSelect extends HttpServlet {
         }
         int available = shpDAO.selectAmountAvailablePlaces(filmSessionId);
         if (available == 0) {
-            filmSession.setStatus(Status.NO_PLACES);
+            filmSession.setStatus(FilmSessionStatus.NO_PLACES);
             new FilmSessionDAO().setStatus(filmSession);
         }
         BigDecimal totalPrice = new BigDecimal(0);

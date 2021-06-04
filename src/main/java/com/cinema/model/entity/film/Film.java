@@ -2,7 +2,7 @@ package com.cinema.model.entity.film;
 
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -31,7 +31,7 @@ public class Film implements Comparable<Film> {
     public static boolean haveAvailableSession(int filmId) {
         List<FilmSession> sessions = new FilmSessionDAO().selectFilmSessions(filmId);
         for (FilmSession session : sessions) {
-            if (Status.AVAILABLE.equals(session.getStatus())) {
+            if (FilmSessionStatus.AVAILABLE.equals(session.getStatus())) {
                 return true;
             }
         }

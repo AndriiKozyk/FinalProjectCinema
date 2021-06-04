@@ -1,6 +1,6 @@
 package com.cinema.model.dao;
 
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +12,8 @@ import static com.cinema.model.dao.SQL.*;
 
 public class StatusDAO {
 
-    public Status getStatus(int id) {
-        Status status = null;
+    public FilmSessionStatus getStatus(int id) {
+        FilmSessionStatus status = null;
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
@@ -25,13 +25,13 @@ public class StatusDAO {
             if (resultSet.next()) {
                 switch (resultSet.getString("status_en")) {
                     case "Available":
-                        status = Status.AVAILABLE;
+                        status = FilmSessionStatus.AVAILABLE;
                         break;
                     case "No places":
-                        status = Status.NO_PLACES;
+                        status = FilmSessionStatus.NO_PLACES;
                         break;
                     case "Canceled":
-                        status = Status.CANCELED;
+                        status = FilmSessionStatus.CANCELED;
                         break;
                     default:
                         throw new SQLException("Status not found!");

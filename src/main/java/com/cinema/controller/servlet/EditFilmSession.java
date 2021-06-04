@@ -6,7 +6,7 @@ import com.cinema.model.dao.FilmToOrderDAO;
 import com.cinema.model.dao.TypeDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -50,7 +50,7 @@ public class EditFilmSession extends HttpServlet {
             if ("Cancel all sessions".equals(cancel)) {
                 List<FilmSession> filmSessions = (List<FilmSession>) req.getSession(false).getAttribute("filmSessions");
                 for (FilmSession session : filmSessions) {
-                    session.setStatus(Status.CANCELED);
+                    session.setStatus(FilmSessionStatus.CANCELED);
                     sessionDAO.setStatus(session);
                 }
                 resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
@@ -60,7 +60,7 @@ public class EditFilmSession extends HttpServlet {
                 FilmSession filmSession;
                 for (String delete : deleteSessions) {
                     filmSession = sessionDAO.getFilmSession(Integer.parseInt(delete));
-                    filmSession.setStatus(Status.CANCELED);
+                    filmSession.setStatus(FilmSessionStatus.CANCELED);
                     sessionDAO.setStatus(filmSession);
                 }
                 resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
@@ -87,7 +87,7 @@ public class EditFilmSession extends HttpServlet {
         TypeDAO typeDAO = new TypeDAO();
         filmSession.setMinPrice(film.getPrice().add(typeDAO.getPrice(false)));
         filmSession.setMaxPrice(film.getPrice().add(typeDAO.getPrice(true)));
-        filmSession.setStatus(Status.AVAILABLE);
+        filmSession.setStatus(FilmSessionStatus.AVAILABLE);
         new FilmSessionDAO().insertFilmSession(filmSession);
         filmSession.createPlaces();
         resp.sendRedirect("/editSession?name=" + req.getParameter("name"));

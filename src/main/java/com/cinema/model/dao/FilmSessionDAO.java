@@ -2,7 +2,7 @@ package com.cinema.model.dao;
 
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -73,7 +73,7 @@ public class FilmSessionDAO {
         filmSession.setMaxPrice(resultSet.getBigDecimal("max_price"));
         Film film = new FilmDAO().selectFilm(resultSet.getInt("film_id"));
         filmSession.setFilm(film);
-        Status status = new StatusDAO().getStatus(resultSet.getInt("status_id"));
+        FilmSessionStatus status = new StatusDAO().getStatus(resultSet.getInt("status_id"));
         filmSession.setStatus(status);
         filmSession.setPlaceList(new SessionHasPlaceDAO().getSessionPlaces(filmSession.getId()));
     }

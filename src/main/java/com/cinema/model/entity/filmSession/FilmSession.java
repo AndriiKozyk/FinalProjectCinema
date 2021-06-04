@@ -16,7 +16,7 @@ public class FilmSession implements Comparable<FilmSession> {
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
     private Film film;
-    private Status status;
+    private FilmSessionStatus status;
 
     private int availablePlaces;
 
@@ -86,11 +86,11 @@ public class FilmSession implements Comparable<FilmSession> {
         this.film = film;
     }
 
-    public Status getStatus() {
+    public FilmSessionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(FilmSessionStatus status) {
         this.status = status;
     }
 

@@ -1,23 +1,17 @@
 package com.cinema.model.entity.filmSession;
 
-public enum Status {
+public enum FilmSessionStatus {
 
     AVAILABLE(1), NO_PLACES(2, "No places"), CANCELED(3, "Canceled");
 
     int id;
     String value;
 
-    Status() {}
-
-    Status(int id) {
+    FilmSessionStatus(int id) {
         this.id = id;
     }
 
-    Status(String value) {
-        this.value = value;
-    }
-
-    Status(int id, String value) {
+    FilmSessionStatus(int id, String value) {
         this.id = id;
         this.value = value;
     }

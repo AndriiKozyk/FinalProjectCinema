@@ -5,7 +5,7 @@ import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.dao.TicketDAO;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.SessionHasPlace;
-import com.cinema.model.entity.filmSession.Status;
+import com.cinema.model.entity.filmSession.FilmSessionStatus;
 import com.cinema.model.entity.ticket.Ticket;
 import com.cinema.model.entity.user.User;
 
@@ -49,8 +49,8 @@ public class Confirm extends HttpServlet {
                 shpDAO.setAvailable(shpId, true);
                 shpDAO.setBookTimeNull(shpId);
             }
-            if (Status.NO_PLACES.equals(activeSession.getStatus())) {
-                activeSession.setStatus(Status.AVAILABLE);
+            if (FilmSessionStatus.NO_PLACES.equals(activeSession.getStatus())) {
+                activeSession.setStatus(FilmSessionStatus.AVAILABLE);
                 new FilmSessionDAO().setStatus(activeSession);
             }
             String path = "/placeSelect?name=" + activeSession.getFilm().getId() + "&id=" + filmSessionId;
