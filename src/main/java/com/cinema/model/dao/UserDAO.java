@@ -108,27 +108,26 @@ public class UserDAO {
         int roleId = resultSet.getInt("role_id");
         Role role = new RoleDAO().getRole(roleId);
         user.setRole(role);
-        user.setUserDetailsId(resultSet.getInt("account_details_id"));
+        user.setDetails(getUserDetails(resultSet.getInt("account_details_id")));
     }
 
-    public void getUserDetails(User user) {
+    public UserDetails getUserDetails(int id) {
         Connection connection = null;
         PreparedStatement pStatement = null;
         ResultSet resultSet = null;
+        UserDetails details = new UserDetails();
         try {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(SELECT_USER_DETAILS);
-            pStatement.setInt(1, user.getUserDetailsId());
+            pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                UserDetails details = new UserDetails();
                 details.setFirstNameEN(resultSet.getString("first_name_en"));
                 details.setFirstNameUA(resultSet.getString("first_name_ua"));
                 details.setLastNameEN(resultSet.getString("last_name_en"));
                 details.setLastNameUA(resultSet.getString("last_name_ua"));
                 details.setEmail(resultSet.getString("email"));
                 details.setPhone(resultSet.getString("phone"));
-                user.setDetails(details);
             } else {
                 throw new SQLException("User not found!");
             }
@@ -139,6 +138,7 @@ public class UserDAO {
             close(pStatement);
             close(connection);
         }
+        return details;
     }
 
     private void close(AutoCloseable closeable) {

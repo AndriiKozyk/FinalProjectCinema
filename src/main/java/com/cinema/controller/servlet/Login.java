@@ -36,7 +36,6 @@ public class Login extends HttpServlet {
                     active = "active";
                     req.getServletContext().setAttribute("active", active);
                     HttpSession userSession = req.getSession();
-                    userDAO.getUserDetails(user);
                     userSession.setAttribute("user", user);
                     resp.sendRedirect("/cinema");
                     return;

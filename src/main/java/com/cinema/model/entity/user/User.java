@@ -10,7 +10,6 @@ public class User {
     private String login;
     private String password;
     private Role role;
-    private int userDetailsId;
     private UserDetails details;
 
     public int getId() {
@@ -45,14 +44,6 @@ public class User {
         this.role = role;
     }
 
-    public int getUserDetailsId() {
-        return userDetailsId;
-    }
-
-    public void setUserDetailsId(int userDetailsId) {
-        this.userDetailsId = userDetailsId;
-    }
-
     public UserDetails getDetails() {
         return details;
     }
@@ -68,7 +59,6 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", userDetailsId=" + userDetailsId +
                 ", details=" + details +
                 '}';
     }

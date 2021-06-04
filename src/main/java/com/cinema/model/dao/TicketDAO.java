@@ -117,8 +117,6 @@ public class TicketDAO {
     }
 
     private void additionalInformation(Ticket ticket) {
-        User user = new UserDAO().getUser(ticket.getUserId());
-        new UserDAO().getUserDetails(user);
         SessionHasPlace shp = new SessionHasPlaceDAO().getSessionHasPlace(ticket.getSessionHasPlaceId());
         FilmSession filmSession = new FilmSessionDAO().getFilmSession(shp.getSessionId());
         ticket.setFilmName(filmSession.getFilm().getNameEN());
