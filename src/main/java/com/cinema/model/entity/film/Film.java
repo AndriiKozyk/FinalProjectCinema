@@ -23,6 +23,11 @@ public class Film implements Comparable<Film> {
 
     private int additionalSession;
 
+    public Film() {
+        price = new BigDecimal(0);
+        genre = new Genre();
+    }
+
     public static boolean haveAvailableSession(int filmId) {
         List<FilmSession> sessions = new FilmSessionDAO().selectFilmSessions(filmId);
         for (FilmSession session : sessions) {

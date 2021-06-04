@@ -8,11 +8,9 @@ public enum Type {
 
     BigDecimal price;
 
-    Type(BigDecimal price) {
-        this.price = price;
+    Type() {
+        price = new BigDecimal(0);
     }
-
-    Type() {}
 
     public BigDecimal getPrice() {
         return price;

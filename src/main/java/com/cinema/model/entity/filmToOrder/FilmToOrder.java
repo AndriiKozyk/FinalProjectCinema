@@ -1,5 +1,6 @@
 package com.cinema.model.entity.filmToOrder;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public class FilmToOrder {
@@ -20,6 +21,16 @@ public class FilmToOrder {
     private FilmStatus status;
 
     private String trailer;
+
+    public FilmToOrder() {
+        posterInput = new InputStream() {
+            @Override
+            public int read() {
+                return 0;
+            }
+        };
+        status = FilmStatus.DEFAULT;
+    }
 
     public int getId() {
         return id;

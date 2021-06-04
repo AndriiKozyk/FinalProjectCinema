@@ -9,6 +9,10 @@ public class SessionHasPlace {
     private Place place;
     private boolean available;
 
+    public SessionHasPlace() {
+        place = new Place();
+    }
+
     public int getId() {
         return id;
     }
