@@ -32,8 +32,4 @@ public final class DBManager {
         return dataSource.getConnection();
     }
 
-    public static void main(String[] args) throws SQLException {
-        System.out.println(getInstance().getConnection());
-    }
-
 }
