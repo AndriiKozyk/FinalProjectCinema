@@ -33,7 +33,7 @@ public class FilmSessionAvailablePlaceComparator implements Comparator<Film> {
             return -1;
         }
 
-        int count = 2;
+        int count = 1;
 
         while (session1.getAvailablePlaces() == session2.getAvailablePlaces()) {
             if (film1Sessions.size() < count && film2Sessions.size() < count) {

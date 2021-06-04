@@ -41,7 +41,7 @@ public class OrderFilmProcessing extends HttpServlet {
 
         if (action.equals("Reject movie")) {
             filmToOrderDAO.updateOrderFilmStatus(Integer.parseInt(req.getParameter("id")), "rejected");
-            resp.sendRedirect("/cinema");
+            resp.sendRedirect("/suggestionsList?name=suggestions");
         } else if (action.equals("Accept movie")) {
 
             FilmToOrder film = new FilmToOrder();
@@ -56,7 +56,7 @@ public class OrderFilmProcessing extends HttpServlet {
             film.setPosterInput(inputStream);
             filmToOrderDAO.updateOrderFilm(film);
 
-            resp.sendRedirect("/cinema");
+            resp.sendRedirect("/suggestionsList?name=suggestions");
         }
 
     }

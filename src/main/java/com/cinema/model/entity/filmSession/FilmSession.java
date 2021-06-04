@@ -34,7 +34,6 @@ public class FilmSession implements Comparable<FilmSession> {
             shp.setPlace(place);
             shp.setAvailable(true);
             this.getPlaceList().add(shp);
-            System.out.println(shp);
         }
         new SessionHasPlaceDAO().insertSessionHasPlace(placeList);
     }

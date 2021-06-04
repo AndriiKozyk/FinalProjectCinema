@@ -57,7 +57,7 @@ public class OrderFilmToRolling extends HttpServlet {
             Genre genre = genreDAO.getGenre(Integer.parseInt(req.getParameter("genre")));
             film.setGenre(genre);
             new FilmDAO().insertFilm(film);
-            resp.sendRedirect("/cinema");
+            resp.sendRedirect("/suggestionsList?name=movies");
         } else if ("Add genre".equals(req.getParameter("action"))) {
             Genre genre = new Genre();
             genre.setGenreEN(req.getParameter("genreEN"));
