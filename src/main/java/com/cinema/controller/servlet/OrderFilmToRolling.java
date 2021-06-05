@@ -55,7 +55,6 @@ public class OrderFilmToRolling extends HttpServlet {
         } else if ("Add genre".equals(req.getParameter("action"))) {
             Genre genre = new Genre();
             genre.setGenreEN(req.getParameter("genreEN"));
-            genre.setGenreUA(req.getParameter("genreUA"));
             genreDAO.insertGenre(genre);
             resp.sendRedirect("/toRolling?name=" + filmId);
         }
@@ -64,7 +63,6 @@ public class OrderFilmToRolling extends HttpServlet {
     private Film mapFilmToOrderToFilm(FilmToOrder filmToOrder) {
         Film film = new Film();
         film.setNameEN(filmToOrder.getNameEN());
-        film.setNameUA(filmToOrder.getNameUA());
         film.setPosterInput(filmToOrder.getPosterInput());
         film.setTrailer(filmToOrder.getTrailer());
         return film;

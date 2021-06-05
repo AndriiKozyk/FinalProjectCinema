@@ -6,7 +6,7 @@ public final class SQL {
 
     public static final String INSERT_USER_DETAILS = "insert into " +
             "account_details (first_name_en, first_name_ua, last_name_en, last_name_ua, email, phone) " +
-            "values (?, ?, ?, ?, ?, ?);";
+            "values (?, 'a', ?, 'a', ?, ?);";
 
     public static final String INSERT_USER = "insert into " +
             "account (login, password, role_id, account_details_id) " +
@@ -18,7 +18,7 @@ public final class SQL {
 
     public static final String INSERT_FILM = "insert into " +
             "film (name_en, name_ua, duration, price, genre_id, poster, trailer) " +
-            "values (?, ?, ?, ?, ?, ?, ?)";
+            "values (?, 'a', ?, ?, ?, ?, ?)";
 
     public static final String SELECT_FILM_BY_ID = "select * from film where id = ?;";
 
@@ -37,7 +37,7 @@ public final class SQL {
 
     public static final String SELECT_ROLE = "select role from role where id = ?;";
 
-    public static final String INSERT_GENRE = "insert into genre (genre_en, genre_ua) values (?, ?);";
+    public static final String INSERT_GENRE = "insert into genre (genre_en, genre_ua) values (?, 'a');";
 
     public static final String SELECT_TYPE = "select * from type where id = ?;";
 
@@ -115,12 +115,12 @@ public final class SQL {
     public static final String GET_ALL_FILM_TO_ORDER_BY_USER_SUGGESTION = "select * from film_to_order where account_id = ?;";
 
     public static final String INSERT_FILM_TO_ORDER = "insert into film_to_order (name_en, name_ua, year, description, film_status_id, account_id) " +
-            "values (?, ?, ?, ?, (select id from film_status where status_en = 'suggestion'), ?);";
+            "values (?, 'a', ?, ?, (select id from film_status where status_en = 'suggestion'), ?);";
 
     public static final String INSERT_USER_VOTE = "insert into user_vote (account_id, order_film_id) " +
             "values (?, ?);";
 
-    public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?, name_ua = ?," +
+    public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?, name_ua = 'a'," +
             "poster = ?, required_vote = ?, film_status_id = (select id from film_status where status_en = 'voting'), trailer = ? where id = ?;";
 
     public static final String UPDATE_FILM_TO_ORDER_STATUS = "update film_to_order set " +

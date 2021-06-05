@@ -35,8 +35,6 @@ public class Registration extends HttpServlet {
         user.setRole(Role.USER);
         details.setFirstNameEN(req.getParameter("firstNameEN"));
         details.setLastNameEN(req.getParameter("lastNameEN"));
-        details.setFirstNameUA(req.getParameter("firstNameUA"));
-        details.setLastNameUA(req.getParameter("lastNameUA"));
         details.setEmail(req.getParameter("email"));
         details.setPhone(req.getParameter("phone"));
         user.setDetails(details);

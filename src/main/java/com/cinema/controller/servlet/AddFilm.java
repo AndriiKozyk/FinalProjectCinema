@@ -35,7 +35,6 @@ public class AddFilm extends HttpServlet {
         if ("Add movie".equals(req.getParameter("action"))) {
             Film film = new Film();
             film.setNameEN(req.getParameter("nameEN"));
-            film.setNameUA(req.getParameter("nameUA"));
             film.setDuration(Integer.parseInt(req.getParameter("duration")));
             film.setPrice(new BigDecimal(req.getParameter("price")));
             String trailer = buildTrailerLink(req.getParameter("trailer"));
@@ -50,7 +49,6 @@ public class AddFilm extends HttpServlet {
         } else if ("Add genre".equals(req.getParameter("action"))) {
             Genre genre = new Genre();
             genre.setGenreEN(req.getParameter("genreEN"));
-            genre.setGenreUA(req.getParameter("genreUA"));
             genreDAO.insertGenre(genre);
             resp.sendRedirect("/addMovie");
         }

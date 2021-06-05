@@ -4,7 +4,6 @@ public class Genre {
 
     private int id;
     private String genreEN;
-    private String genreUA;
 
     public int getId() {
         return id;
@@ -22,20 +21,11 @@ public class Genre {
         this.genreEN = genreEN;
     }
 
-    public String getGenreUA() {
-        return genreUA;
-    }
-
-    public void setGenreUA(String genreUA) {
-        this.genreUA = genreUA;
-    }
-
     @Override
     public String toString() {
         return "Genre{" +
                 "id=" + id +
                 ", genreEN='" + genreEN + '\'' +
-                ", genreUA='" + genreUA + '\'' +
                 '}';
     }
 }

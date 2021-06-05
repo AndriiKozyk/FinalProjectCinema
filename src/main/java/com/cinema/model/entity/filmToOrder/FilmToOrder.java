@@ -7,7 +7,6 @@ public class FilmToOrder {
 
     private int id;
     private String nameEN;
-    private String nameUA;
     private int year;
 
     private String description;
@@ -46,14 +45,6 @@ public class FilmToOrder {
 
     public void setNameEN(String nameEN) {
         this.nameEN = nameEN;
-    }
-
-    public String getNameUA() {
-        return nameUA;
-    }
-
-    public void setNameUA(String nameUA) {
-        this.nameUA = nameUA;
     }
 
     public int getYear() {

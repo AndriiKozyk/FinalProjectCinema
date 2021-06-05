@@ -23,10 +23,9 @@ public class FilmToOrderDAO {
             connection.setAutoCommit(false);
             pStatement = connection.prepareStatement(INSERT_FILM_TO_ORDER);
             pStatement.setString(1, film.getNameEN());
-            pStatement.setString(2, film.getNameUA());
-            pStatement.setInt(3, film.getYear());
-            pStatement.setString(4, film.getDescription());
-            pStatement.setInt(5, userId);
+            pStatement.setInt(2, film.getYear());
+            pStatement.setString(3, film.getDescription());
+            pStatement.setInt(4, userId);
             pStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -187,11 +186,10 @@ public class FilmToOrderDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(UPDATE_FILM_TO_ORDER_TO_VOTING);
             pStatement.setString(1, film.getNameEN());
-            pStatement.setString(2, film.getNameUA());
-            pStatement.setBlob(3, film.getPosterInput());
-            pStatement.setInt(4, film.getRequiredVote());
-            pStatement.setString(5, film.getTrailer());
-            pStatement.setInt(6, film.getId());
+            pStatement.setBlob(2, film.getPosterInput());
+            pStatement.setInt(3, film.getRequiredVote());
+            pStatement.setString(4, film.getTrailer());
+            pStatement.setInt(5, film.getId());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -299,7 +297,6 @@ public class FilmToOrderDAO {
     private void mapFilm(FilmToOrder film, ResultSet resultSet) throws SQLException, IOException {
         film.setId(resultSet.getInt("id"));
         film.setNameEN(resultSet.getString("name_en"));
-        film.setNameUA(resultSet.getString("name_ua"));
         film.setYear(resultSet.getInt("year"));
         film.setDescription(resultSet.getString("description"));
         film.setVote(resultSet.getInt("vote"));

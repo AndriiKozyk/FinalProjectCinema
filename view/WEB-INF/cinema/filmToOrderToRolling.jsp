@@ -104,8 +104,7 @@
 <div class="container text-center mb-4">
     <form style="width: 400px; margin: auto; padding: 30px;" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Add new genre</h1>
-        <input name="genreEN" type="text" class="start form-control" placeholder="Genre" required>
-        <input name="genreUA" type="text" class="finish form-control mb-3" placeholder="Жанр" required>
+        <input name="genreEN" type="text" class="start form-control mb-3" placeholder="Genre" required>
         <div>
             <input type="submit" name="action" class="btn btn-sm btn-dark" value="Add genre" style="width: 270px;">
         </div>

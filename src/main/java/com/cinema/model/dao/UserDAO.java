@@ -19,11 +19,9 @@ public class UserDAO {
             pStatement = connection.prepareStatement(INSERT_USER_DETAILS, Statement.RETURN_GENERATED_KEYS);
             UserDetails details = user.getDetails();
             pStatement.setString(1, details.getFirstNameEN());
-            pStatement.setString(2, details.getFirstNameUA());
-            pStatement.setString(3, details.getLastNameEN());
-            pStatement.setString(4, details.getLastNameUA());
-            pStatement.setString(5, details.getEmail());
-            pStatement.setString(6, details.getPhone());
+            pStatement.setString(2, details.getLastNameEN());
+            pStatement.setString(3, details.getEmail());
+            pStatement.setString(4, details.getPhone());
             pStatement.executeUpdate();
             resultSet = pStatement.getGeneratedKeys();
             pStatement = connection.prepareStatement(INSERT_USER);
@@ -97,9 +95,7 @@ public class UserDAO {
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
                 details.setFirstNameEN(resultSet.getString("first_name_en"));
-                details.setFirstNameUA(resultSet.getString("first_name_ua"));
                 details.setLastNameEN(resultSet.getString("last_name_en"));
-                details.setLastNameUA(resultSet.getString("last_name_ua"));
                 details.setEmail(resultSet.getString("email"));
                 details.setPhone(resultSet.getString("phone"));
             } else {

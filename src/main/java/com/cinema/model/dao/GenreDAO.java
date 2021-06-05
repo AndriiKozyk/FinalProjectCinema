@@ -25,9 +25,7 @@ public class GenreDAO {
             pStatement.setInt(1, id);
             resultSet = pStatement.executeQuery();
             if (resultSet.next()) {
-                genre.setId(resultSet.getInt("id"));
-                genre.setGenreEN(resultSet.getString("genre_en"));
-                genre.setGenreUA(resultSet.getString("genre_ua"));
+                mapGenre(genre, resultSet);
             } else {
                 throw new SQLException("Genre not found!");
             }
@@ -53,9 +51,7 @@ public class GenreDAO {
             resultSet = pStatement.executeQuery();
             while (resultSet.next()) {
                 genre = new Genre();
-                genre.setId(resultSet.getInt("id"));
-                genre.setGenreEN(resultSet.getString("genre_en"));
-                genre.setGenreUA(resultSet.getString("genre_ua"));
+                mapGenre(genre, resultSet);
                 genres.add(genre);
             }
         } catch (SQLException e) {
@@ -75,7 +71,6 @@ public class GenreDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(INSERT_GENRE);
             pStatement.setString(1, genre.getGenreEN());
-            pStatement.setString(2, genre.getGenreUA());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,6 +78,11 @@ public class GenreDAO {
             close(pStatement);
             close(connection);
         }
+    }
+
+    private void mapGenre(Genre genre, ResultSet resultSet) throws SQLException {
+        genre.setId(resultSet.getInt("id"));
+        genre.setGenreEN(resultSet.getString("genre_en"));
     }
 
     private void close(AutoCloseable closeable) {

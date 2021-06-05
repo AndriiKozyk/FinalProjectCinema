@@ -66,7 +66,6 @@
         </div>
         <label class="form-label">You can create genre below, if it doesn't exist.</label>
         <input name="nameEN" type="text" class="start form-control" placeholder="Movie name" required>
-        <input name="nameUA" type="text" class="in form-control" placeholder="Назва фільму" required>
         <input name="duration" type="number" placeholder="Duration (min)" class="in form-control" required>
         <input name="trailer" type="text" class="in form-control" placeholder="Link to trailer" required>
         <input name="price" type="number" placeholder="Price" class="finish form-control mb-2" required>
@@ -81,8 +80,7 @@
 <div class="container text-center mb-4">
     <form style="width: 400px; margin: auto; padding: 30px;" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Add new genre</h1>
-        <input name="genreEN" type="text" class="start form-control" placeholder="Genre" required>
-        <input name="genreUA" type="text" class="finish form-control mb-3" placeholder="Жанр" required>
+        <input name="genreEN" type="text" class="start form-control mb-3" placeholder="Genre" required>
         <div>
             <input type="submit" name="action" class="btn btn-sm btn-dark" value="Add genre" style="width: 270px;">
         </div>

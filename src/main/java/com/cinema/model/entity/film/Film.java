@@ -12,7 +12,6 @@ public class Film implements Comparable<Film> {
 
     private int id;
     private String nameEN;
-    private String nameUA;
     private int duration;
     private BigDecimal price;
     private Genre genre;
@@ -52,14 +51,6 @@ public class Film implements Comparable<Film> {
 
     public void setNameEN(String nameEN) {
         this.nameEN = nameEN;
-    }
-
-    public String getNameUA() {
-        return nameUA;
-    }
-
-    public void setNameUA(String nameUA) {
-        this.nameUA = nameUA;
     }
 
     public int getDuration() {
@@ -123,7 +114,6 @@ public class Film implements Comparable<Film> {
         return "Film{" +
                 "id=" + id +
                 ", nameEN='" + nameEN + '\'' +
-                ", nameUA='" + nameUA + '\'' +
                 ", duration=" + duration +
                 ", price=" + price +
                 ", genre=" + genre +

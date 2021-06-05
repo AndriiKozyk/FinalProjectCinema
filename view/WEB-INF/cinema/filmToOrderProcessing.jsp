@@ -76,7 +76,6 @@
         <h1 class="h3 mb-3 font-weight-normal">Movie to order</h1>
         <input name="id" value="${film.id}" type="hidden">
         <input name="nameEN" type="text" class="start form-control" placeholder="Movie name" required>
-        <input name="nameUA" type="text" class="in form-control" placeholder="Назва фільму" required>
         <input name="trailer" type="text" class="in form-control" placeholder="Link to trailer" required>
         <input name="votes" type="number" placeholder="Required votes" class="finish form-control mb-2" required>
         <label class="form-label">Poster</label>

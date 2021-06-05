@@ -52,11 +52,6 @@
             <li><input type="text" placeholder="First name" class="form-control first-name" name="firstNameEN" required></li>
             <li><input type="text" placeholder="Last name" class="form-control last-name" name="lastNameEN" required></li>
         </ul>
-        <label class="form-label">Ім'я та прізвище</label>
-        <ul class="list-group list-group-horizontal mb-3">
-            <li><input type="text" placeholder="Ім'я" class="first-name form-control" name="firstNameUA" required></li>
-            <li><input type="text" placeholder="Прізвище" class="form-control last-name" name="lastNameUA" required></li>
-        </ul>
         <label class="form-label">Phone number</label>
         <input type="text" placeholder="Phone number" class="form-control mb-3" name="phone" required>
         <div class="mt-4">

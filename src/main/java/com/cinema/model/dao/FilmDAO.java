@@ -20,12 +20,11 @@ public class FilmDAO {
             connection = getInstance().getConnection();
             pStatement = connection.prepareStatement(INSERT_FILM);
             pStatement.setString(1, film.getNameEN());
-            pStatement.setString(2, film.getNameUA());
-            pStatement.setInt(3, film.getDuration());
-            pStatement.setBigDecimal(4, film.getPrice());
-            pStatement.setInt(5, film.getGenre().getId());
-            pStatement.setBlob(6, film.getPosterInput());
-            pStatement.setString(7, film.getTrailer());
+            pStatement.setInt(2, film.getDuration());
+            pStatement.setBigDecimal(3, film.getPrice());
+            pStatement.setInt(4, film.getGenre().getId());
+            pStatement.setBlob(5, film.getPosterInput());
+            pStatement.setString(6, film.getTrailer());
             pStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +62,6 @@ public class FilmDAO {
     private void mapFilm(Film film, ResultSet resultSet) throws SQLException, IOException {
         film.setId(resultSet.getInt("id"));
         film.setNameEN(resultSet.getString("name_en"));
-        film.setNameUA(resultSet.getString("name_ua"));
         film.setDuration(resultSet.getInt("duration"));
         film.setPrice(resultSet.getBigDecimal("price"));
         film.setTrailer(resultSet.getString("trailer"));

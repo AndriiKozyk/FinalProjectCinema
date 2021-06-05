@@ -43,7 +43,6 @@ public class OrderFilmProcessing extends HttpServlet {
             FilmToOrder film = new FilmToOrder();
             film.setId(Integer.parseInt(req.getParameter(ID)));
             film.setNameEN(req.getParameter("nameEN"));
-            film.setNameUA(req.getParameter("nameUA"));
             String trailer = buildTrailerLink(req.getParameter("trailer"));
             film.setTrailer(trailer);
             film.setRequiredVote(Integer.parseInt(req.getParameter("votes")));
