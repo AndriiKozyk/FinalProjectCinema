@@ -2,7 +2,6 @@ package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
-import com.cinema.model.dao.FilmToOrderDAO;
 import com.cinema.model.dao.TypeDAO;
 import com.cinema.model.entity.film.Film;
 import com.cinema.model.entity.filmSession.FilmSession;
@@ -20,23 +19,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class EditFilmSession extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int filmId = Integer.parseInt(req.getParameter("name"));
-        Film film = new FilmDAO().selectFilm(filmId);
-        List<FilmSession> filmSessions = new FilmSessionDAO().selectFilmSessions(filmId);
+        int filmId = Integer.parseInt(req.getParameter(NAME));
 
-        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
-        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
-        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
-
-        req.setAttribute("film", film);
-        req.setAttribute("filmSessions", filmSessions);
-        req.setAttribute("userSuggestions", amountUserSuggestions);
-        req.setAttribute("votedFilms", amountVotedFilms);
-        req.getSession(false).setAttribute("filmSessions", filmSessions);
+        req.setAttribute(FILM, ServletUtil.getFilm(filmId));
+        req.setAttribute(FILM_SESSIONS, ServletUtil.getFilmSessions(filmId));
+        req.setAttribute(USER_SUGGESTIONS, ServletUtil.getAmountUserSuggestions());
+        req.setAttribute(VOTED_FILMS, ServletUtil.getAmountVotedFilms());
+        req.getSession(false).setAttribute(FILM_SESSIONS, ServletUtil.getFilmSessions(filmId));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/editSession.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -48,12 +43,12 @@ public class EditFilmSession extends HttpServlet {
         if (cancel != null) {
             FilmSessionDAO sessionDAO = new FilmSessionDAO();
             if ("Cancel all sessions".equals(cancel)) {
-                List<FilmSession> filmSessions = (List<FilmSession>) req.getSession(false).getAttribute("filmSessions");
+                List<FilmSession> filmSessions = (List<FilmSession>) req.getSession(false).getAttribute(FILM_SESSIONS);
                 for (FilmSession session : filmSessions) {
                     session.setStatus(FilmSessionStatus.CANCELED);
                     sessionDAO.setStatus(session);
                 }
-                resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
+                resp.sendRedirect("/editSession?name=" + req.getParameter(NAME));
                 return;
             } else if ("Cancel selected".equals(cancel)) {
                 String[] deleteSessions = req.getParameterValues("sessionForDelete");
@@ -63,12 +58,12 @@ public class EditFilmSession extends HttpServlet {
                     filmSession.setStatus(FilmSessionStatus.CANCELED);
                     sessionDAO.setStatus(filmSession);
                 }
-                resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
+                resp.sendRedirect("/editSession?name=" + req.getParameter(NAME));
                 return;
             }
         }
 
-        Film film = new FilmDAO().selectFilm(Integer.parseInt(req.getParameter("name")));
+        Film film = new FilmDAO().selectFilm(Integer.parseInt(req.getParameter(NAME)));
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -90,7 +85,7 @@ public class EditFilmSession extends HttpServlet {
         filmSession.setStatus(FilmSessionStatus.AVAILABLE);
         new FilmSessionDAO().insertFilmSession(filmSession);
         filmSession.createPlaces();
-        resp.sendRedirect("/editSession?name=" + req.getParameter("name"));
+        resp.sendRedirect("/editSession?name=" + req.getParameter(NAME));
 
     }
 

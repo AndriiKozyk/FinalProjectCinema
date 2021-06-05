@@ -15,25 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
+
+import static com.cinema.controller.servlet.Constants.*;
 
 public class OrderFilmToRolling extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int filmId = Integer.parseInt(req.getParameter(NAME));
 
-        int filmId = Integer.parseInt(req.getParameter("name"));
-        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
-        FilmToOrder film = filmToOrderDAO.getOrderFilm(filmId);
-        List<Genre> genres = new GenreDAO().getGenres();
-
-        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
-        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
-
-        req.setAttribute("userSuggestions", amountUserSuggestions);
-        req.setAttribute("votedFilms", amountVotedFilms);
-        req.setAttribute("genres", genres);
-        req.setAttribute("film", film);
+        req.setAttribute(USER_SUGGESTIONS, ServletUtil.getAmountUserSuggestions());
+        req.setAttribute(VOTED_FILMS, ServletUtil.getAmountVotedFilms());
+        req.setAttribute(GENRES, ServletUtil.getGenres());
+        req.setAttribute(FILM, ServletUtil.getFilmToOrder(filmId));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/filmToOrderToRolling.jsp");
         requestDispatcher.forward(req, resp);
@@ -42,7 +36,7 @@ public class OrderFilmToRolling extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         GenreDAO genreDAO = new GenreDAO();
-        int filmId = Integer.parseInt(req.getParameter("id"));
+        int filmId = Integer.parseInt(req.getParameter(ID));
         if ("Add movie".equals(req.getParameter("action"))) {
 
             FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();

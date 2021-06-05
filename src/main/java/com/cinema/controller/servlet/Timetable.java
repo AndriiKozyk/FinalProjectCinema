@@ -7,9 +7,7 @@ import com.cinema.model.comparator.FilmSessionPlaceComparator;
 import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.dao.FilmToOrderDAO;
-import com.cinema.model.dao.GenreDAO;
 import com.cinema.model.entity.film.Film;
-import com.cinema.model.entity.film.Genre;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.user.Role;
 import com.cinema.model.entity.user.User;
@@ -24,18 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class Timetable extends HttpServlet {
 
-    private static final int SESSION_LIMIT = 4;
-    private static final int FILMS_LIMIT = 5;
     private int currentPage = 1;
-    private static final int CONST_ONE = 1;
     private final FilmDAO filmDao = new FilmDAO();
     private final FilmSessionDAO filmSessionDAO = new FilmSessionDAO();
-    private final FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
     private String sortOrder = "ascending";
-    private final String ASC = "ascending";
-    private final String DESC = "descending";
     private String sortBy = "Date / Time";
     private String showOnlyAvailable = "Only available";
     private String showOnlyGenre = "All";
@@ -45,7 +39,7 @@ public class Timetable extends HttpServlet {
 
         String link = "placeSelect";
 
-        if ("logout".equals(req.getParameter("name"))) {
+        if ("logout".equals(req.getParameter(NAME))) {
             String active = null;
             if (req.getSession(false) != null) {
                 req.getSession(false).invalidate();
@@ -56,8 +50,8 @@ public class Timetable extends HttpServlet {
 
         User user = null;
         if (req.getSession(false) != null) {
-            user = (User) req.getSession(false).getAttribute("user");
-            req.setAttribute("user", user);
+            user = (User) req.getSession(false).getAttribute(USER);
+            req.setAttribute(USER, user);
             if (user != null) {
                 if (Role.ADMIN.equals(user.getRole())) {
                     link = "editSession";
@@ -107,20 +101,15 @@ public class Timetable extends HttpServlet {
 
         films = pagination(req, films);
 
-        List<Genre> genres = new GenreDAO().getGenres();
-
-        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
-        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
-
         req.setAttribute("films", films);
         req.setAttribute("filmMap", filmMap);
-        req.setAttribute("genres", genres);
+        req.setAttribute(GENRES, ServletUtil.getGenres());
         req.setAttribute("sortBy", sortBy);
         req.setAttribute("sortOrder", sortOrder);
         req.setAttribute("showOnlyAvailable", showOnlyAvailable);
         req.setAttribute("showOnlyGenre", showOnlyGenre);
-        req.setAttribute("userSuggestions", amountUserSuggestions);
-        req.setAttribute("votedFilms", amountVotedFilms);
+        req.setAttribute(USER_SUGGESTIONS, ServletUtil.getAmountUserSuggestions());
+        req.setAttribute(VOTED_FILMS, ServletUtil.getAmountVotedFilms());
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/timetable.jsp");
         requestDispatcher.forward(req, resp);
@@ -177,10 +166,10 @@ public class Timetable extends HttpServlet {
 
         films = films.stream().skip(offset).limit(lastFilm).collect(Collectors.toList());
 
-        req.setAttribute("currentPage", currentPage);
-        req.setAttribute("pages", pages);
-        req.setAttribute("firstPage", CONST_ONE);
-        req.setAttribute("lastPage", pageAmount);
+        req.setAttribute(CURRENT_PAGE, currentPage);
+        req.setAttribute(PAGES, pages);
+        req.setAttribute(FIRST_PAGE, CONST_ONE);
+        req.setAttribute(LAST_PAGE, pageAmount);
 
         return films;
     }

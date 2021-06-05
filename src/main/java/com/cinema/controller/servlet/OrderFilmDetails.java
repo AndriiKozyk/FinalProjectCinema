@@ -1,7 +1,6 @@
 package com.cinema.controller.servlet;
 
 import com.cinema.model.dao.FilmToOrderDAO;
-import com.cinema.model.entity.filmToOrder.FilmToOrder;
 import com.cinema.model.entity.user.User;
 
 import javax.servlet.RequestDispatcher;
@@ -11,27 +10,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class OrderFilmDetails extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int filmId = Integer.parseInt(req.getParameter("name"));
-        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
-        FilmToOrder film = filmToOrderDAO.getOrderFilm(filmId);
+        int filmId = Integer.parseInt(req.getParameter(NAME));
 
         boolean userVote = true;
 
         if (req.getSession(false) != null) {
-            User user = (User) req.getSession(false).getAttribute("user");
+            User user = (User) req.getSession(false).getAttribute(USER);
             if (user != null) {
                 int userId = user.getId();
-                userVote = filmToOrderDAO.isUserVote(userId, filmId);
+                userVote = new FilmToOrderDAO().isUserVote(userId, filmId);
             }
         }
 
         req.setAttribute("userVote", userVote);
-        req.setAttribute("film", film);
+        req.setAttribute(FILM, ServletUtil.getFilmToOrder(filmId));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/filmToOrderDetails.jsp");
         requestDispatcher.forward(req, resp);
@@ -40,8 +39,8 @@ public class OrderFilmDetails extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int userId = ((User) req.getSession(false).getAttribute("user")).getId();
-        int filmId = Integer.parseInt(req.getParameter("id"));
+        int userId = ((User) req.getSession(false).getAttribute(USER)).getId();
+        int filmId = Integer.parseInt(req.getParameter(ID));
 
         FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
         filmToOrderDAO.insertUserVote(userId, filmId);

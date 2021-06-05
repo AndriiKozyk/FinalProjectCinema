@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class Login extends HttpServlet {
 
     @Override
@@ -33,10 +35,10 @@ public class Login extends HttpServlet {
             user = userDAO.getUser(login);
             try {
                 if (CryptPassword.check(req.getParameter("password"), user.getPassword())) {
-                    active = "active";
-                    req.getServletContext().setAttribute("active", active);
+                    active = ACTIVE;
+                    req.getServletContext().setAttribute(ACTIVE, active);
                     HttpSession userSession = req.getSession();
-                    userSession.setAttribute("user", user);
+                    userSession.setAttribute(USER, user);
                     resp.sendRedirect("/cinema");
                     return;
                 } else {

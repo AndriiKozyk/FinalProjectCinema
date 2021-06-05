@@ -1,6 +1,5 @@
 package com.cinema.controller.servlet;
 
-import com.cinema.model.dao.FilmDAO;
 import com.cinema.model.dao.FilmSessionDAO;
 import com.cinema.model.dao.SessionHasPlaceDAO;
 import com.cinema.model.entity.film.Film;
@@ -18,17 +17,19 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class PlaceSelect extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int filmId = Integer.parseInt(req.getParameter("name"));
-        Film film = new FilmDAO().selectFilm(filmId);
-        List<FilmSession> sessions = new FilmSessionDAO().selectFilmSessions(filmId);
+        int filmId = Integer.parseInt(req.getParameter(NAME));
+        Film film = ServletUtil.getFilm(filmId);
+        List<FilmSession> sessions = ServletUtil.getFilmSessions(filmId);
         FilmSession filmSession;
 
-        if (req.getParameter("id") != null) {
-            int sessionId = Integer.parseInt(req.getParameter("id"));
+        if (req.getParameter(ID) != null) {
+            int sessionId = Integer.parseInt(req.getParameter(ID));
             filmSession = new FilmSessionDAO().getFilmSession(sessionId);
             if (!FilmSessionStatus.AVAILABLE.equals(filmSession.getStatus()) || filmSession.getFilm().getId() != filmId) {
                 filmSession = null;
@@ -48,9 +49,9 @@ public class PlaceSelect extends HttpServlet {
             return;
         }
 
-        req.setAttribute("activeSession", filmSession);
-        req.setAttribute("film", film);
-        req.setAttribute("filmSessions", sessions);
+        req.setAttribute(ACTIVE_SESSION, filmSession);
+        req.setAttribute(FILM, film);
+        req.setAttribute(FILM_SESSIONS, sessions);
         HttpSession session = req.getSession(false);
         Map<Integer, BigDecimal> placePrice = new LinkedHashMap<>();
 
@@ -59,8 +60,8 @@ public class PlaceSelect extends HttpServlet {
                     film.getPrice().add(filmSession.getPlaceList().get(i).getPlace().getType().getPrice()));
         }
         if (session != null) {
-            req.setAttribute("user", session.getAttribute("user"));
-            session.setAttribute("activeSession", filmSession);
+            req.setAttribute(USER, session.getAttribute(USER));
+            session.setAttribute(ACTIVE_SESSION, filmSession);
             session.setAttribute("placePrice", placePrice);
         }
 
@@ -73,7 +74,7 @@ public class PlaceSelect extends HttpServlet {
         HttpSession session = req.getSession(false);
         String[] stringPlaces = req.getParameterValues("place");
         if (stringPlaces == null) {
-            String path = req.getServletPath() + "?name=" + req.getParameter("name");
+            String path = req.getServletPath() + "?name=" + req.getParameter(NAME);
             resp.sendRedirect(path);
             return;
         }
@@ -82,7 +83,7 @@ public class PlaceSelect extends HttpServlet {
 
         Map<Integer, BigDecimal> placePrice = (Map<Integer, BigDecimal>) session.getAttribute("placePrice");
         Map<Integer, BigDecimal> chosenPlaces = new LinkedHashMap<>();
-        FilmSession filmSession = ((FilmSession) session.getAttribute("activeSession"));
+        FilmSession filmSession = ((FilmSession) session.getAttribute(ACTIVE_SESSION));
         int filmSessionId = filmSession.getId();
         for (int i = 0; i < stringPlaces.length; i++) {
             places[i] = Integer.parseInt(stringPlaces[i]);
@@ -92,7 +93,7 @@ public class PlaceSelect extends HttpServlet {
                 shpDAO.setAvailable(shpId, false);
                 chosenPlaces.put(places[i], placePrice.get(places[i]));
             } else {
-                String path = req.getServletPath() + "?name=" + req.getParameter("name");
+                String path = req.getServletPath() + "?name=" + req.getParameter(NAME);
                 resp.sendRedirect(path);
                 return;
             }

@@ -17,27 +17,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OrderFilmTimetable extends HttpServlet {
+import static com.cinema.controller.servlet.Constants.*;
 
-    private static final String SORT_VOTING = "voting";
-    private static final String SORT_SUGGESTIONS = "suggestions";
-    private static final String SORT_MOVIES = "movies";
-    private static final String SORT_USER_VOTES = "userVotes";
-    private static final String SORT_USER_SUGGESTIONS = "userSuggestions";
+public class OrderFilmTimetable extends HttpServlet {
 
     private static String sortBy = SORT_VOTING;
 
-    private static final int FILMS_LIMIT = 5;
     private int currentPage = 1;
-    private static final int CONST_ONE = 1;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String sort = req.getParameter("name");
+        String sort = req.getParameter(NAME);
         if (sort != null) {
             if (!sort.equals("")) {
-                sortBy = req.getParameter("name");
+                sortBy = req.getParameter(NAME);
             }
         }
 
@@ -45,8 +39,8 @@ public class OrderFilmTimetable extends HttpServlet {
 
         User user = null;
         if (req.getSession(false) != null) {
-            user = (User) req.getSession(false).getAttribute("user");
-            req.setAttribute("user", user);
+            user = (User) req.getSession(false).getAttribute(USER);
+            req.setAttribute(USER, user);
         }
 
         List<FilmToOrder> films = sorting(filmToOrderDAO, user);
@@ -56,11 +50,7 @@ public class OrderFilmTimetable extends HttpServlet {
         films = pagination(req, films);
 
         boolean shortForm;
-        if (sortBy.equals(SORT_SUGGESTIONS) || sortBy.equals(SORT_USER_SUGGESTIONS)) {
-            shortForm = true;
-        } else {
-            shortForm = false;
-        }
+        shortForm = sortBy.equals(SORT_SUGGESTIONS) || sortBy.equals(SORT_USER_SUGGESTIONS);
 
         if (shortForm || sortBy.equals(SORT_MOVIES)) {
             Map<FilmToOrder, String> userVotesMap = new LinkedHashMap<>();
@@ -88,12 +78,8 @@ public class OrderFilmTimetable extends HttpServlet {
             req.setAttribute("filmsMap", userVotesMap);
         }
 
-        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
-        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
-
-        req.setAttribute("userSuggestions", amountUserSuggestions);
-        req.setAttribute("votedFilms", amountVotedFilms);
-
+        req.setAttribute(USER_SUGGESTIONS, ServletUtil.getAmountUserSuggestions());
+        req.setAttribute(VOTED_FILMS, ServletUtil.getAmountVotedFilms());
         req.setAttribute("sortBy", sortBy);
         req.setAttribute("isEmpty", empty);
         req.setAttribute("shortForm", shortForm);
@@ -104,8 +90,8 @@ public class OrderFilmTimetable extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = ((User) req.getSession(false).getAttribute("user")).getId();
-        int filmId = Integer.parseInt(req.getParameter("id"));
+        int userId = ((User) req.getSession(false).getAttribute(USER)).getId();
+        int filmId = Integer.parseInt(req.getParameter(ID));
 
         FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
         filmToOrderDAO.insertUserVote(userId, filmId);
@@ -170,10 +156,10 @@ public class OrderFilmTimetable extends HttpServlet {
 
         films = films.stream().skip(offset).limit(lastFilm).collect(Collectors.toList());
 
-        req.setAttribute("currentPage", currentPage);
-        req.setAttribute("pages", pages);
-        req.setAttribute("firstPage", CONST_ONE);
-        req.setAttribute("lastPage", pageAmount);
+        req.setAttribute(CURRENT_PAGE, currentPage);
+        req.setAttribute(PAGES, pages);
+        req.setAttribute(FIRST_PAGE, CONST_ONE);
+        req.setAttribute(LAST_PAGE, pageAmount);
 
         return films;
     }

@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class Confirm extends HttpServlet {
 
     @Override
@@ -27,11 +29,11 @@ public class Confirm extends HttpServlet {
         HttpSession session = req.getSession(false);
         req.setAttribute("places", session.getAttribute("chosenPlaces"));
         req.setAttribute("totalPrice", session.getAttribute("totalPrice"));
-        req.setAttribute("user", session.getAttribute("user"));
+        req.setAttribute(USER, session.getAttribute(USER));
         req.setAttribute("filmSession", session.getAttribute("activeSession"));
-        if (session.getAttribute("timeOut") != null) {
-            req.setAttribute("timeOut", session.getAttribute("timeOut"));
-            session.setAttribute("timeOut", false);
+        if (session.getAttribute(TIME_OUT) != null) {
+            req.setAttribute(TIME_OUT, session.getAttribute(TIME_OUT));
+            session.setAttribute(TIME_OUT, false);
         }
         requestDispatcher.forward(req, resp);
     }
@@ -41,7 +43,7 @@ public class Confirm extends HttpServlet {
         HttpSession session = req.getSession(false);
         Map<Integer, BigDecimal> places = (Map<Integer, BigDecimal>) session.getAttribute("chosenPlaces");
         SessionHasPlaceDAO shpDAO = new SessionHasPlaceDAO();
-        FilmSession activeSession = ((FilmSession) session.getAttribute("activeSession"));
+        FilmSession activeSession = ((FilmSession) session.getAttribute(ACTIVE_SESSION));
         int filmSessionId = activeSession.getId();
         if ("Cancel".equals(req.getParameter("button"))) {
             for (int place : places.keySet()) {
@@ -61,12 +63,12 @@ public class Confirm extends HttpServlet {
                 int shpId = shpDAO.selectSHPIdBySessionAndPlaceId(filmSessionId, place);
                 boolean timeOut = shpDAO.isTimeOut(shpId);
                 if (timeOut) {
-                    session.setAttribute("timeOut", true);
+                    session.setAttribute(TIME_OUT, true);
                     resp.sendRedirect("/confirm");
                     return;
                 }
                 ticket = new Ticket();
-                ticket.setUserId(((User) session.getAttribute("user")).getId());
+                ticket.setUserId(((User) session.getAttribute(USER)).getId());
                 SessionHasPlace shp = shpDAO.getSessionHasPlace(shpId);
                 ticket.setSessionHasPlaceId(shpId);
                 BigDecimal price = activeSession.getFilm().getPrice().add(shp.getPlace().getType().getPrice());

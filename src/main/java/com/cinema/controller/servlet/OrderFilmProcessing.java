@@ -12,22 +12,18 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.cinema.controller.servlet.Constants.*;
+
+
 public class OrderFilmProcessing extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int filmId = Integer.parseInt(req.getParameter(NAME));
 
-        int filmId = Integer.parseInt(req.getParameter("name"));
-        FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
-        FilmToOrder film = filmToOrderDAO.getOrderFilm(filmId);
-
-        int amountUserSuggestions = filmToOrderDAO.amountUserSuggestion();
-        int amountVotedFilms = filmToOrderDAO.amountVotedFilms();
-
-        req.setAttribute("userSuggestions", amountUserSuggestions);
-        req.setAttribute("votedFilms", amountVotedFilms);
-
-        req.setAttribute("film", film);
+        req.setAttribute(USER_SUGGESTIONS, ServletUtil.getAmountUserSuggestions());
+        req.setAttribute(VOTED_FILMS, ServletUtil.getAmountVotedFilms());
+        req.setAttribute(FILM, ServletUtil.getFilmToOrder(filmId));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/cinema/filmToOrderProcessing.jsp");
         requestDispatcher.forward(req, resp);
@@ -40,12 +36,12 @@ public class OrderFilmProcessing extends HttpServlet {
         String action = req.getParameter("action");
 
         if (action.equals("Reject movie")) {
-            filmToOrderDAO.updateOrderFilmStatus(Integer.parseInt(req.getParameter("id")), "rejected");
+            filmToOrderDAO.updateOrderFilmStatus(Integer.parseInt(req.getParameter(ID)), "rejected");
             resp.sendRedirect("/suggestionsList?name=suggestions");
         } else if (action.equals("Accept movie")) {
 
             FilmToOrder film = new FilmToOrder();
-            film.setId(Integer.parseInt(req.getParameter("id")));
+            film.setId(Integer.parseInt(req.getParameter(ID)));
             film.setNameEN(req.getParameter("nameEN"));
             film.setNameUA(req.getParameter("nameUA"));
             String trailer = buildTrailerLink(req.getParameter("trailer"));

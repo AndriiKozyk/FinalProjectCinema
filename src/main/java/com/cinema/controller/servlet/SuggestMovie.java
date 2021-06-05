@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.cinema.controller.servlet.Constants.*;
+
 public class SuggestMovie extends HttpServlet {
 
     @Override
@@ -24,12 +26,12 @@ public class SuggestMovie extends HttpServlet {
         FilmToOrder filmToOrder = new FilmToOrder();
         FilmToOrderDAO filmToOrderDAO = new FilmToOrderDAO();
 
-        filmToOrder.setNameEN(req.getParameter("name"));
+        filmToOrder.setNameEN(req.getParameter(NAME));
         String year = check(req.getParameter("year"));
         filmToOrder.setYear(Integer.parseInt(year));
         filmToOrder.setDescription(req.getParameter("description"));
 
-        User user = (User) req.getSession(false).getAttribute("user");
+        User user = (User) req.getSession(false).getAttribute(USER);
         filmToOrderDAO.insertOrderFilm(filmToOrder, user.getId());
 
         resp.sendRedirect("/suggestionsList");
