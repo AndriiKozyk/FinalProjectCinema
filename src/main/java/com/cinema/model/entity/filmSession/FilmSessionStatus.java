@@ -28,10 +28,4 @@ public enum FilmSessionStatus {
         return value;
     }
 
-    @Override
-    public String toString() {
-        return "Status{" +
-                "id=" + id +
-                '}';
-    }
 }

@@ -127,56 +127,6 @@ public class FilmDAO {
         return filmList;
     }
 
-    public List<Film> selectFilms(int offset, int limit) {
-        List<Film> filmList = new LinkedList<>();
-
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_FILMS_LIMIT);
-            pStatement.setInt(1, offset);
-            pStatement.setInt(2, limit);
-            resultSet = pStatement.executeQuery();
-            while (resultSet.next()) {
-                Film film = new Film();
-                mapFilm(film, resultSet);
-                filmList.add(film);
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-
-        return filmList;
-    }
-
-    public int amountFilm() {
-        int amount = 0;
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_AMOUNT_FILMS);
-            resultSet = pStatement.executeQuery();
-            while (resultSet.next()) {
-                amount = resultSet.getInt("count");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-        return amount;
-    }
-
     private void close(AutoCloseable closeable) {
         if (closeable != null) {
             try {

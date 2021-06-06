@@ -110,17 +110,6 @@ public class Film implements Comparable<Film> {
     }
 
     @Override
-    public String toString() {
-        return "Film{" +
-                "id=" + id +
-                ", nameEN='" + nameEN + '\'' +
-                ", duration=" + duration +
-                ", price=" + price +
-                ", genre=" + genre +
-                '}';
-    }
-
-    @Override
     public int compareTo(Film film) {
         return this.getNameEN().compareTo(film.getNameEN());
     }

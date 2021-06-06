@@ -3,7 +3,6 @@ package com.cinema.model.dao;
 import com.cinema.model.entity.filmSession.FilmSession;
 import com.cinema.model.entity.filmSession.SessionHasPlace;
 import com.cinema.model.entity.ticket.Ticket;
-import com.cinema.model.entity.user.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,34 +32,6 @@ public class TicketDAO {
             close(pStatement);
             close(connection);
         }
-    }
-
-    public List<Ticket> getUserTickets(int userId) {
-        List<Ticket> ticketList = new LinkedList<>();
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_USER_TICKETS);
-            pStatement.setInt(1, userId);
-            resultSet = pStatement.executeQuery();
-            while (resultSet.next()) {
-                Ticket ticket = new Ticket();
-                ticket.setUserId(resultSet.getInt("account_id"));
-                ticket.setSessionHasPlaceId(resultSet.getInt("session_has_place_id"));
-                ticket.setPrice(resultSet.getBigDecimal("price"));
-                additionalInformation(ticket);
-                ticketList.add(ticket);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-        return ticketList;
     }
 
     public List<Ticket> getUserTickets(int userId, int offset, int limit) {

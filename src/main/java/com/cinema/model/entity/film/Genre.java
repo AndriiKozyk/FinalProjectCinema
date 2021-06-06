@@ -21,11 +21,4 @@ public class Genre {
         this.genreEN = genreEN;
     }
 
-    @Override
-    public String toString() {
-        return "Genre{" +
-                "id=" + id +
-                ", genreEN='" + genreEN + '\'' +
-                '}';
-    }
 }

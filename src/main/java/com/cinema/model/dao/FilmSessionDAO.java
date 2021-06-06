@@ -78,30 +78,6 @@ public class FilmSessionDAO {
         filmSession.setPlaceList(new SessionHasPlaceDAO().getSessionPlaces(filmSession.getId()));
     }
 
-    public List<FilmSession> selectFilmSessions() {
-        List<FilmSession> filmList = new LinkedList<>();
-        Connection connection = null;
-        PreparedStatement pStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getInstance().getConnection();
-            pStatement = connection.prepareStatement(SELECT_FILM_SESSIONS);
-            resultSet = pStatement.executeQuery();
-            while (resultSet.next()) {
-                FilmSession filmSession = new FilmSession();
-                mapFilmSession(filmSession, resultSet);
-                filmList.add(filmSession);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(resultSet);
-            close(pStatement);
-            close(connection);
-        }
-        return filmList;
-    }
-
     public List<FilmSession> selectFilmSessions(int filmId) {
         List<FilmSession> filmList = new LinkedList<>();
         Connection connection = null;

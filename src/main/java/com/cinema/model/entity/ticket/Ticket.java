@@ -106,12 +106,4 @@ public class Ticket {
         this.lastName = lastName;
     }
 
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "userId=" + userId +
-                ", SessionHasPlaceId=" + SessionHasPlaceId +
-                ", price=" + price +
-                '}';
-    }
 }

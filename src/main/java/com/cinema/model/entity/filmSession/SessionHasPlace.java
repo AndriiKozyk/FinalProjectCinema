@@ -45,13 +45,4 @@ public class SessionHasPlace {
         this.available = available;
     }
 
-    @Override
-    public String toString() {
-        return "SessionHasPlace{" +
-                "id=" + id +
-                ", sessionId=" + sessionId +
-                ", place=" + place +
-                ", available=" + available +
-                '}';
-    }
 }

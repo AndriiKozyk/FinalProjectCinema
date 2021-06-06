@@ -111,20 +111,6 @@ public class FilmSession implements Comparable<FilmSession> {
     }
 
     @Override
-    public String toString() {
-        return "FilmSession{" +
-                "id=" + id +
-                ", date=" + date +
-                ", time=" + time +
-                ", minPrice=" + minPrice +
-                ", maxPrice=" + maxPrice +
-                ", film=" + film +
-                ", status=" + status +
-                ", placeList=" + placeList +
-                '}';
-    }
-
-    @Override
     public int compareTo(FilmSession session) {
         if (this.getDate().equals(session.getDate())) {
             return this.getTime().compareTo(session.getTime());

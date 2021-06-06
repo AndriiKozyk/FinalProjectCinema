@@ -1,9 +1,5 @@
 package com.cinema.model.entity.user;
 
-import com.cinema.model.entity.filmToOrder.FilmToOrder;
-import com.cinema.model.entity.ticket.Ticket;
-import java.util.*;
-
 public class User {
 
     private int id;
@@ -52,14 +48,4 @@ public class User {
         this.details = details;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", details=" + details +
-                '}';
-    }
 }
