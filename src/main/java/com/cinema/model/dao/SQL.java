@@ -5,8 +5,8 @@ public final class SQL {
     private SQL() {}
 
     public static final String INSERT_USER_DETAILS = "insert into " +
-            "account_details (first_name_en, first_name_ua, last_name_en, last_name_ua, email, phone) " +
-            "values (?, 'a', ?, 'a', ?, ?);";
+            "account_details (first_name_en, last_name_en, email, phone) " +
+            "values (?, ?, ?, ?);";
 
     public static final String INSERT_USER = "insert into " +
             "account (login, password, role_id, account_details_id) " +
@@ -17,8 +17,8 @@ public final class SQL {
     public static final String SELECT_USER_DETAILS = "select * from account_details where id = ?;";
 
     public static final String INSERT_FILM = "insert into " +
-            "film (name_en, name_ua, duration, price, genre_id, poster, trailer) " +
-            "values (?, 'a', ?, ?, ?, ?, ?)";
+            "film (name_en, duration, price, genre_id, poster, trailer) " +
+            "values (?, ?, ?, ?, ?, ?)";
 
     public static final String SELECT_FILM_BY_ID = "select * from film where id = ?;";
 
@@ -37,7 +37,7 @@ public final class SQL {
 
     public static final String SELECT_ROLE = "select role from role where id = ?;";
 
-    public static final String INSERT_GENRE = "insert into genre (genre_en, genre_ua) values (?, 'a');";
+    public static final String INSERT_GENRE = "insert into genre (genre_en) values (?);";
 
     public static final String SELECT_TYPE = "select * from type where id = ?;";
 
@@ -91,10 +91,6 @@ public final class SQL {
 
     public static final String SELECT_AMOUNT_TICKETS = "select count(account_id) as count from ticket where account_id = ?;";
 
-    public static final String SELECT_AMOUNT_FILMS = "select count(id) as count from film;";
-
-    public static final String SELECT_FILMS_LIMIT = "select * from film limit ?, ?;";
-
     public static final String SELECT_AVAILABLE_FILM_SESSION_BY_FILM = "select * from session where film_id = ? and " +
             "status_id = (select id from status where status_en = \"Available\");";
 
@@ -114,13 +110,13 @@ public final class SQL {
 
     public static final String GET_ALL_FILM_TO_ORDER_BY_USER_SUGGESTION = "select * from film_to_order where account_id = ?;";
 
-    public static final String INSERT_FILM_TO_ORDER = "insert into film_to_order (name_en, name_ua, year, description, film_status_id, account_id) " +
-            "values (?, 'a', ?, ?, (select id from film_status where status_en = 'suggestion'), ?);";
+    public static final String INSERT_FILM_TO_ORDER = "insert into film_to_order (name_en, year, description, film_status_id, account_id) " +
+            "values (?, ?, ?, (select id from film_status where status_en = 'suggestion'), ?);";
 
     public static final String INSERT_USER_VOTE = "insert into user_vote (account_id, order_film_id) " +
             "values (?, ?);";
 
-    public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?, name_ua = 'a'," +
+    public static final String UPDATE_FILM_TO_ORDER_TO_VOTING = "update film_to_order set name_en = ?," +
             "poster = ?, required_vote = ?, film_status_id = (select id from film_status where status_en = 'voting'), trailer = ? where id = ?;";
 
     public static final String UPDATE_FILM_TO_ORDER_STATUS = "update film_to_order set " +
